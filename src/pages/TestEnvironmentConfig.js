@@ -11,7 +11,7 @@ const TestEnvironmentConfig = () => {
   const [error, setError] = useState(null);
   const [os, setOs] = useState("windows");
   const [browser, setBrowser] = useState("chrome");
-  const [serverStatus, setServerStatus] = useState(null);
+  const [serverStatus,] = useState(null);
 
 
   const osOptions = useMemo(() => ({
@@ -21,27 +21,7 @@ const TestEnvironmentConfig = () => {
   }), []);
 
 
-  useEffect(() => {
-    const checkServer = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/health-check', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if (response.ok) {
-          setServerStatus('connected');
-        } else {
-          setServerStatus('error');
-        }
-      } catch (err) {
-        setServerStatus('error');
-      }
-    };
-
-    checkServer();
-  }, []);
+ 
 
   useEffect(() => {
     const availableBrowsers = osOptions[os].browsers;
