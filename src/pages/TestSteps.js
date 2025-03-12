@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Save, X, Edit2, Trash2, Plus, ArrowLeft, Play  } from "lucide-react";
-import TestEnvironmentModal from "./TestEnvironmentConfig";
+import { Save, X, Edit2, Trash2, Plus, ArrowLeft  } from "lucide-react";
+//import TestEnvironmentModal from "./TestEnvironmentConfig";
 
 const TestSteps = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const TestSteps = () => {
   const [testCaseTypes, setTestCaseTypes] = useState([]);
   const [testCasePriorities, setTestCasePriorities] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isEnvironmentModalOpen, setIsEnvironmentModalOpen] = useState(false);
+//  const [isEnvironmentModalOpen, setIsEnvironmentModalOpen] = useState(false);
 
   const apiBaseUrl = "https://api.testerally.ai/api";
 
@@ -427,15 +427,17 @@ const TestSteps = () => {
     );
   }
 
-/*  const handleTestExecuted = (result) => {
+/*
+ const handleTestExecuted = (result) => {
     console.log('Test execution completed:', result);
   };
 
   const handleRunTest = () => {
     setIsEnvironmentModalOpen(true);
   };
-*/
 
+
+ 
 const handleRunTest = () => {
   
   navigate("/environment-run", {
@@ -447,7 +449,7 @@ const handleRunTest = () => {
     }
   });
 };
-
+*/
   return (
     <div className="flex-1 lg:ml-[300px] transition-all duration-300 lg:max-w-[calc(100%-300px)] sm:ml-[60px] sm:max-w-full ">
       <div className="p-6">
@@ -462,6 +464,7 @@ const handleRunTest = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-900">{testCaseName}</h1>
+{/*
 
             <button
               onClick={handleRunTest}
@@ -469,10 +472,11 @@ const handleRunTest = () => {
             >
               <Play className="w-4 h-4 mr-2" />
               Run Test
-            </button>
+            </button> 
+*/}
           </div>
-
-{/*          <TestEnvironmentModal
+{/*
+          <TestEnvironmentModal
             isOpen={isEnvironmentModalOpen}
             onClose={() => setIsEnvironmentModalOpen(false)}
             onExecute={handleTestExecuted}
