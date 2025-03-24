@@ -1,557 +1,6 @@
-/*
-import React, { useState, useEffect } from "react";
-import { Save, X, Edit2, Trash2, Plus } from 'lucide-react';
-import { useNavigate, useLocation } from "react-router-dom";
-
-const WriteTestManually = () => {
-  const [testSteps, setTestSteps] = useState([]);
-  const [testCaseInfo, setTestCaseInfo] = useState({
-    name: '',
-    type: '',
-    priority: ''
-  });
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        navigate("/dashboard-user");
-        return;
-      }
-  
-      const savedProjectKey = `selectedProject_${userId}`;
-      const savedProject = localStorage.getItem(savedProjectKey);
-  
-      if (savedProject) {
-        try {
-          JSON.parse(savedProject);
-        } catch (err) {
-          console.error("Error parsing saved project:", err);
-          localStorage.removeItem(savedProjectKey);
-        }
-      }
-  
-      const handleProjectChange = () => {
-        
-        navigate("/test-cases");
-      };
-  
-      window.addEventListener("projectChanged", handleProjectChange);
-      return () => window.removeEventListener("projectChanged", handleProjectChange);
-    }, [navigate]);
-
-    useEffect(() => {
-      const info = location.state?.testCaseInfo;
-    
-      if (!info || !info.name || !info.testcase_type || !info.testcase_priority) {
-        alert("Test case data is incomplete or missing.");
-        navigate("/test-cases/create-testcases");
-        return;
-      }
-    
-      setTestCaseInfo(info);
-      fetchTestData(info.projectId);
-    }, [location, navigate]);
-    
-
-    const fetchTestData = async (projectId) => {
-      if (!projectId) return;
-    
-      try {
-        const response = await fetch(`https://api.testerally.ai/api/testdata/${projectId}/`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.url) {
-            setTestSteps([
-              {
-                stepNumber: 1,
-                choice: `${data.url}`,
-                isSaved: true,
-                isSelected: true
-              }
-            ]);
-          } else {
-            setTestSteps([]);
-          }
-        } else {
-          setTestSteps([]);
-        }
-      } catch (error) {
-        console.error("Error fetching test data:", error);
-        setTestSteps([]);
-      }
-    };
-    
-
-  const handleCreateTestCase = async () => {
-
-    setIsLoading(true);
-
-    try {
-
-      const testCaseResponse = await fetch("https://api.testerally.ai/api/testcases/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          project_id: testCaseInfo.projectId,
-          name: testCaseInfo.name,
-          testcase_type: testCaseInfo.testcase_type,
-          testcase_priority: testCaseInfo.testcase_priority
-        })
-      });
-
-      if (!testCaseResponse.ok) {
-        throw new Error("Failed to create test case");
-      }
-
-      const testCaseData = await testCaseResponse.json();
-
-      const testCaseId = testCaseData.id;
-
-      const stepPromises = testSteps
-        .filter(step => step.isSelected && step.isSaved)
-        .map(async (step, index) => {
-          const stepResponse = await fetch("https://api.testerally.ai/api/teststeps/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              testcase: testCaseId,
-              step_number: index + 1,
-              step_description: step.choice
-            })
-          });
-
-          if (!stepResponse.ok) {
-            throw new Error(`Failed to create step ${index + 1}`);
-          }
-
-          return stepResponse.json();
-        });
-
-      await Promise.all(stepPromises);
-      alert("Test Case and Steps Created Successfully");
-      navigate("/test-cases");
-
-    } catch (error) {
-      console.error("Error creating test case and steps:", error);
-      alert(`Error: ${error.message}`);
-    }
-    finally {
-      setIsLoading(false);
-    }
-  };
-
-
-  const handleAddStep = () => {
-    const newStep = {
-      stepNumber: testSteps.length + 1,
-      choice: "",
-      isSaved: false,
-      isSelected: true
-    };
-    
-    setTestSteps([...testSteps, newStep]);
-  };
-
-  const handleSaveStep = (index) => {
-    if (testSteps[index].choice.trim() === "") {
-      alert("Please provide a step description before saving.");
-      return;
-    }
-
-    const updatedSteps = [...testSteps];
-    updatedSteps[index].isSaved = true;
-    setTestSteps(updatedSteps);
-  };
-
-  const handleDeleteStep = (index) => {
-    
-    const updatedSteps = testSteps.filter((_, idx) => idx !== index);
-    updatedSteps.forEach((step, idx) => {
-      step.stepNumber = idx + 1;
-    });
-    setTestSteps(updatedSteps);
-  };
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 lg:ml-[300px] transition-all duration-300 lg:max-w-[calc(100%-300px)] sm:ml-[60px] sm:max-w-full">
-        <div className="p-6">
-
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Write Test Manually</h2>
-              <button
-                className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-                onClick={handleCreateTestCase}
-              >
-                {isLoading ? "Creating..." : "Create Test Case"}
-              </button>
-            </div>
-
-            {testSteps.map((step, index) => (
-              <div 
-                key={index}
-                className="flex items-center gap-4 bg-white p-4 mb-4 rounded-lg border border-gray-200"
-              >
-                <input
-                  type="checkbox"
-                  checked={step.isSelected}
-                  onChange={() => {
-                    const updatedSteps = [...testSteps];
-                    updatedSteps[index].isSelected = !updatedSteps[index].isSelected;
-                    setTestSteps(updatedSteps);
-                  }}
-                  className="w-5 h-5 text-purple-600"
-                />
-                
-                <span className="font-medium min-w-[60px]">#{step.stepNumber}</span>
-                
-                {step.isSaved ? (
-                  <div className="flex-1 text-gray-700 break-words whitespace-pre-wrap overflow-hidden">
-                  {step.choice}
-                </div>
-                
-                ) : (
-                  <input
-                    type="text"
-                    className="flex-1 border border-gray-300 rounded-md p-2"
-                    value={step.choice}
-                    onChange={(e) => {
-                      const updatedSteps = [...testSteps];
-                      updatedSteps[index].choice = e.target.value;
-                      setTestSteps(updatedSteps);
-                    }}
-                    placeholder="Enter test step description"
-                  />
-                )}
-
-                <div className="flex gap-2">
-                  {!step.isSaved ? (
-                    <>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md hover:bg-green-100"
-                        onClick={() => handleSaveStep(index)}
-                      >
-                        <Save className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md hover:bg-gray-100"
-                        onClick={() => handleDeleteStep(index)}
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100"
-                        onClick={() => {
-                          const updatedSteps = [...testSteps];
-                          updatedSteps[index].isSaved = false;
-                          setTestSteps(updatedSteps);
-                        }}
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                      {testSteps.length > 1 && (
-                        <button
-                          className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-md hover:bg-red-100"
-                          onClick={() => handleDeleteStep(index)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-
-{(testSteps.length === 0 || testSteps[testSteps.length - 1].isSaved) && (
-
-
-              <button
-                onClick={handleAddStep}
-                className="inline-flex items-center px-4 py-2 bg-purple-50 text-purple-600 rounded-md hover:bg-purple-100"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Step
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default WriteTestManually;
-
-
-import React, { useState, useEffect } from "react";
-import { Save, X, Edit2, Trash2, Plus } from 'lucide-react';
-import { useNavigate, useLocation } from "react-router-dom";
-
-const WriteTestManually = () => {
-  const [testSteps, setTestSteps] = useState([]);
-  const [testCaseInfo, setTestCaseInfo] = useState({
-    name: '',
-    type: '',
-    priority: ''
-  });
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      navigate("/dashboard-user");
-      return;
-    }
-
-    const savedProjectKey = `selectedProject_${userId}`;
-    const savedProject = localStorage.getItem(savedProjectKey);
-
-    if (savedProject) {
-      try {
-        JSON.parse(savedProject);
-      } catch (err) {
-        console.error("Error parsing saved project:", err);
-        localStorage.removeItem(savedProjectKey);
-      }
-    }
-
-    const handleProjectChange = () => {
-      navigate("/test-cases");
-    };
-
-    window.addEventListener("projectChanged", handleProjectChange);
-    return () => window.removeEventListener("projectChanged", handleProjectChange);
-  }, [navigate]);
-
-  useEffect(() => {
-    const info = location.state?.testCaseInfo;
-  
-    if (!info || !info.name || !info.testcase_type || !info.testcase_priority) {
-      alert("Test case data is incomplete or missing.");
-      navigate("/test-cases/create-testcases");
-      return;
-    }
-  
-    setTestCaseInfo(info);
-  }, [location, navigate]);
-
-  const handleCreateTestCase = async () => {
-    setIsLoading(true);
-
-    try {
-      const testCaseResponse = await fetch("https://api.testerally.ai/api/testcases/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          project_id: testCaseInfo.projectId,
-          name: testCaseInfo.name,
-          testcase_type: testCaseInfo.testcase_type,
-          testcase_priority: testCaseInfo.testcase_priority
-        })
-      });
-
-      if (!testCaseResponse.ok) {
-        throw new Error("Failed to create test case");
-      }
-
-      const testCaseData = await testCaseResponse.json();
-      const testCaseId = testCaseData.id;
-
-      const stepPromises = testSteps
-        .filter(step => step.isSelected && step.isSaved)
-        .map(async (step, index) => {
-          const stepResponse = await fetch("https://api.testerally.ai/api/teststeps/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              testcase: testCaseId,
-              step_number: index + 1,
-              step_description: step.choice
-            })
-          });
-
-          if (!stepResponse.ok) {
-            throw new Error(`Failed to create step ${index + 1}`);
-          }
-
-          return stepResponse.json();
-        });
-
-      await Promise.all(stepPromises);
-      alert("Test Case and Steps Created Successfully");
-      navigate("/test-cases");
-    } catch (error) {
-      console.error("Error creating test case and steps:", error);
-      alert(`Error: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleAddStep = () => {
-    const newStep = {
-      stepNumber: testSteps.length + 1,
-      choice: "",
-      isSaved: false,
-      isSelected: true
-    };
-    
-    setTestSteps([...testSteps, newStep]);
-  };
-
-  const handleSaveStep = (index) => {
-    if (testSteps[index].choice.trim() === "") {
-      alert("Please provide a step description before saving.");
-      return;
-    }
-
-    const updatedSteps = [...testSteps];
-    updatedSteps[index].isSaved = true;
-    setTestSteps(updatedSteps);
-  };
-
-  const handleDeleteStep = (index) => {
-    const updatedSteps = testSteps.filter((_, idx) => idx !== index);
-    updatedSteps.forEach((step, idx) => {
-      step.stepNumber = idx + 1;
-    });
-    setTestSteps(updatedSteps);
-  };
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 lg:ml-[300px] transition-all duration-300 lg:max-w-[calc(100%-300px)] sm:ml-[60px] sm:max-w-full">
-        <div className="p-6">
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Write Test Manually</h2>
-              <button
-                className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-                onClick={handleCreateTestCase}
-              >
-                {isLoading ? "Creating..." : "Create Test Case"}
-              </button>
-            </div>
-
-            {testSteps.map((step, index) => (
-              <div 
-                key={index}
-                className="flex items-center gap-4 bg-white p-4 mb-4 rounded-lg border border-gray-200"
-              >
-                <input
-                  type="checkbox"
-                  checked={step.isSelected}
-                  onChange={() => {
-                    const updatedSteps = [...testSteps];
-                    updatedSteps[index].isSelected = !updatedSteps[index].isSelected;
-                    setTestSteps(updatedSteps);
-                  }}
-                  className="w-5 h-5 text-purple-600"
-                />
-                
-                <span className="font-medium min-w-[60px]">#{step.stepNumber}</span>
-                
-                {step.isSaved ? (
-                  <div className="flex-1 text-gray-700 break-words whitespace-pre-wrap overflow-hidden">
-                    {step.choice}
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    className="flex-1 border border-gray-300 rounded-md p-2"
-                    value={step.choice}
-                    onChange={(e) => {
-                      const updatedSteps = [...testSteps];
-                      updatedSteps[index].choice = e.target.value;
-                      setTestSteps(updatedSteps);
-                    }}
-                    placeholder="Enter test step description"
-                  />
-                )}
-
-                <div className="flex gap-2">
-                  {!step.isSaved ? (
-                    <>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md hover:bg-green-100"
-                        onClick={() => handleSaveStep(index)}
-                      >
-                        <Save className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md hover:bg-gray-100"
-                        onClick={() => handleDeleteStep(index)}
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100"
-                        onClick={() => {
-                          const updatedSteps = [...testSteps];
-                          updatedSteps[index].isSaved = false;
-                          setTestSteps(updatedSteps);
-                        }}
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                      {testSteps.length > 1 && (
-                        <button
-                          className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-md hover:bg-red-100"
-                          onClick={() => handleDeleteStep(index)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {(testSteps.length === 0 || testSteps[testSteps.length - 1].isSaved) && (
-              <button
-                onClick={handleAddStep}
-                className="inline-flex items-center px-4 py-2 bg-purple-50 text-purple-600 rounded-md hover:bg-purple-100"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Step
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default WriteTestManually;
-*/
-
-
-
-
-
-
-
-
-
-
 
 import React, { useState, useRef, useEffect } from 'react';
-import { CheckCircle, XCircle, Plus, Clock, MousePointer, X } from 'lucide-react';
+import { CheckCircle, XCircle, Plus, Clock, MousePointer, X, Loader } from 'lucide-react';
 import { useNavigate, useLocation } from "react-router-dom";
 
 const WriteTestManually = () => {
@@ -568,16 +17,19 @@ const WriteTestManually = () => {
     testcase_priority: '',
     projectId: ''
   });
-  // New state for suggestions
+
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [commandType, setCommandType] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [createTestCaseLoading, setCreateTestCaseLoading] = useState(false);
+  const [fullScreenImage, setFullScreenImage] = useState(null);
   
   const previewRef = useRef(null);
   const stepsRef = useRef(null);
   const inputRef = useRef(null);
 
-  const userId = localStorage.getItem("userId");
+  const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -641,7 +93,7 @@ const WriteTestManually = () => {
     }
   }, []);
 
-  // New effect to handle input changes and show suggestions
+
   useEffect(() => {
     if (!newStep) {
       setShowSuggestions(false);
@@ -655,7 +107,7 @@ const WriteTestManually = () => {
       setCommandType(firstWord);
       
       if (elementData && elementData.elements && elementData.elements.length > 0) {
-        // For click commands, show suggestions after the first word
+
         if (firstWord === 'click' && words.length > 1) {
           const searchTerm = words.slice(1).join(' ').toLowerCase();
           const matchedElements = elementData.elements
@@ -694,6 +146,7 @@ const WriteTestManually = () => {
     if (!projectId) return;
   
     try {
+      setLoadingMessage('Fetching test data...');
       const response = await fetch(`https://api.testerally.ai/api/testdata/${projectId}/`);
       if (response.ok) {
         const data = await response.json();
@@ -703,6 +156,8 @@ const WriteTestManually = () => {
       }
     } catch (error) {
       console.error("Error fetching test data:", error);
+    } finally {
+      setLoadingMessage('');
     }
   };
 
@@ -736,10 +191,18 @@ const WriteTestManually = () => {
     setIsProcessing(true);
   
     try {
-      
       const lowerCaseStep = stepDescription.toLowerCase();
-
-      console.log("lowsercase:",lowerCaseStep)
+      
+      const stepIndex = testSteps.length;
+      if (lowerCaseStep.startsWith('open ') || lowerCaseStep.includes('go to ')) {
+        setLoadingMessage(`Step ${stepIndex + 1}: Opening page, please wait...`);
+      } else if (lowerCaseStep.includes('click')) {
+        setLoadingMessage(`Step ${stepIndex + 1}: Executing click, please wait...`);
+      } else if (lowerCaseStep.includes('type')) {
+        setLoadingMessage(`Step ${stepIndex + 1}: Typing text, please wait...`);
+      } else {
+        setLoadingMessage(`Step ${stepIndex + 1}: Executing command, please wait...`);
+      }
 
       if (lowerCaseStep.startsWith('open ') || lowerCaseStep.includes('go to ')) {
         const response = await fetch('https://api.testerally.ai/automation/handle_command/', {
@@ -747,11 +210,11 @@ const WriteTestManually = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ command: lowerCaseStep, user_id: userId }),
+          body: JSON.stringify({ command: lowerCaseStep, user_id: user_id }),
         });
 
         console.log("open url:", lowerCaseStep);
-        console.log("User_Id:", userId);
+        console.log("User_Id:", user_id);
   
         if (!response.ok) {
           throw new Error('Failed to execute navigation command');
@@ -801,7 +264,7 @@ const WriteTestManually = () => {
         if (element) {
           const requestBody = {
             command: lowerCaseStep,
-            user_id: userId,
+            user_id: user_id,
             click_x: element.click_point[0],
             click_y: element.click_point[1],
           };
@@ -889,11 +352,11 @@ const WriteTestManually = () => {
       return {
         status: 'error',
         duration: '00:00',
-        screenshot: `/api/placeholder/800/300?text=Error_Screenshot`,
         error: error.message
       };
     } finally {
       setIsProcessing(false);
+      setLoadingMessage('');
     }
   };
 
@@ -921,6 +384,8 @@ const WriteTestManually = () => {
         ...executionResult
       } : step
     ));
+
+    setNewStep('');
 
     setTimeout(() => {
       if (previewRef.current) {
@@ -971,6 +436,7 @@ const WriteTestManually = () => {
     }
 
     try {
+      setCreateTestCaseLoading(true);
       const testCaseResponse = await fetch("https://api.testerally.ai/api/testcases/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -988,7 +454,6 @@ const WriteTestManually = () => {
 
       const testCaseData = await testCaseResponse.json();
       const testCaseId = testCaseData.id;
-
 
       const stepPromises = testSteps.map(async (step, index) => {
         const stepResponse = await fetch("https://api.testerally.ai/api/teststeps/", {
@@ -1015,6 +480,8 @@ const WriteTestManually = () => {
     } catch (error) {
       console.error('Error creating test case:', error);
       alert(`Error creating test case: ${error.message}`);
+    } finally {
+      setCreateTestCaseLoading(false);
     }
   };
 
@@ -1100,6 +567,44 @@ const WriteTestManually = () => {
     );
   };
 
+const LoadingIndicator = ({ message }) => (
+  <div className="flex items-center justify-center p-4 bg-white rounded-lg shadow-md border-l-4 border-purple-500 mb-4 transition-all duration-300">
+    <div className="mr-3 relative">
+      <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+      </div>
+    </div>
+    <span className="text-gray-700 font-medium text-lg">{message}</span>
+  </div>
+);
+
+const ImageModal = () => {
+  if (!fullScreenImage) return null;
+  
+  return (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+      onClick={() => setFullScreenImage(null)}
+    >
+      <div className="relative max-w-4xl max-h-[90vh] w-full">
+        <button 
+          className="absolute top-2 right-2 bg-white rounded-full p-1"
+          onClick={() => setFullScreenImage(null)}
+        >
+          <X className="w-6 h-6" />
+        </button>
+        <img 
+          src={fullScreenImage} 
+          alt="Full screen preview" 
+          className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+        />
+      </div>
+    </div>
+  );
+};
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-1 lg:ml-[300px] transition-all duration-300 lg:max-w-[calc(100%-300px)] sm:ml-[60px] sm:max-w-full">
@@ -1121,6 +626,8 @@ const WriteTestManually = () => {
             </div>
           </div>
           
+          {loadingMessage && <LoadingIndicator message={loadingMessage} />}
+          
           {/* Main Content */}
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Left Panel - Test Steps */}
@@ -1130,18 +637,22 @@ const WriteTestManually = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={clearSession}
-                    className="flex items-center gap-1 px-3 py-1 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm"
+                    className="flex items-center gap-1 px-3 py-1 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm transition-colors duration-200"
                   >
                     <X className="w-4 h-4" />
                     Clear
                   </button>
                   <button
                     onClick={createTestCase}
-                    disabled={testSteps.length === 0}
-                    className="flex items-center gap-1 px-3 py-1 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 text-sm"
+                    disabled={testSteps.length === 0 || createTestCaseLoading}
+                    className="flex items-center gap-1 px-3 py-1 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 text-sm transition-colors duration-200"
                   >
-                    <Plus className="w-4 h-4" />
-                    Create
+                    {createTestCaseLoading ? (
+                      <Loader className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Plus className="w-4 h-4" />
+                    )}
+                    {createTestCaseLoading ? 'Creating...' : 'Create'}
                   </button>
                 </div>
               </div>
@@ -1151,7 +662,7 @@ const WriteTestManually = () => {
                   {testSteps.map((step, index) => (
                     <div
                       key={step.id}
-                      className={`p-3 bg-white rounded-lg shadow-sm border-l-4 ${
+                      className={`p-3 bg-white rounded-lg shadow-sm border-l-4 transition-all duration-300 ${
                         step.status === 'complete' ? 'border-green-500' :
                         step.status === 'error' ? 'border-red-500' :
                         'border-blue-500'
@@ -1173,10 +684,19 @@ const WriteTestManually = () => {
                         </div>
                       )}
                       {step.error && (
-                        <p className="text-red-500 text-xs mt-1">{step.error}</p>
+                        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-red-600 text-xs animate-appear">
+                          <div className="font-medium">Error:</div>
+                          <div>{step.error}</div>
+                        </div>
                       )}
                     </div>
                   ))}
+                  
+                  {testSteps.length === 0 && !isProcessing && (
+                    <div className="text-center p-8 text-gray-400">
+                      No steps added yet. Enter a command below to begin.
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1201,24 +721,28 @@ const WriteTestManually = () => {
                       }}
                       placeholder="Enter command (e.g., 'open https://example.com' or 'Click login')"
                       disabled={isProcessing}
-                      className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50 text-sm"
+                      className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:opacity-50 text-sm transition-all duration-200"
                     />
                     <button
                       onClick={addTestStep}
                       disabled={isProcessing || !newStep.trim()}
-                      className="p-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50"
+                      className="p-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors duration-200"
                     >
-                      <Plus className="w-5 h-5" />
+                      {isProcessing ? (
+                        <Loader className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <Plus className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                   
-                  {/* Suggestions dropdown */}
+                  {/* Suggestions dropdown with animation */}
                   {showSuggestions && suggestions.length > 0 && (
-                    <ul className="absolute z-10 w-full bg-white shadow-lg rounded-md border border-gray-200 mt-12 max-h-60 overflow-y-auto">
+                    <ul className="absolute z-10 w-full bg-white shadow-lg rounded-md border border-gray-200 mt-12 max-h-60 overflow-y-auto animate-fadeIn">
                       {suggestions.map((suggestion, index) => (
                         <li 
                           key={suggestion.id}
-                          className="suggestion-item p-2 hover:bg-purple-50 cursor-pointer border-b border-gray-100 last:border-b-0 focus:bg-purple-100 focus:outline-none"
+                          className="suggestion-item p-2 hover:bg-purple-50 cursor-pointer border-b border-gray-100 last:border-b-0 focus:bg-purple-100 focus:outline-none transition-colors duration-150"
                           tabIndex={0}
                           onClick={() => handleSuggestionClick(suggestion)}
                           onKeyDown={(e) => {
@@ -1289,12 +813,13 @@ const WriteTestManually = () => {
                           </div>
                         </div>
                         <p className="text-gray-600 mb-3 text-sm">{step.description}</p>
-                        {step.screenshot && (
+                        {step.status === 'complete' && step.screenshot && (
                           <div className="relative">
                             <img
                               src={step.screenshot}
                               alt={`Step ${index + 1}`}
-                              className="w-full rounded-lg border border-gray-200"
+                              className="w-full rounded-lg border border-gray-200 cursor-pointer"
+                              onClick={() => setFullScreenImage(step.screenshot)}
                             />
                             <div className="absolute top-2 right-2 bg-gray-800 bg-opacity-75 text-white px-2 py-1 rounded text-xs">
                               Screenshot {index + 1}
@@ -1309,13 +834,30 @@ const WriteTestManually = () => {
                         {step.coordinates && (
                           <CoordinatesTable response={step.coordinates} stepId={step.id} />
                         )}
-                        {step.error && (
-                          <p className="text-red-500 text-xs mt-2">{step.error}</p>
+                        {step.status === 'error' && (
+                          <div className="mt-3 bg-red-50 border border-red-200 rounded-lg p-3">
+                            <div className="flex items-center text-red-600 mb-2">
+                              <XCircle className="w-5 h-5 mr-2" />
+                              <span className="font-medium">Error occurred</span>
+                            </div>
+                            <p className="text-sm text-gray-700 mb-3">{step.error || "Failed to execute command. Please try again."}</p>
+                            
+                            <div className="mt-3 text-xs text-gray-500">
+                              <p className="font-medium">Troubleshooting tips:</p>
+                              <ul className="list-disc pl-4 mt-1 space-y-1">
+                                <li>Check your internet connection</li>
+                                <li>Verify the URL is correct and accessible</li>
+                                <li>Try using a different command</li>
+                              </ul>
+                            </div>
+                          </div>
                         )}
+
                       </div>
                     ))
                   )}
                 </div>
+                <ImageModal />
               </div>
             </div>
           </div>
