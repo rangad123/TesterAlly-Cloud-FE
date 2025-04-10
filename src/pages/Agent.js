@@ -15,13 +15,33 @@ export class Agent extends Component {
       isDetecting: true,
       downloadStarted: false,
       downloadCompleted: false,
-      downloadCancelled: false
+      downloadCancelled: false,
+      downloadData: null,
+      isLoadingDownloadData: false,
+      downloadDataError: null,
     };
   }
 
   componentDidMount() {
     // Detect system info on component mount
     this.detectSystemInfoClient();
+    
+    // Check if user has previous downloads
+    this.checkPreviousDownloads();
+  }
+  
+  checkPreviousDownloads = async () => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      try {
+        const data = await this.trackDownloadGet();
+        if (data) {
+          this.setState({ downloadData: data });
+        }
+      } catch (error) {
+        console.error("Failed to check previous downloads:", error);
+      }
+    }
   }
 
   // Client-side detection with simplified methods
@@ -196,14 +216,120 @@ export class Agent extends Component {
     }
   }
 
-  handleDownload = () => {
+  // Track download - POST request
+  trackDownloadPost = async () => {
+    this.setState({ isLoadingDownloadData: true });
+    const userId = localStorage.getItem("userId");
+  
+    if (!userId) {
+        console.log("No userId found, creating new user ID");
+        // Generate a random user ID and save it
+        const newUserId = `user_${Math.random().toString(36).substring(2, 15)}`;
+        localStorage.setItem("userId", newUserId);
+        
+        try {
+            const response = await fetch('https://api.testerally.ai/api/track-download/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: newUserId }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("POST Response:", data);
+            this.setState({ downloadData: data, isLoadingDownloadData: false });
+            return data;
+        } catch (error) {
+            console.error('Failed to track download (POST):', error);
+            this.setState({ 
+                isLoadingDownloadData: false, 
+                downloadDataError: "Failed to track download. Please try again." 
+            });
+            return null;
+        }
+    } else {
+        try {
+            const response = await fetch('https://api.testerally.ai/api/track-download/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: userId }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("POST Response:", data);
+            
+            // Immediately update state with the POST response data
+            this.setState({ downloadData: data, isLoadingDownloadData: false });
+            return data;
+        } catch (error) {
+            console.error('Failed to track download (POST):', error);
+            this.setState({ 
+                isLoadingDownloadData: false, 
+                downloadDataError: "Failed to track download. Please try again." 
+            });
+            return null;
+        }
+    }
+  };
+
+  // Track download - GET request
+  trackDownloadGet = async () => {
+    this.setState({ isLoadingDownloadData: true });
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        console.log("No userId found, skipping download tracking (GET)");
+        this.setState({ isLoadingDownloadData: false });
+        return null;
+    }
+
+    try {
+        const response = await fetch(`https://api.testerally.ai/api/track-download/?user_id=${userId}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("GET Response:", data);
+        
+        this.setState({ downloadData: data, isLoadingDownloadData: false });
+        return data;
+    } catch (error) {
+        console.error('Failed to track download (GET):', error);
+        this.setState({ 
+            isLoadingDownloadData: false, 
+            downloadDataError: "Failed to retrieve download history. Please try again." 
+        });
+        return null;
+    }
+  };
+
+  // Handle download button click
+  handleDownload = async () => {
     const downloadInfo = this.getDownloadInfo();
     
-    this.setState({ downloadStarted: true });
+    this.setState({ 
+        downloadStarted: true, 
+        downloadDataError: null 
+    });
+
+    // Track the download with POST
+    await this.trackDownloadPost();
     
     if (!downloadInfo.fileName) {
       if (downloadInfo.appStoreLink) {
-        
         window.open(downloadInfo.appStoreLink, '_blank');
         this.setState({ downloadCompleted: true });
         return;
@@ -211,7 +337,6 @@ export class Agent extends Component {
       console.error('Unable to determine correct download file');
       return;
     }
-    
     
     const fileMap = {
       "testerally_setup.exe": "/TesterAlly.exe", 
@@ -221,7 +346,6 @@ export class Agent extends Component {
       "testerally.apk": "/testerally.apk" 
     };
     
-   
     const downloadPath = fileMap[downloadInfo.fileName] || "/TesterAlly.exe";
       
     try {
@@ -233,7 +357,6 @@ export class Agent extends Component {
       link.click();
       document.body.removeChild(link);
       
-      
       setTimeout(() => {
         this.setState({ downloadCompleted: true });
       }, 2000);
@@ -243,6 +366,7 @@ export class Agent extends Component {
     }
   }
 
+  // Installation instructions based on OS
   getInstallationInstructions = () => {
     const { osName } = this.state;
     
@@ -306,6 +430,105 @@ export class Agent extends Component {
       default:
         return <p>Please select your operating system from the options above.</p>;
     }
+  }
+
+  // Render the download history table
+  renderDownloadHistory = () => {
+    const { downloadData, isLoadingDownloadData, downloadDataError } = this.state;
+    
+    if (isLoadingDownloadData) {
+      return (
+        <div className="mt-4 flex justify-center">
+          <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+          <span className="ml-2 text-purple-600">Loading download history...</span>
+        </div>
+      );
+    }
+    
+    if (downloadDataError) {
+      return (
+        <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
+          <p className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            {downloadDataError}
+          </p>
+        </div>
+      );
+    }
+    
+    if (!downloadData) {
+      return (
+        <div className="mt-4 p-4 bg-blue-50 text-blue-700 rounded-md">
+          <p className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            No download history found. Download the application to start tracking.
+          </p>
+        </div>
+      );
+    }
+    
+    // Check if download data has the expected properties
+    if (!downloadData.hasOwnProperty('id') || 
+        !downloadData.hasOwnProperty('download_count') || 
+        !downloadData.hasOwnProperty('last_downloaded') || 
+        !downloadData.hasOwnProperty('ip_address')) {
+      console.error("Invalid download data format:", downloadData);
+      return (
+        <div className="mt-4 p-4 bg-yellow-50 text-yellow-700 rounded-md">
+          <p className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Download data available but in unexpected format.
+          </p>
+        </div>
+      );
+    }
+    
+    return (
+      <div className="mt-6">
+        <h4 className="text-lg font-medium text-gray-800 mb-2">Your Download History</h4>
+        <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr className="bg-purple-50 text-purple-800 border-b border-gray-200">
+                <th className="py-3 px-4 text-left font-medium">User ID</th>
+                <th className="py-3 px-4 text-left font-medium">Downloads</th>
+                <th className="py-3 px-4 text-left font-medium">Last Download</th>
+                <th className="py-3 px-4 text-left font-medium">IP Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="hover:bg-gray-50">
+                <td className="py-3 px-4 border-b border-gray-200">{downloadData.id}</td>
+                <td className="py-3 px-4 border-b border-gray-200">
+                  <span className="bg-purple-100 text-purple-800 font-medium py-1 px-2 rounded-full">
+                    {downloadData.download_count} {downloadData.download_count === 1 ? 'time' : 'times'}
+                  </span>
+                </td>
+                <td className="py-3 px-4 border-b border-gray-200">{downloadData.last_downloaded}</td>
+                <td className="py-3 px-4 border-b border-gray-200">{downloadData.ip_address || 'Not available'}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        {downloadData.download_count > 0 && (
+          <div className="mt-2 text-sm text-gray-600">
+            <p className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              We use cookies to track downloads for a better user experience.
+            </p>
+          </div>
+        )}
+      </div>
+    );
   }
 
   render() {
@@ -387,23 +610,34 @@ export class Agent extends Component {
                         Get started with our automation tool by downloading the installer for your {osName} system.
                       </p>
                       
+                      {/* Download tracking data display */}
+                      {this.renderDownloadHistory()}
+                      
                       {/* Download buttons */}
                       <div className="mt-4 flex flex-wrap gap-3">
                         <button 
                           onClick={this.handleDownload}
                           className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-sm disabled:bg-purple-300 disabled:cursor-not-allowed"
-                          disabled={downloadStarted || osName === "Unknown"}
+                          disabled={this.state.isLoadingDownloadData || osName === "Unknown"}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                          </svg>
-                          {downloadStarted ? "Downloading..." : downloadInfo.buttonText}
+                          {this.state.isLoadingDownloadData ? (
+                            <>
+                              <div className="w-5 h-5 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                              </svg>
+                              {downloadStarted ? "Downloading..." : downloadInfo.buttonText}
+                            </>
+                          )}
                         </button>
-                        
                       </div>
                       
                       {/* Download confirmation message */}
-                      {downloadStarted && (
+                      {downloadStarted && !this.state.isLoadingDownloadData && (
                         <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-md">
                           <p className="flex items-center">
                             <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -470,7 +704,7 @@ export class Agent extends Component {
                       <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 bg-green-100 rounded-full p-2">
-                            <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
@@ -482,6 +716,9 @@ export class Agent extends Component {
                           </div>
                         </div>
                       </div>
+                      
+                      {/* Show download history after completing download */}
+                      {this.renderDownloadHistory()}
                     </div>
                   )}
 

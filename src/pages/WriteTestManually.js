@@ -110,7 +110,7 @@ const WriteTestManually = () => {
             if (firstWord === 'click' && words.length > 1) {
                 const searchTerm = words.slice(1).join(' ').toLowerCase();
                 
-                // Find all matching elements
+              
                 const matchedElements = elementData.elements
                     .filter(element => element.name && element.name.toLowerCase().includes(searchTerm))
                     .slice(0, 10); // Show up to 10 suggestions
@@ -188,7 +188,7 @@ const WriteTestManually = () => {
   
     try {
       setLoadingMessage('Fetching test data...');
-      const response = await fetch(`http://127.0.0.1:8000/api/testdata/${projectId}/`);
+      const response = await fetch(`https://api.testerally.ai/api/testdata/${projectId}/`);
       if (response.ok) {
         const data = await response.json();
         if (data.url) {
@@ -229,7 +229,7 @@ const executeStep = async (stepObj) => {
       }
 
       if (actionType === 'open' || stepDescription.toLowerCase().includes('go to ')) {
-          const response = await fetch('http://127.0.0.1:8000/automation/handle_command/', {
+          const response = await fetch('https://api.testerally.ai/automation/handle_command/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ command: updatedStepDescription, user_id: user_id }), 
@@ -251,7 +251,7 @@ const executeStep = async (stepObj) => {
           }
 
           const screenshotUrl = data.screenshot
-              ? `http://127.0.0.1:8000${data.screenshot}`
+              ? `https://api.testerally.ai${data.screenshot}`
               : `/api/placeholder/800/300?text=No_Screenshot`;
 
           console.log("Screenshot URL:", screenshotUrl);
@@ -292,7 +292,7 @@ const executeStep = async (stepObj) => {
               requestBody
           });
 
-          const response = await fetch('http://127.0.0.1:8000/automation/handle_command/', {
+          const response = await fetch('https://api.testerally.ai/automation/handle_command/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(requestBody),
@@ -313,7 +313,7 @@ const executeStep = async (stepObj) => {
           }
 
           const screenshotUrl = data.screenshot
-              ? `http://127.0.0.1:8000${data.screenshot}`
+              ? `https://api.testerally.ai${data.screenshot}`
               : `/api/placeholder/800/300?text=No_Screenshot`;
 
           return {
@@ -326,7 +326,7 @@ const executeStep = async (stepObj) => {
               requestBody,
           };
       } else {
-          const response = await fetch('http://127.0.0.1:8000/automation/handle_command/', {
+          const response = await fetch('https://api.testerally.ai/automation/handle_command/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ command: stepDescription }), 
@@ -344,7 +344,7 @@ const executeStep = async (stepObj) => {
           }
 
           const screenshotUrl = data.screenshot
-              ? `http://127.0.0.1:8000${data.screenshot}`
+              ? `https://api.testerally.ai${data.screenshot}`
               : `/api/placeholder/800/300?text=No_Screenshot`;
 
           return {
@@ -460,7 +460,7 @@ const createTestCase = async () => {
 
   try {
     setCreateTestCaseLoading(true);
-    const testCaseResponse = await fetch("http://127.0.0.1:8000/api/testcases/", {
+    const testCaseResponse = await fetch("https://api.testerally.ai/api/testcases/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -503,7 +503,7 @@ const createTestCase = async () => {
     const requestPayload = { steps: stepsData };
     console.log("Request payload for bulk create:", JSON.stringify(requestPayload));
 
-    const bulkStepResponse = await fetch("http://127.0.0.1:8000/api/teststeps/bulk-create/", {
+    const bulkStepResponse = await fetch("https://api.testerally.ai/api/teststeps/bulk-create/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestPayload)
@@ -595,7 +595,7 @@ const createTestCase = async () => {
                 <button
                   className="flex items-center px-3 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md"
                   onClick={() => {
-                    setNewStep(`Click ${selectedElement.name}`);
+                    setNewStep(`click ${selectedElement.name}`);
                   }}
                 >
                   <MousePointer className="w-4 h-4 mr-1" />

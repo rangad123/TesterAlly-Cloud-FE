@@ -25,7 +25,7 @@ const TestSteps = () => {
   const [elementData, setElementData] = useState(null);
 //  const [isEnvironmentModalOpen, setIsEnvironmentModalOpen] = useState(false);
 
-  const apiBaseUrl = "http://127.0.0.1:8000/api";
+  const apiBaseUrl = "https://api.testerally.ai/api";
 
 
   const fetchTestCase = useCallback(async () => {
@@ -441,7 +441,7 @@ useEffect(() => {
       const stepCoordinates = matchingStep.step_coordinates || {};
       
       if (lowerCaseStep.startsWith('open ') || lowerCaseStep.includes('go to ')) {
-        const response = await fetch('http://127.0.0.1:8000/automation/Execute_command/', {
+        const response = await fetch('https://api.testerally.ai/automation/Execute_command/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -460,7 +460,7 @@ useEffect(() => {
         console.log("Response:", data);
         
         const screenshotUrl = data.screenshot ? 
-          `http://127.0.0.1:8000${data.screenshot}` : 
+          `https://api.testerally.ai${data.screenshot}` : 
           `/api/placeholder/800/300?text=No_Screenshot`;
         
         return {
@@ -479,7 +479,7 @@ useEffect(() => {
           throw new Error(`No coordinates found for click step: "${stepDescription}"`);
         }
         
-        const response = await fetch('http://127.0.0.1:8000/automation/Execute_command/', {
+        const response = await fetch('https://api.testerally.ai/automation/Execute_command/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -502,7 +502,7 @@ useEffect(() => {
         console.log("Click response:", data);
         
         const screenshotUrl = data.screenshot ? 
-          `http://127.0.0.1:8000${data.screenshot}` : 
+          `https://api.testerally.ai${data.screenshot}` : 
           `/api/placeholder/800/300?text=No_Screenshot`;
         
         return {
@@ -531,7 +531,7 @@ useEffect(() => {
         
         const textToType = words.slice(1, inIndex).join(' ');
         
-        const response = await fetch('http://127.0.0.1:8000/automation/Execute_command/', {
+        const response = await fetch('https://api.testerally.ai/automation/Execute_command/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -555,7 +555,7 @@ useEffect(() => {
         console.log("Type response:", data);
         
         const screenshotUrl = data.screenshot ? 
-          `http://127.0.0.1:8000${data.screenshot}` : 
+          `https://api.testerally.ai${data.screenshot}` : 
           `/api/placeholder/800/300?text=No_Screenshot`;
         
         return {
@@ -568,7 +568,7 @@ useEffect(() => {
         };
       }
       else {
-        const response = await fetch('http://127.0.0.1:8000/automation/Execute_command/', {
+        const response = await fetch('https://api.testerally.ai/automation/Execute_command/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -586,7 +586,7 @@ useEffect(() => {
         const data = await response.json();
         
         const screenshotUrl = data.screenshot ? 
-          `http://127.0.0.1:8000${data.screenshot}` : 
+          `https://api.testerally.ai${data.screenshot}` : 
           `/api/placeholder/800/300?text=No_Screenshot`;
         
         return {
