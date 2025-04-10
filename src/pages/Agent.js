@@ -681,15 +681,9 @@ getCleanOsName = (agent) => {
       osIcon,
       osVersion,
       processorInfo,
-      browserInfo,
       screenResolution,
       devicePixelRatio,
       colorDepth,
-      memoryInfo,
-      deviceModel,
-      batteryInfo,
-      connectionInfo,
-      isMobile
     } = this.state;
   
     if (isDetecting) {
@@ -793,15 +787,10 @@ getCleanOsName = (agent) => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-2">
             <div className="bg-white p-3 rounded shadow-sm">
               <h4 className="font-medium text-purple-600">Processor</h4>
               <p className="text-gray-700">{processorInfo || 'Unknown'}</p>
-            </div>
-            
-            <div className="bg-white p-3 rounded shadow-sm">
-              <h4 className="font-medium text-purple-600">Browser</h4>
-              <p className="text-gray-700">{browserInfo || 'Unknown'}</p>
             </div>
             
             <div className="bg-white p-3 rounded shadow-sm">
@@ -809,38 +798,6 @@ getCleanOsName = (agent) => {
               <p className="text-gray-700">{screenResolution || 'Unknown'} ({devicePixelRatio} ratio, {colorDepth})</p>
             </div>
             
-            <div className="bg-white p-3 rounded shadow-sm">
-              <h4 className="font-medium text-purple-600">Memory</h4>
-              <p className="text-gray-700">{memoryInfo || 'Unknown'}</p>
-            </div>
-            
-            {deviceModel !== 'Unknown model' && (
-              <div className="bg-white p-3 rounded shadow-sm">
-                <h4 className="font-medium text-purple-600">Device Model</h4>
-                <p className="text-gray-700">{deviceModel}</p>
-              </div>
-            )}
-            
-            {batteryInfo !== 'Unknown battery status' && (
-              <div className="bg-white p-3 rounded shadow-sm">
-                <h4 className="font-medium text-purple-600">Battery</h4>
-                <p className="text-gray-700">{batteryInfo}</p>
-              </div>
-            )}
-            
-            {connectionInfo !== 'Unknown connection' && (
-              <div className="bg-white p-3 rounded shadow-sm">
-                <h4 className="font-medium text-purple-600">Network</h4>
-                <p className="text-gray-700">{connectionInfo}</p>
-              </div>
-            )}
-            
-            {isMobile && (
-              <div className="bg-white p-3 rounded shadow-sm">
-                <h4 className="font-medium text-purple-600">Device Type</h4>
-                <p className="text-gray-700">Mobile Device</p>
-              </div>
-            )}
             
             {/* Architecture Selection Section */}
             <div className="sm:col-span-2">
