@@ -413,6 +413,8 @@ detectSystemInfoClient = async () => {
       connectionInfo,
       isMobile,
       isDetecting: false
+    }, () => {
+      this.detectBestArchitecture();
     });
     
     console.log("System detection complete:", {
@@ -463,28 +465,32 @@ detectBestArchitecture = () => {
   
   // Check processor info to suggest the best architecture
   if (selectedOs === 'Windows') {
-    if (/ARM|Apple Silicon/i.test(processorInfo)) {
+    if (/Apple Silicon|ARM|arm64/i.test(processorInfo)) {
       bestArch = 'arm64';
-    } else if (/64-bit|x64|x86_64/i.test(processorInfo)) {
-      // Match any 64-bit identifier
+    } else if (/64[-\s]?bit|x64|x86_64|amd64/i.test(processorInfo)) {
       bestArch = 'x64';
-    } else if (/32-bit|x86(?!\D*64)/i.test(processorInfo)) {
-      // Match 32-bit or x86 (when not followed by "64")
+    } else if (/32[-\s]?bit|x86(?!\s*[-_]?64)|i[3-6]86/i.test(processorInfo)) {
       bestArch = 'x86';
+    } else {
+      // Default to x64 for modern Windows systems
+      bestArch = 'x64';
     }
   } else if (selectedOs === 'macOS') {
-    // macOS architecture detection
-    if (/Apple Silicon|ARM/i.test(processorInfo)) {
+    if (/Apple Silicon|M1|M2|M3|ARM/i.test(processorInfo)) {
       bestArch = 'arm64';
     } else if (/Intel/i.test(processorInfo)) {
       bestArch = 'intel';
     } else {
-      bestArch = 'universal'; 
+      // Default to universal for macOS
+      bestArch = 'universal';
     }
   } else if (selectedOs === 'Linux') {
-    if (/ARM|Apple Silicon/i.test(processorInfo)) {
+    if (/ARM|arm64|aarch64/i.test(processorInfo)) {
       bestArch = 'arm64';
-    } else if (/64-bit|x64|x86_64/i.test(processorInfo)) {
+    } else if (/64[-\s]?bit|x64|x86_64|amd64/i.test(processorInfo)) {
+      bestArch = 'x64';
+    } else {
+      // Default to x64 for modern Linux systems
       bestArch = 'x64';
     }
   }
@@ -496,6 +502,7 @@ detectBestArchitecture = () => {
     this.setState({ selectedArchitecture: bestArch });
   }
 }
+
 
   // Get download info based on OS
   getDownloadInfo = () => {
