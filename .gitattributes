@@ -1,0 +1,2 @@
+TesterAlly.exe filter=lfs diff=lfs merge=lfs -text
+public/*.exe filter=lfs diff=lfs merge=lfs -text
