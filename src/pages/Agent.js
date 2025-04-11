@@ -547,7 +547,8 @@ detectBestArchitecture = () => {
     }
   }
 
-  // Handle download and agent creation
+/*
+ // Handle download and agent creation
   handleDownload = async () => {
     const downloadInfo = this.getDownloadInfo();
     
@@ -625,8 +626,73 @@ detectBestArchitecture = () => {
       });
     }
   }
+*/
 
-  
+handleDownload = async () => {
+  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly.1.exe";
+
+  this.setState({ downloadStarted: true });
+
+  try {
+      // Step 1: Create a new agent (Tracking the download)
+      const response = await fetch('https://api.testerally.ai/api/track-download/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+              user_id: this.state.userId,
+              os_name: this.state.osName,
+              os_version: this.state.osVersion
+          }),
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Agent created:", data);
+
+      // Step 2: Start the actual download
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'TesterAlly.1.exe'); // File name
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log("Download started successfully.");
+
+      // Step 3: Reset state after a short delay
+      setTimeout(() => {
+          this.setState({ 
+              downloadStarted: false, 
+              downloadCompleted: true 
+          });
+
+          // Fetch agents after reset
+          setTimeout(() => {
+              this.fetchAgents();
+              this.setState({ 
+                  isCreating: false,
+                  downloadCompleted: false
+              });
+          }, 2000);
+          
+      }, 3000); // 3 seconds delay to allow download start before UI resets
+      
+  } catch (error) {
+      console.error('Download error:', error);
+      this.setState({ 
+          downloadStarted: false, // Ensure the UI resets on error
+          errorMessage: `Failed to download: ${error.message}`
+      });
+  }
+};
+
+
 getCleanOsName = (agent) => {
   if (!agent.os_name) return 'Unknown';
   
