@@ -20,6 +20,9 @@ export class AgentList extends Component {
       colorDepth: '',
       downloadStarted: false,
       downloadCompleted: false,
+      showDetailsModal: false,
+      selectedAgent: null,
+      agentDetails: null,
     };
   }
 
@@ -48,10 +51,18 @@ export class AgentList extends Component {
       
       const data = await response.json();
       console.log("Agent data:", data); 
-      console.log("Agent ID type:", typeof data.id);
       
       // Transform the data into an array of agents if it's not already
-      const agents = Array.isArray(data) ? data : data.id ? [data] : [];
+      let agents = [];
+      if (Array.isArray(data)) {
+        agents = data;
+      } else if (data && typeof data === 'object') {
+        if (data.id) {
+          agents = [data];
+        } else if (data.agents && Array.isArray(data.agents)) {
+          agents = data.agents;
+        }
+      }
       
       this.setState({ agents, isLoading: false });
     } catch (error) {
@@ -319,33 +330,7 @@ detectSystemInfoClient = async () => {
           processorInfo = "Unknown architecture";
         }
       }
-      
-      // Browser detection if not already determined
-      if (!browserInfo) {
-        if (/Firefox\//.test(userAgent)) {
-          const match = userAgent.match(/Firefox\/(\d+\.\d+)/);
-          browserInfo = "Firefox";
-          browserVersion = match ? match[1] : "";
-        } else if (/Edg\//.test(userAgent)) {
-          const match = userAgent.match(/Edg\/(\d+\.\d+\.\d+\.\d+)/);
-          browserInfo = "Microsoft Edge";
-          browserVersion = match ? match[1] : "";
-        } else if (/Chrome\//.test(userAgent) && !/Chromium\//.test(userAgent)) {
-          const match = userAgent.match(/Chrome\/(\d+\.\d+\.\d+\.\d+)/);
-          browserInfo = "Chrome";
-          browserVersion = match ? match[1] : "";
-        } else if (/Safari\//.test(userAgent) && !/Chrome/.test(userAgent)) {
-          const match = userAgent.match(/Version\/(\d+\.\d+(\.\d+)?)/);
-          browserInfo = "Safari";
-          browserVersion = match ? match[1] : "";
-        } else if (/OPR\/|Opera\//.test(userAgent)) {
-          const match = userAgent.match(/OPR\/(\d+\.\d+\.\d+\.\d+)/);
-          browserInfo = "Opera";
-          browserVersion = match ? match[1] : "";
-        } else {
-          browserInfo = "Unknown browser";
-        }
-      }
+
     }
     
     // Screen information
@@ -361,29 +346,7 @@ detectSystemInfoClient = async () => {
     const logicalCores = navigator.hardwareConcurrency 
       ? `${navigator.hardwareConcurrency} logical cores` 
       : "Unknown cores";
-    
-    // Battery status
-    let batteryInfo = "Unknown battery status";
-    if ('getBattery' in navigator) {
-      try {
-        const battery = await navigator.getBattery();
-        const level = Math.round(battery.level * 100);
-        const charging = battery.charging ? "charging" : "not charging";
-        batteryInfo = `${level}% (${charging})`;
-      } catch (batteryError) {
-        console.warn("Battery status not available:", batteryError);
-      }
-    }
-    
-    // Connection information
-    let connectionInfo = "Unknown connection";
-    if (navigator.connection) {
-      const { effectiveType, downlink, rtt, saveData } = navigator.connection;
-      connectionInfo = `${effectiveType} (${downlink} Mbps, ${rtt}ms latency)`;
-      if (saveData) {
-        connectionInfo += " (Data Saver On)";
-      }
-    }
+
     
     // Set full browser info with version
     const fullBrowserInfo = browserVersion 
@@ -409,8 +372,6 @@ detectSystemInfoClient = async () => {
       colorDepth,
       memoryInfo,
       deviceModel: deviceModel || "Unknown model",
-      batteryInfo,
-      connectionInfo,
       isMobile,
       isDetecting: false
     }, () => {
@@ -426,8 +387,6 @@ detectSystemInfoClient = async () => {
       screenResolution,
       memoryInfo,
       deviceModel,
-      batteryInfo,
-      connectionInfo
     });
     
   } catch (error) {
@@ -504,7 +463,6 @@ detectBestArchitecture = () => {
 }
 
 
-  // Get download info based on OS
   getDownloadInfo = () => {
     const { osName } = this.state;
     
@@ -629,7 +587,19 @@ detectBestArchitecture = () => {
 */
 
 handleDownload = async () => {
-  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly.1.exe";
+  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_000.exe";
+
+  const existingAgent = this.state.agents.find(agent => 
+    agent.os_name === this.state.osName && 
+    agent.os_version === this.state.osVersion
+  );
+
+  if (existingAgent && existingAgent.download_count >= 3) {
+    this.setState({ 
+      errorMessage: "Download limit reached. Each system has a maximum of 3 downloads."
+    });
+    return;
+  }
 
   this.setState({ downloadStarted: true });
 
@@ -693,40 +663,150 @@ handleDownload = async () => {
 };
 
 
-getCleanOsName = (agent) => {
-  if (!agent.os_name) return 'Unknown';
-  
-  if (agent.os_name.includes('Mozilla')) {
-    if (agent.os_name.includes('Windows')) return 'Windows';
-    if (agent.os_name.includes('Mac')) return 'macOS';
-    if (agent.os_name.includes('Linux')) return 'Linux';
-    if (agent.os_name.includes('Android')) return 'Android';
-    if (agent.os_name.includes('iPhone')) return 'iOS';
-    if (agent.os_name.includes('iPad')) return 'iPadOS';
-    return 'Unknown';
-  }
-  
-  return agent.os_name;
-}
+fetchAgentDetails = async (agentId) => {
+  console.log("user_id:", this.state.userId);
+  console.log("agentId:", agentId);
 
-  
-  getOsIcon = (osName) => {
-    if (!osName) return '🖥️';
+  try {
+    const response = await fetch(`https://api.testerally.ai/automation/cloud/systeminfo/?user_id=${this.state.userId}`);
     
-    const osIconMap = {
-      'windows': '🪟',
-      'macos': '🍎',
-      'linux': '🐧',
-      'ubuntu': '🐧',
-      'debian': '🐧',
-      'fedora': '🐧',
-      'android': '📱',
-      'ios': '📱',
-      'ipados': '📱'
-    };
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     
-    return osIconMap[osName.toLowerCase()] || '🖥️';
+    const data = await response.json();
+    console.log("Agent details:", data);
+    
+    // Check if the data object contains both agent details arrays
+    if (data && Array.isArray(data) && data.length > 0) {
+      // Find both Windows and Linux system data
+      const systemData = data;
+      
+      // Update the agents list with the accurate details
+      const updatedAgents = this.state.agents.map(agent => {
+        // Find the matching system data based on OS
+        const osName = this.getCleanOsName(agent).toLowerCase();
+        const matchingSystemData = systemData.find(sys => {
+          const sysOsName = (sys.os_name || "").toLowerCase();
+          return sysOsName.includes(osName) || osName.includes(sysOsName);
+        });
+        
+        if (agent.id === agentId && matchingSystemData) {
+          return { ...agent, systemInfo: matchingSystemData };
+        }
+        return agent;
+      });
+      
+      this.setState({ agents: updatedAgents });
+      
+      // Find the specific agent's system info
+      const currentAgent = updatedAgents.find(a => a.id === agentId);
+      return currentAgent?.systemInfo || null;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to fetch agent details:', error);
+    this.setState({ 
+      errorMessage: "Failed to load agent details. Please try again later." 
+    });
+    return null;
   }
+};
+
+showAgentDetails = async (agentId) => {
+  // First show the modal with loading state
+  const agent = this.state.agents.find(a => a.id === agentId);
+  
+  if (!agent) {
+    this.setState({
+      errorMessage: "Agent not found."
+    });
+    return;
+  }
+  
+  this.setState({ 
+    showDetailsModal: true, 
+    selectedAgent: agent,
+    agentDetails: null 
+  });
+  
+  // Then fetch the details
+  const agentDetails = await this.fetchAgentDetails(agentId);
+  
+  if (agentDetails) {
+    // Check if OS matches the current system
+    const currentOsName = this.getCurrentSystemOs(); 
+    const agentOsName = this.getCleanOsName(agent);
+    
+    const osMatches = currentOsName.toLowerCase().includes(agentOsName.toLowerCase()) ||
+                      agentOsName.toLowerCase().includes(currentOsName.toLowerCase());
+    
+    this.setState({ 
+      agentDetails,
+      osMatches 
+    });
+
+    console.log("osMatches:", osMatches);
+    console.log("agentDetails:", agentDetails);
+  }
+};
+
+
+getCurrentSystemOs = () => {
+  const userAgent = window.navigator.userAgent;
+  
+  if (userAgent.indexOf("Windows") !== -1) return "Windows";
+  if (userAgent.indexOf("Mac") !== -1) return "macOS";
+  if (userAgent.indexOf("Linux") !== -1) return "Linux";
+  if (userAgent.indexOf("Android") !== -1) return "Android";
+  if (userAgent.indexOf("iOS") !== -1) return "iOS";
+  
+  return "Unknown";
+};
+
+closeDetailsModal = () => {
+  this.setState({ 
+    showDetailsModal: false, 
+    selectedAgent: null,
+    agentDetails: null 
+  });
+};
+
+
+getCleanOsName = (agent) => {
+  if (!agent) return "Unknown";
+  
+  // Check if the agent has os_name directly
+  if (agent.os_name) return agent.os_name;
+  
+  // Check if the agent has systemInfo with os_name
+  if (agent.systemInfo && agent.systemInfo.os_name) return agent.systemInfo.os_name;
+  
+  // If there's a system property containing a string with OS info
+  if (typeof agent.system === 'string') {
+    const system = agent.system.toLowerCase();
+    if (system.includes('windows')) return 'Windows';
+    if (system.includes('mac') || system.includes('osx')) return 'macOS';
+    if (system.includes('linux')) return 'Linux';
+    if (system.includes('android')) return 'Android';
+    if (system.includes('ios')) return 'iOS';
+  }
+  
+  return "Unknown";
+};
+
+getOsIcon = (osName) => {
+  const name = osName.toLowerCase();
+  
+  if (name.includes('windows')) return '🪟';
+  if (name.includes('mac') || name.includes('osx')) return '🍎';
+  if (name.includes('linux')) return '🐧';
+  if (name.includes('android')) return '🤖';
+  if (name.includes('ios')) return '📱';
+  
+  return '💻';
+};
 
   
   formatDate = (dateString) => {
@@ -897,7 +977,6 @@ getCleanOsName = (agent) => {
     );
   }
   
-  // Add this method to render architecture options based on selected OS
   renderArchitectureOptions() {
     const { selectedOs, selectedArchitecture } = this.state;
     
@@ -936,6 +1015,103 @@ getCleanOsName = (agent) => {
       </button>
     ));
   }
+
+renderDetailsModal() {
+  const { showDetailsModal, selectedAgent, agentDetails, osMatches } = this.state;
+  
+  if (!showDetailsModal || !selectedAgent) return null;
+  
+  const downloadCount = selectedAgent?.download_count || 0;
+  const remainingDownloads = 3 - downloadCount;
+  const osName = this.getCleanOsName(selectedAgent);
+  const osIcon = this.getOsIcon(osName);
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+        {/* Modal Header */}
+        <div className="flex justify-between items-center border-b p-4">
+          <h3 className="text-xl font-semibold text-gray-800">Agent Details</h3>
+          <button 
+            onClick={this.closeDetailsModal}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Modal Body */}
+        <div className="p-6">
+          {/* Agent Icon and ID */}
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-3">🤖</span>
+            <h4 className="text-lg font-medium">Agent-{selectedAgent.id}</h4>
+          </div>
+          
+          {/* System Information */}
+          <div className="bg-gray-50 p-4 rounded-lg mb-4">
+            <div className="flex items-center mb-2">
+              <span className="text-xl mr-2">{osIcon}</span>
+              <span className="font-medium">{osName}</span>
+            </div>
+            
+            {agentDetails ? (
+              <>
+                {osMatches ? (
+                  <div className="mt-3 grid gap-2">
+                    <div className="bg-white p-2 rounded">
+                      <span className="font-medium text-gray-700">Processor:</span> {agentDetails.cpu || 'Unknown'}
+                    </div>
+                    <div className="bg-white p-2 rounded">
+                      <span className="font-medium text-gray-700">Version:</span> {agentDetails.os_version || 'Unknown'}
+                    </div>
+                    <div className="bg-white p-2 rounded">
+                      <span className="font-medium text-gray-700">Screen:</span> {agentDetails.screen_resolution || 'Unknown'}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-yellow-50 p-3 rounded mt-3 border border-yellow-200">
+                    <p className="text-yellow-800">
+                      <span className="font-medium">OS Mismatch:</span> This agent is designed for {osName} systems, but 
+                      you appear to be using a different operating system. After downloading and installing the agent, 
+                      please run it and login with your credentials to continue.
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="flex justify-center mt-3">
+                <div className="w-6 h-6 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
+                <span className="ml-2 text-gray-600">Loading details...</span>
+              </div>
+            )}
+          </div>
+          
+          {/* Download Status - Cleaner Display */}
+          <div className="bg-blue-50 p-4 rounded-lg mb-4">
+            <div className="flex justify-between items-center">
+              <h5 className="font-medium text-blue-700">Download Status</h5>
+              <div className="flex items-center">
+                <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${
+                  downloadCount >= 3 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                } font-medium text-sm`}>{downloadCount}</span>
+                <span className="mx-1 text-gray-500">/</span>
+                <span className="text-gray-500">3</span>
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-blue-700">
+              {remainingDownloads > 0 
+                ? `You have ${remainingDownloads} download(s) remaining for this system.` 
+                : 'You have reached the maximum number of downloads for this system.'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
   render() {
     const { 
@@ -1081,78 +1257,51 @@ getCleanOsName = (agent) => {
                 <p className="text-gray-500 text-sm mt-1">Create your first agent by clicking the "Create Agent" button.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white">
-                  <thead>
-                    <tr className="bg-gray-50 text-gray-600 uppercase text-xs border-b border-gray-200">
-                      <th className="py-3 px-4 text-left font-medium">Agent ID</th>
-                      <th className="py-3 px-4 text-left font-medium">System</th>
-                      <th className="py-3 px-4 text-left font-medium">Last Active</th>
-                      <th className="py-3 px-4 text-left font-medium">Download Count</th>
-                      <th className="py-3 px-4 text-left font-medium">Status</th>
-                      <th className="py-3 px-4 text-right font-medium">Actions</th>
+              <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700">
+                  <thead className="bg-gray-100 sticky top-0 z-10">
+                    <tr>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Agent ID</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">System</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Last Active</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Download Count</th>
+                    
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-gray-100 bg-white">
                     {agents.map((agent, index) => {
-                      // Extract OS info
                       const osName = this.getCleanOsName(agent);
                       const osVersion = agent.os_version || '';
-                      
+
                       return (
-                        <tr key={agent.id || index} className="hover:bg-gray-50 border-b border-gray-200">
-                          <td className="py-3 px-4">
-                            <div className="flex items-center">
-                              <span className="text-lg mr-2">🤖</span>
-                              <span className="font-medium text-gray-800">
-                                Agent-{agent.id || index + 1}
-                              </span>
-                            </div>
+                        <tr
+                          key={agent.id || index}
+                          className="hover:bg-gray-50 transition-all duration-150 cursor-pointer"
+                          onClick={() => this.showAgentDetails(agent.id)}
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-800 flex items-center">
+                            <span className="text-xl mr-2">🤖</span>
+                            Agent-{agent.id || index + 1}
                           </td>
-                          <td className="py-3 px-4">
-                            <div className="flex items-center">
-                              <span className="text-lg mr-2">{this.getOsIcon(agent.os_name || 'Unknown')}</span>
+                          <td className="px-6 py-4 whitespace-nowrap max-w-xs truncate">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xl">{this.getOsIcon(agent.os_name || 'Unknown')}</span>
                               <div>
-                                <span className="font-medium">{osName}</span>
-                                {osVersion && <span className="text-gray-500 text-sm block">{osVersion}</span>}
+                                <div className="font-medium">{osName}</div>
+                                {osVersion && (
+                                  <div className="text-gray-500 text-xs truncate max-w-[150px]">{osVersion}</div>
+                                )}
                               </div>
                             </div>
                           </td>
-                          <td className="py-3 px-4 text-gray-600">
+
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-600">
                             {this.formatDate(agent.last_downloaded)}
                           </td>
-                          <td className="py-3 px-4">
-                            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full">
                               {agent.download_count || 0} downloads
                             </span>
-                          </td>
-                          <td className="py-3 px-4">
-                            <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center w-fit">
-                              <span className="h-2 w-2 bg-green-500 rounded-full mr-1.5"></span>
-                              Active
-                            </span>
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            <div className="flex space-x-2 justify-end">
-                              <button 
-                                className="px-2 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded flex items-center text-sm"
-                                title="Update Agent"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                                Update
-                              </button>
-                              <button 
-                                className="px-2 py-1 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded flex items-center text-sm"
-                                title="Agent Details"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Details
-                              </button>
-                            </div>
                           </td>
                         </tr>
                       );
@@ -1160,6 +1309,7 @@ getCleanOsName = (agent) => {
                   </tbody>
                 </table>
               </div>
+
             )}
           </div>
           
@@ -1171,6 +1321,8 @@ getCleanOsName = (agent) => {
             <p className="text-gray-500 text-sm mt-2">© 2025 Testerally.ai - All rights reserved</p>
           </div>
         </div>
+        {/* Details Modal */}
+        {this.renderDetailsModal()}
       </div>
     );
   }
