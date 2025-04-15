@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Copy } from "lucide-react";
 
 export class AgentList extends Component {
   constructor(props) {
@@ -1113,6 +1114,7 @@ renderDetailsModal() {
   );
 }
 
+
   render() {
     const { 
       agents, 
@@ -1259,12 +1261,13 @@ renderDetailsModal() {
             ) : (
               <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700">
-                  <thead className="bg-gray-100 sticky top-0 z-10">
+                  <thead className="bg-gray-100 top-0">
                     <tr>
                       <th className="px-6 py-3 font-semibold tracking-wide">Agent ID</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">System</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Last Active</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Download Count</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">TesterAlly Key</th>
                     
                     </tr>
                   </thead>
@@ -1303,6 +1306,33 @@ renderDetailsModal() {
                               {agent.download_count || 0} downloads
                             </span>
                           </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div
+                              className="flex items-center space-x-2 group cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(agent.download_uid);
+                                const copiedText = e.currentTarget.querySelector(".copied-text");
+                                const copyLabel = e.currentTarget.querySelector(".copy-label");
+                                copiedText.classList.remove("hidden");
+                                copyLabel.classList.add("hidden");
+                                setTimeout(() => {
+                                  copiedText.classList.add("hidden");
+                                  copyLabel.classList.remove("hidden");
+                                }, 2000);
+                              }}
+                            >
+                              <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded text-gray-800 truncate max-w-[150px]">
+                                {agent.download_uid}
+                              </span>
+                              <div className="flex items-center space-x-1 text-sm text-gray-500">
+                                <Copy className="w-4 h-4 group-hover:text-black transition" />
+                                <span className="copy-label">Copy</span>
+                                <span className="copied-text hidden text-green-600">Copied!</span>
+                              </div>
+                            </div>
+                          </td>
+
                         </tr>
                       );
                     })}
