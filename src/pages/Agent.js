@@ -589,7 +589,7 @@ detectBestArchitecture = () => {
 */
 
 handleDownload = async () => {
-  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_000.exe";
+  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_001.exe";
 
   const existingAgent = this.state.agents.find(agent => 
     agent.os_name === this.state.osName && 
