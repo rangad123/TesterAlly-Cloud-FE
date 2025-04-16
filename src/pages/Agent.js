@@ -24,6 +24,7 @@ export class AgentList extends Component {
       showDetailsModal: false,
       selectedAgent: null,
       agentDetails: null,
+      agentDetailsLoading: false,
     };
   }
 
@@ -44,7 +45,7 @@ export class AgentList extends Component {
   fetchAgents = async () => {
     this.setState({ isLoading: true, errorMessage: null });
     try {
-      const response = await fetch(`https://api.testerally.ai/api/track-download/?user_id=${this.state.userId}`);
+      const response = await fetch(`https://api.testerally.ai/installer/track-download/?user_id=${this.state.userId}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -606,7 +607,7 @@ handleDownload = async () => {
 
   try {
       // Step 1: Create a new agent (Tracking the download)
-      const response = await fetch('https://api.testerally.ai/api/track-download/', {
+      const response = await fetch('https://api.testerally.ai/installer/track-download/', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -669,7 +670,7 @@ fetchAgentDetails = async (agentId) => {
   console.log("agentId:", agentId);
 
   try {
-    const response = await fetch(`https://api.testerally.ai/automation/cloud/systeminfo/?user_id=${this.state.userId}`);
+    const response = await fetch(`https://api.testerally.ai/installer/cloud/systeminfo/?exe_id=${agentId}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -729,7 +730,8 @@ showAgentDetails = async (agentId) => {
   this.setState({ 
     showDetailsModal: true, 
     selectedAgent: agent,
-    agentDetails: null 
+    agentDetails: null,
+    agentDetailsLoading: true
   });
   
   // Then fetch the details
@@ -745,7 +747,8 @@ showAgentDetails = async (agentId) => {
     
     this.setState({ 
       agentDetails,
-      osMatches 
+      osMatches,
+      agentDetailsLoading: false 
     });
 
     console.log("osMatches:", osMatches);
@@ -1017,103 +1020,113 @@ getOsIcon = (osName) => {
     ));
   }
 
-renderDetailsModal() {
-  const { showDetailsModal, selectedAgent, agentDetails, osMatches } = this.state;
-  
-  if (!showDetailsModal || !selectedAgent) return null;
-  
-  const downloadCount = selectedAgent?.download_count || 0;
-  const remainingDownloads = 3 - downloadCount;
-  const osName = this.getCleanOsName(selectedAgent);
-  const osIcon = this.getOsIcon(osName);
-  
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-        {/* Modal Header */}
-        <div className="flex justify-between items-center border-b p-4">
-          <h3 className="text-xl font-semibold text-gray-800">Agent Details</h3>
-          <button 
-            onClick={this.closeDetailsModal}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        
-        {/* Modal Body */}
-        <div className="p-6">
-          {/* Agent Icon and ID */}
-          <div className="flex items-center mb-4">
-            <span className="text-2xl mr-3">🤖</span>
-            <h4 className="text-lg font-medium">Agent-{selectedAgent.id}</h4>
+  renderDetailsModal() {
+    const { showDetailsModal, selectedAgent, agentDetails, agentDetailsLoading, osMatches } = this.state;
+    
+    if (!showDetailsModal || !selectedAgent) return null;
+    
+    const downloadCount = selectedAgent?.download_count || 0;
+    const remainingDownloads = 3 - downloadCount;
+    const osName = this.getCleanOsName(selectedAgent);
+    const osIcon = this.getOsIcon(osName);
+    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+          {/* Modal Header */}
+          <div className="flex justify-between items-center border-b p-4">
+            <h3 className="text-xl font-semibold text-gray-800">Agent Details</h3>
+            <button 
+              onClick={this.closeDetailsModal}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
           
-          {/* System Information */}
-          <div className="bg-gray-50 p-4 rounded-lg mb-4">
-            <div className="flex items-center mb-2">
-              <span className="text-xl mr-2">{osIcon}</span>
-              <span className="font-medium">{osName}</span>
+          {/* Modal Body */}
+          <div className="p-6">
+            {/* Agent Icon and ID */}
+            <div className="flex items-center mb-4">
+              <span className="text-2xl mr-3">🤖</span>
+              <h4 className="text-lg font-medium">Agent-{selectedAgent.id}</h4>
             </div>
             
-            {agentDetails ? (
-              <>
-                {osMatches ? (
-                  <div className="mt-3 grid gap-2">
-                    <div className="bg-white p-2 rounded">
-                      <span className="font-medium text-gray-700">Processor:</span> {agentDetails.cpu || 'Unknown'}
-                    </div>
-                    <div className="bg-white p-2 rounded">
-                      <span className="font-medium text-gray-700">Version:</span> {agentDetails.os_version || 'Unknown'}
-                    </div>
-                    <div className="bg-white p-2 rounded">
-                      <span className="font-medium text-gray-700">Screen:</span> {agentDetails.screen_resolution || 'Unknown'}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="bg-yellow-50 p-3 rounded mt-3 border border-yellow-200">
-                    <p className="text-yellow-800">
-                      <span className="font-medium">OS Mismatch:</span> This agent is designed for {osName} systems, but 
-                      you appear to be using a different operating system. After downloading and installing the agent, 
-                      please run it and login with your credentials to continue.
-                    </p>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="flex justify-center mt-3">
-                <div className="w-6 h-6 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-                <span className="ml-2 text-gray-600">Loading details...</span>
+            {/* System Information */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-4">
+              <div className="flex items-center mb-2">
+                <span className="text-xl mr-2">{osIcon}</span>
+                <span className="font-medium">{osName}</span>
               </div>
-            )}
-          </div>
-          
-          {/* Download Status - Cleaner Display */}
-          <div className="bg-blue-50 p-4 rounded-lg mb-4">
-            <div className="flex justify-between items-center">
-              <h5 className="font-medium text-blue-700">Download Status</h5>
-              <div className="flex items-center">
-                <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${
-                  downloadCount >= 3 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
-                } font-medium text-sm`}>{downloadCount}</span>
-                <span className="mx-1 text-gray-500">/</span>
-                <span className="text-gray-500">3</span>
-              </div>
+              
+              {agentDetailsLoading ? (
+                // Loading state
+                <div className="flex justify-center mt-3">
+                  <div className="w-6 h-6 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="ml-2 text-gray-600">Loading details...</span>
+                </div>
+              ) : agentDetails ? (
+                // Agent details found
+                <>
+                  {osMatches ? (
+                    <div className="mt-3 grid gap-2">
+                      <div className="bg-white p-2 rounded">
+                        <span className="font-medium text-gray-700">Processor:</span> {agentDetails.cpu || 'Unknown'}
+                      </div>
+                      <div className="bg-white p-2 rounded">
+                        <span className="font-medium text-gray-700">Version:</span> {agentDetails.os_version || 'Unknown'}
+                      </div>
+                      <div className="bg-white p-2 rounded">
+                        <span className="font-medium text-gray-700">Screen:</span> {agentDetails.screen_resolution || 'Unknown'}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-yellow-50 p-3 rounded mt-3 border border-yellow-200">
+                      <p className="text-yellow-800">
+                        <span className="font-medium">OS Mismatch:</span> This agent is designed for {osName} systems, but 
+                        you appear to be using a different operating system. After downloading and installing the agent, 
+                        please run it and login with your credentials to continue.
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                // No agent details found
+                <div className="bg-yellow-50 p-3 rounded mt-3 border border-yellow-200">
+                  <p className="text-yellow-800">
+                    <span className="font-medium">Not Installed or Logged In:</span> It appears you haven't installed 
+                    this agent or haven't logged in yet. After downloading and installing the agent, 
+                    please run it and login with your credentials to view system details.
+                  </p>
+                </div>
+              )}
             </div>
-            <p className="mt-2 text-sm text-blue-700">
-              {remainingDownloads > 0 
-                ? `You have ${remainingDownloads} download(s) remaining for this system.` 
-                : 'You have reached the maximum number of downloads for this system.'}
-            </p>
+            
+            {/* Download Status - Cleaner Display */}
+            <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <div className="flex justify-between items-center">
+                <h5 className="font-medium text-blue-700">Download Status</h5>
+                <div className="flex items-center">
+                  <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${
+                    downloadCount >= 3 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                  } font-medium text-sm`}>{downloadCount}</span>
+                  <span className="mx-1 text-gray-500">/</span>
+                  <span className="text-gray-500">3</span>
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-blue-700">
+                {remainingDownloads > 0 
+                  ? `You have ${remainingDownloads} download(s) remaining for this system.` 
+                  : 'You have reached the maximum number of downloads for this system.'}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   render() {
     const { 
