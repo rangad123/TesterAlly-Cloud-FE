@@ -589,7 +589,7 @@ detectBestArchitecture = () => {
 */
 
 handleDownload = async () => {
-  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_001.exe";
+  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
 
   const existingAgent = this.state.agents.find(agent => 
     agent.os_name === this.state.osName && 
@@ -1280,7 +1280,7 @@ getOsIcon = (osName) => {
                       <th className="px-6 py-3 font-semibold tracking-wide">System</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Last Active</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Download Count</th>
-                      <th className="px-6 py-3 font-semibold tracking-wide">TesterAlly Key</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Agenty Key</th>
                     
                     </tr>
                   </thead>
