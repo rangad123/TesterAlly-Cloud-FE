@@ -25,6 +25,7 @@ export class AgentList extends Component {
       selectedAgent: null,
       agentDetails: null,
       agentDetailsLoading: false,
+      updatingAgentId: null,
     };
   }
 
@@ -32,6 +33,7 @@ export class AgentList extends Component {
     const userId = localStorage.getItem("userId") || this.createUserId();
     this.setState({ userId }, () => {
       this.fetchAgents();
+      this.detectSystemInfoClient();
     });
   }
 
@@ -71,7 +73,8 @@ export class AgentList extends Component {
       console.error('Failed to fetch agents:', error);
       this.setState({ 
         isLoading: false, 
-        errorMessage: "Failed to load your agents. Please try again later." 
+        errorMessage: null
+//        errorMessage: "Failed to load your agents. Please try again later." 
       });
     }
   };
@@ -507,16 +510,118 @@ detectBestArchitecture = () => {
     }
   }
 
-/*
- // Handle download and agent creation
   handleDownload = async () => {
-    const downloadInfo = this.getDownloadInfo();
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
     
+    // Extract version from the URL
+    const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
+    const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
+    
+    // Rest of your existing download code...
+    const existingAgent = this.state.agents.find(agent => 
+      agent.os_name === this.state.osName && 
+      agent.os_version === this.state.osVersion
+    );
+  
+    if (existingAgent && existingAgent.download_count >= 3) {
+      this.setState({ 
+        errorMessage: "Download limit reached. Each system has a maximum of 3 downloads."
+      });
+      return;
+    }
+  
     this.setState({ downloadStarted: true });
-
+  
     try {
-      // Create a new agent
-      const response = await fetch('https://api.testerally.ai/api/track-download/', {
+        // Step 1: Create a new agent (Tracking the download) - ADD VERSION HERE
+        const response = await fetch('https://api.testerally.ai/installer/track-download/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                user_id: this.state.userId,
+                os_name: this.state.osName,
+                os_version: this.state.osVersion,
+                file_version: versionString 
+            }),
+        });
+  
+        // Rest of your existing code remains the same
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log("Agent created:", data);
+  
+        // Step 2: Start the actual download
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', `TesterAlly_${versionString}.exe`); // Use version in filename
+  
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+  
+        console.log("Download started successfully.");
+  
+        // Rest of your download code...
+        setTimeout(() => {
+            this.setState({ 
+                downloadStarted: false, 
+                downloadCompleted: true 
+            });
+  
+            setTimeout(() => {
+                this.fetchAgents();
+                this.setState({ 
+                    isCreating: false,
+                    downloadCompleted: false
+                });
+            }, 2000);
+            
+        }, 3000);
+        
+    } catch (error) {
+        console.error('Download error:', error);
+        this.setState({ 
+            downloadStarted: false,
+            errorMessage: `Failed to download: ${error.message}`
+        });
+    }
+  };
+
+  isUpdateAvailable = (agent) => {
+    // Current version from the download URL
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
+    const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
+    const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
+    
+    // Agent's stored version
+    const agentVersion = agent.file_version || "unknown";
+
+    console.log("agentVersion:",agentVersion)
+    console.log("currentVersion:",currentVersion)
+    
+    // Simple string comparison (you might want a more sophisticated version comparison)
+    return currentVersion !== agentVersion;
+  };
+
+  updateAgent = async (agentId, e) => {
+    e.stopPropagation(); // Prevent row click event
+    
+    // Set the agent being updated
+    this.setState({ updatingAgentId: agentId });
+    
+    // Get the current URL and extract version
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
+    const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
+    const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
+    
+    try {
+      // Update the agent's version in the backend
+      const response = await fetch(`https://api.testerally.ai/installer/track-download/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -524,150 +629,43 @@ detectBestArchitecture = () => {
         body: JSON.stringify({ 
           user_id: this.state.userId,
           os_name: this.state.osName,
-          os_version: this.state.osVersion
+          os_version: this.state.osVersion,
+          file_version: versionString
         }),
       });
-
+      
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      const data = await response.json();
-      console.log("Agent created:", data);
       
-      // Start the actual download
-      if (!downloadInfo.fileName) {
-        if (downloadInfo.appStoreLink) {
-          window.open(downloadInfo.appStoreLink, '_blank');
-          this.setState({ downloadCompleted: true });
-          return;
-        }
-        throw new Error('Unable to determine correct download file');
-      }
-      
-      const fileMap = {
-        "testerally_setup.exe": "/TesterAlly.exe", 
-        "testerally_setup.dmg": "/testerally_setup.dmg", 
-        "testerally_setup.deb": "/testerally_setup.deb", 
-        "testerally_setup.rpm": "/testerally_setup.rpm", 
-        "testerally.apk": "/testerally.apk" 
-      };
-      
-      const downloadPath = fileMap[downloadInfo.fileName] || "/TesterAlly.exe";
-        
-      const link = document.createElement('a');
-      link.href = downloadPath;
-      link.setAttribute('download', downloadInfo.fileName);
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      setTimeout(() => {
-        this.setState({ 
-          downloadCompleted: true 
-        }, () => {
-          
-          setTimeout(() => {
-            this.fetchAgents();
-            this.setState({ 
-              isCreating: false,
-              downloadStarted: false,
-              downloadCompleted: false
-            });
-          }, 2000);
-        });
-      }, 2000);
-    } catch (error) {
-      console.error('Download error:', error);
-      this.setState({ 
-        errorMessage: `Failed to download: ${error.message}`,
-        downloadStarted: false
-      });
-    }
-  }
-*/
-
-handleDownload = async () => {
-  const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
-
-  const existingAgent = this.state.agents.find(agent => 
-    agent.os_name === this.state.osName && 
-    agent.os_version === this.state.osVersion
-  );
-
-  if (existingAgent && existingAgent.download_count >= 3) {
-    this.setState({ 
-      errorMessage: "Download limit reached. Each system has a maximum of 3 downloads."
-    });
-    return;
-  }
-
-  this.setState({ downloadStarted: true });
-
-  try {
-      // Step 1: Create a new agent (Tracking the download)
-      const response = await fetch('https://api.testerally.ai/installer/track-download/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-              user_id: this.state.userId,
-              os_name: this.state.osName,
-              os_version: this.state.osVersion
-          }),
-      });
-
-      if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Agent created:", data);
-
-      // Step 2: Start the actual download
+      // Download the new version
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'TesterAlly.1.exe'); // File name
-
+      link.setAttribute('download', `TesterAlly_${versionString}.exe`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      console.log("Download started successfully.");
-
-      // Step 3: Reset state after a short delay
-      setTimeout(() => {
-          this.setState({ 
-              downloadStarted: false, 
-              downloadCompleted: true 
-          });
-
-          // Fetch agents after reset
-          setTimeout(() => {
-              this.fetchAgents();
-              this.setState({ 
-                  isCreating: false,
-                  downloadCompleted: false
-              });
-          }, 2000);
-          
-      }, 3000); // 3 seconds delay to allow download start before UI resets
       
-  } catch (error) {
-      console.error('Download error:', error);
+      // Update local state after a delay
+      setTimeout(() => {
+        this.fetchAgents();
+        this.setState({ updatingAgentId: null });
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Update error:', error);
       this.setState({ 
-          downloadStarted: false, // Ensure the UI resets on error
-          errorMessage: `Failed to download: ${error.message}`
+        errorMessage: `Failed to update: ${error.message}`,
+        updatingAgentId: null
       });
-  }
-};
-
+    }
+  };
 
 fetchAgentDetails = async (agentId) => {
   console.log("user_id:", this.state.userId);
   console.log("agentId:", agentId);
+
+  this.setState({ agentDetailsLoading: true });
 
   try {
     const response = await fetch(`https://api.testerally.ai/installer/cloud/systeminfo/?exe_id=${agentId}`);
@@ -679,9 +677,12 @@ fetchAgentDetails = async (agentId) => {
     const data = await response.json();
     console.log("Agent details:", data);
     
-    // Check if the data object contains both agent details arrays
+    // Always set loading to false, regardless of result
+    this.setState({ agentDetailsLoading: false });
+    
+    // Check if the data object contains valid agent details
     if (data && Array.isArray(data) && data.length > 0) {
-      // Find both Windows and Linux system data
+      // Find system data
       const systemData = data;
       
       // Update the agents list with the accurate details
@@ -710,7 +711,8 @@ fetchAgentDetails = async (agentId) => {
   } catch (error) {
     console.error('Failed to fetch agent details:', error);
     this.setState({ 
-      errorMessage: "Failed to load agent details. Please try again later." 
+      errorMessage: "Failed to load agent details. Please try again later.",
+      agentDetailsLoading: false // Ensure loading state is reset on error
     });
     return null;
   }
@@ -737,25 +739,22 @@ showAgentDetails = async (agentId) => {
   // Then fetch the details
   const agentDetails = await this.fetchAgentDetails(agentId);
   
-  if (agentDetails) {
-    // Check if OS matches the current system
-    const currentOsName = this.getCurrentSystemOs(); 
-    const agentOsName = this.getCleanOsName(agent);
-    
-    const osMatches = currentOsName.toLowerCase().includes(agentOsName.toLowerCase()) ||
-                      agentOsName.toLowerCase().includes(currentOsName.toLowerCase());
-    
-    this.setState({ 
-      agentDetails,
-      osMatches,
-      agentDetailsLoading: false 
-    });
+  // Check if OS matches the current system
+  const currentOsName = this.getCurrentSystemOs(); 
+  const agentOsName = this.getCleanOsName(agent);
+  
+  const osMatches = currentOsName.toLowerCase().includes(agentOsName.toLowerCase()) ||
+                    agentOsName.toLowerCase().includes(currentOsName.toLowerCase());
+  
+  this.setState({ 
+    agentDetails,
+    osMatches,
+    agentDetailsLoading: false // Ensure loading is set to false
+  });
 
-    console.log("osMatches:", osMatches);
-    console.log("agentDetails:", agentDetails);
-  }
+  console.log("osMatches:", osMatches);
+  console.log("agentDetails:", agentDetails);
 };
-
 
 getCurrentSystemOs = () => {
   const userAgent = window.navigator.userAgent;
@@ -829,6 +828,18 @@ getOsIcon = (osName) => {
       return dateString;
     }
   }
+
+
+hasAgentForCurrentOs = () => {
+  const { agents } = this.state;
+  const currentOsName = this.getCurrentSystemOs();
+  
+  return agents.some(agent => {
+    const agentOsName = this.getCleanOsName(agent);
+    return currentOsName.toLowerCase().includes(agentOsName.toLowerCase()) ||
+           agentOsName.toLowerCase().includes(currentOsName.toLowerCase());
+  });
+};
 
   renderSystemInfo() {
     const { 
@@ -1093,7 +1104,7 @@ getOsIcon = (osName) => {
                   )}
                 </>
               ) : (
-                // No agent details found
+                // No agent details found - this section will now ALWAYS show when there are no details
                 <div className="bg-yellow-50 p-3 rounded mt-3 border border-yellow-200">
                   <p className="text-yellow-800">
                     <span className="font-medium">Not Installed or Logged In:</span> It appears you haven't installed 
@@ -1177,18 +1188,37 @@ getOsIcon = (osName) => {
                     <li>Get detailed reports and analytics</li>
                   </ul>
                 </div>
-                <div className="w-full md:w-auto flex justify-center mt-4 md:mt-0">
-                  <button 
-                    onClick={this.startCreateAgent}
-                    className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-sm"
-                  >
-                    <span className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                      Create Agent
-                    </span>
-                  </button>
+                <div className="w-full md:w-auto flex flex-col items-center justify-center mt-4 md:mt-0">
+                  {this.hasAgentForCurrentOs() ? (
+                    <>
+                      <button 
+                        disabled
+                        className="px-6 py-3 bg-gray-300 text-gray-600 font-medium rounded-md shadow-sm cursor-not-allowed"
+                      >
+                        <span className="flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                          Create Agent
+                        </span>
+                      </button>
+                      <p className="text-sm text-red-600 mt-2">
+                        You already have an agent for your current system.
+                      </p>
+                    </>
+                  ) : (
+                    <button 
+                      onClick={this.startCreateAgent}
+                      className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-sm"
+                    >
+                      <span className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create Agent
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -1320,30 +1350,56 @@ getOsIcon = (osName) => {
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div
-                              className="flex items-center space-x-2 group cursor-pointer"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigator.clipboard.writeText(agent.download_uid);
-                                const copiedText = e.currentTarget.querySelector(".copied-text");
-                                const copyLabel = e.currentTarget.querySelector(".copy-label");
-                                copiedText.classList.remove("hidden");
-                                copyLabel.classList.add("hidden");
-                                setTimeout(() => {
-                                  copiedText.classList.add("hidden");
-                                  copyLabel.classList.remove("hidden");
-                                }, 2000);
-                              }}
-                            >
-                              <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded text-gray-800 truncate max-w-[150px]">
-                                {agent.download_uid}
-                              </span>
-                              <div className="flex items-center space-x-1 text-sm text-gray-500">
-                                <Copy className="w-4 h-4 group-hover:text-black transition" />
-                                <span className="copy-label">Copy</span>
-                                <span className="copied-text hidden text-green-600">Copied!</span>
+                            {this.isUpdateAvailable(agent) ? (
+                              <button
+                                className={`px-3 py-1 rounded-md text-sm font-medium ${
+                                  this.state.updatingAgentId === agent.id 
+                                    ? "bg-gray-200 text-gray-600 cursor-not-allowed" 
+                                    : "bg-green-100 text-green-800 hover:bg-green-200"
+                                }`}
+                                onClick={(e) => this.updateAgent(agent.id, e)}
+                                disabled={this.state.updatingAgentId === agent.id}
+                              >
+                                {this.state.updatingAgentId === agent.id ? (
+                                  <div className="flex items-center">
+                                    <div className="w-4 h-4 mr-2 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                                    Updating...
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    Update Available
+                                  </div>
+                                )}
+                              </button>
+                            ) : (
+                              <div
+                                className="flex items-center space-x-2 group cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigator.clipboard.writeText(agent.download_uid);
+                                  const copiedText = e.currentTarget.querySelector(".copied-text");
+                                  const copyLabel = e.currentTarget.querySelector(".copy-label");
+                                  copiedText.classList.remove("hidden");
+                                  copyLabel.classList.add("hidden");
+                                  setTimeout(() => {
+                                    copiedText.classList.add("hidden");
+                                    copyLabel.classList.remove("hidden");
+                                  }, 2000);
+                                }}
+                              >
+                                <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded text-gray-800 truncate max-w-[150px]">
+                                  {agent.download_uid}
+                                </span>
+                                <div className="flex items-center space-x-1 text-sm text-gray-500">
+                                  <Copy className="w-4 h-4 group-hover:text-black transition" />
+                                  <span className="copy-label">Copy</span>
+                                  <span className="copied-text hidden text-green-600">Copied!</span>
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </td>
 
                         </tr>
