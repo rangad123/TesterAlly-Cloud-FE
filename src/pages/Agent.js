@@ -511,7 +511,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
     
     // Extract version from the URL
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
@@ -594,7 +594,7 @@ detectBestArchitecture = () => {
 
   isUpdateAvailable = (agent) => {
     // Current version from the download URL
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -615,7 +615,7 @@ detectBestArchitecture = () => {
     this.setState({ updatingAgentId: agentId });
     
     // Get the current URL and extract version
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_002.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
