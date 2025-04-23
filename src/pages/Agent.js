@@ -511,7 +511,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
     
     // Extract version from the URL
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
@@ -594,7 +594,7 @@ detectBestArchitecture = () => {
 
   isUpdateAvailable = (agent) => {
     // Current version from the download URL
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -615,7 +615,7 @@ detectBestArchitecture = () => {
     this.setState({ updatingAgentId: agentId });
     
     // Get the current URL and extract version
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_003.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -1370,7 +1370,7 @@ hasAgentForCurrentOs = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                     </svg>
-                                    Update Available
+                                    Update
                                   </div>
                                 )}
                               </button>
