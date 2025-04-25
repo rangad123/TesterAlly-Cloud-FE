@@ -511,7 +511,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
     
     // Extract version from the URL
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
@@ -547,7 +547,6 @@ detectBestArchitecture = () => {
             }),
         });
   
-        // Rest of your existing code remains the same
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -593,29 +592,26 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    // Current version from the download URL
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
+
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
-    
-    // Agent's stored version
+
     const agentVersion = agent.file_version || "unknown";
 
     console.log("agentVersion:",agentVersion)
     console.log("currentVersion:",currentVersion)
     
-    // Simple string comparison (you might want a more sophisticated version comparison)
     return currentVersion !== agentVersion;
   };
 
   updateAgent = async (agentId, e) => {
-    e.stopPropagation(); // Prevent row click event
-    
-    // Set the agent being updated
+    e.stopPropagation(); 
+
     this.setState({ updatingAgentId: agentId });
     
     // Get the current URL and extract version
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_004.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -637,8 +633,7 @@ detectBestArchitecture = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
-      // Download the new version
+
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.setAttribute('download', `TesterAlly_${versionString}.exe`);
@@ -646,7 +641,6 @@ detectBestArchitecture = () => {
       link.click();
       document.body.removeChild(link);
       
-      // Update local state after a delay
       setTimeout(() => {
         this.fetchAgents();
         this.setState({ updatingAgentId: null });
