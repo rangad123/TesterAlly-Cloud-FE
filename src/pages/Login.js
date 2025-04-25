@@ -11,6 +11,7 @@ const Login = (props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const togglePasswordVisiblity = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -56,6 +57,27 @@ const Login = (props) => {
     }
   };
 
+  useEffect(() => {
+    const form = document.querySelector("form");
+    if (form) {
+      form.setAttribute("autocomplete", "off");
+    }
+
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    
+    if (savedEmail && savedPassword) {
+
+      document.getElementById("email").value = savedEmail;
+      document.getElementById("password").value = savedPassword;
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleRememberMe = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
   const handleLogin = async (ev) => {
     ev.preventDefault();
     console.time("Login Total Time");
@@ -64,6 +86,14 @@ const Login = (props) => {
     const email = ev.target.email.value;
     const password = ev.target.password.value;
     const formData = { email, password };
+
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", email);
+      localStorage.setItem("rememberedPassword", password);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
+    }
 
     console.log(formData)
   
@@ -230,11 +260,13 @@ const Login = (props) => {
             </span>
           </div>
           <div className="flex items-center gap-2 mb-2">
-            <input
-              type="checkbox"
-              id="remember"
-              className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
+          <input
+            type="checkbox"
+            id="remember"
+            checked={rememberMe}
+            onChange={handleRememberMe}
+            className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
             <label htmlFor="remember" className="font-medium">
               Remember me
             </label>

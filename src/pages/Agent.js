@@ -511,7 +511,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_006.exe";
     
     // Extract version from the URL
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
@@ -533,7 +533,7 @@ detectBestArchitecture = () => {
     this.setState({ downloadStarted: true });
   
     try {
-        // Step 1: Create a new agent (Tracking the download) - ADD VERSION HERE
+
         const response = await fetch('https://api.testerally.ai/installer/track-download/', {
             method: 'POST',
             headers: {
@@ -557,15 +557,14 @@ detectBestArchitecture = () => {
         // Step 2: Start the actual download
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute('download', `TesterAlly_${versionString}.exe`); // Use version in filename
+        link.setAttribute('download', `TesterAlly_${versionString}.exe`); 
   
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
   
         console.log("Download started successfully.");
-  
-        // Rest of your download code...
+
         setTimeout(() => {
             this.setState({ 
                 downloadStarted: false, 
@@ -592,31 +591,82 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_006.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
-
+  
     const agentVersion = agent.file_version || "unknown";
+    const isUpdate = currentVersion !== agentVersion;
+  
+    console.log("agentVersion:", agentVersion);
+    console.log("currentVersion:", currentVersion);
 
-    console.log("agentVersion:",agentVersion)
-    console.log("currentVersion:",currentVersion)
-    
-    return currentVersion !== agentVersion;
+    this.trackUpdateStatus(agent, isUpdate ? "yes" : "no");
+  
+    return isUpdate;
   };
+  
+  trackUpdateStatus = async (agent, isUpdateAvailable) => {
+    try {
+      const queryParams = new URLSearchParams({
+        user_id: this.state.userId,
+      });
+  
+      const getResponse = await fetch(`https://api.testerally.ai/installer/track-download/?${queryParams}`);
+      if (!getResponse.ok) {
+        throw new Error("Failed to fetch download UID");
+      }
+  
+      const agentData = await getResponse.json();
+      console.log("agentData status tracked:", agentData);
+  
+      if (!Array.isArray(agentData) || agentData.length === 0) {
+        throw new Error("No agent data found");
+      }
+  
+      const downloadUid = agentData[0].download_uid;
+  
+      console.log("Sending PUT payload:", {
+        download_uid: downloadUid,
+        is_update_available: isUpdateAvailable
+      });
+  
+      const putResponse = await fetch(`https://api.testerally.ai/installer/track-download/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          download_uid: downloadUid,
+          is_update_available: isUpdateAvailable
+        }),
+      });
 
+      const responseBody = putResponse
+    console.log("PUT Response body:", responseBody);
+  
+      if (!putResponse.ok) {
+        const errorText = await putResponse.text();
+        throw new Error(`PUT update failed: ${errorText}`);
+      }
+  
+      console.log("Update status tracked successfully:", isUpdateAvailable);
+  
+    } catch (error) {
+      console.error("Tracking update status failed:", error.message);
+    }
+  };
+  
   updateAgent = async (agentId, e) => {
     e.stopPropagation(); 
 
     this.setState({ updatingAgentId: agentId });
-    
-    // Get the current URL and extract version
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_005.exe";
+
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_006.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
     try {
-      // Update the agent's version in the backend
       const response = await fetch(`https://api.testerally.ai/installer/track-download/`, {
         method: 'POST',
         headers: {
