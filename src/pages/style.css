@@ -26,7 +26,6 @@
 
 .text-xl {
   font-size: 1.25rem;
-  color: #4a5568;
 }
 
 .text-3xl {
@@ -54,7 +53,6 @@
 .feature-cards,
 .step-card {
   padding: 1.5rem;
-  background-color: #ffffff;
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -99,7 +97,6 @@
 
 .step-card {
   padding: 1.5rem;
-  background-color: #ffffff;
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;

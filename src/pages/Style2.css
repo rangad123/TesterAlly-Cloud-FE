@@ -220,7 +220,7 @@ span{
   border-radius: 10px;
 }
 .features h3 {
-  color: #004085; 
+
   font-size: 1.5rem; 
   font-weight: bold;
   margin-bottom: 10px;
@@ -301,7 +301,6 @@ span{
 }
 
 .step-card h4 {
-  color: #004085;
   margin-bottom: 15px;
   font-size: 1rem;
   font-weight: bold;
@@ -523,7 +522,6 @@ section {
   max-width: 800px;
   margin: 0 auto;
   font-size: 1.2rem;
-  color: #555;
   line-height: 1.8; 
   text-align: justify; 
   padding: 10px;
@@ -634,7 +632,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 80vh; 
@@ -769,3 +766,9 @@ body {
     min-height: 70vh;
   }
 }
+
+
+
+
+
+
