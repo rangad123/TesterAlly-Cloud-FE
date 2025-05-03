@@ -147,7 +147,7 @@ const Login = (props) => {
   
 
   return (
-    <div className="w-full flex flex-col lg:flex-row justify-center items-center min-h-screen -mt-10 px-6 py-8 gap-8">
+    <div className="w-full flex flex-col bg-gray-900 lg:flex-row justify-center items-center min-h-screen -mt-10 px-6 py-8 gap-8">
       <div className="hidden lg:block w-2/5 p-6 rounded-lg mt-[50px]">
         <img
           src="/logo1.jpg"
@@ -155,7 +155,7 @@ const Login = (props) => {
           className="w-full max-w-md mx-auto mb-6 rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300"
         />
         <h1 className="text-3xl font-bold text-gray-800 text-center">TesterAlly</h1>
-        <p className="text-lg text-gray-600 text-center mt-2">
+        <p className="text-lg text-gray-200 text-center mt-2">
           Revolutionizing Automation Testing with AI
         </p>
         <ul className="mt-6 space-y-4">
@@ -163,7 +163,7 @@ const Login = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
               Write test cases effortlessly with AI-powered automation tools.
             </span>
           </li>
@@ -171,7 +171,7 @@ const Login = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
               Codeless testing solutions for faster test creation and execution.
             </span>
           </li>
@@ -179,7 +179,7 @@ const Login = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
               No coding skills required – plain English testing made easy.
             </span>
           </li>
@@ -187,12 +187,12 @@ const Login = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
               Get started with no credit card required.
             </span>
           </li>
         </ul>
-        <p className="text-sm text-gray-500 text-center mt-4">
+        <p className="text-sm text-gray-200 text-center mt-4">
           Trusted by teams worldwide to accelerate testing with cutting-edge AI.
         </p>
       </div>

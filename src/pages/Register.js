@@ -159,7 +159,7 @@ const Register = (props) => {
   };
 
   return (
-    <div className="w-full flex flex-col lg:flex-row justify-center items-center min-h-screen -mt-10 px-6 py-8 gap-8">
+    <div className="w-full flex flex-col bg-gray-900 lg:flex-row justify-center items-center min-h-screen -mt-10 px-6 py-8 gap-8">
       <div className="hidden lg:block w-2/5  p-6 rounded-lg"  style={{ marginTop: "50px" }}>
         <img
           src="/ai-image-1.jpg"
@@ -167,7 +167,7 @@ const Register = (props) => {
           className="w-full max-w-md mx-auto mb-6 rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300"
         />
         <h1 className="text-3xl font-bold text-gray-800 text-center">Join TesterAlly</h1>
-        <p className="text-lg text-gray-600 text-center mt-2">
+        <p className="text-lg text-gray-200 text-center mt-2">
           Revolutionizing Automation Testing with AI
         </p>
         <ul className="mt-6 space-y-4">
@@ -175,7 +175,7 @@ const Register = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
               Sign up for AI-powered tools that make writing test cases a breeze.
             </span>
           </li>
@@ -183,7 +183,7 @@ const Register = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
             Access codeless testing solutions for fast and efficient workflows.
             </span>
           </li>
@@ -191,7 +191,7 @@ const Register = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
             Start your journey with plain English, no coding skills required.
             </span>
           </li>
@@ -199,12 +199,12 @@ const Register = (props) => {
             <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">
               &#10003;
             </span>
-            <span className="text-gray-700">
+            <span className="text-gray-300">
             Free signup – no credit card required!
             </span>
           </li>
         </ul>
-        <p className="text-sm text-gray-500 text-center mt-4">
+        <p className="text-sm text-gray-200 text-center mt-4">
         Join teams worldwide using TesterAlly to accelerate testing with cutting-edge AI.
         </p>
       </div>

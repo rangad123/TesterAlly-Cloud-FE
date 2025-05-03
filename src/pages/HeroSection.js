@@ -1,5 +1,5 @@
 
-
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
@@ -11,6 +11,7 @@ const AgentHeroSection = () => {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const particlesRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -279,7 +280,8 @@ const AgentHeroSection = () => {
               transition={{ duration: 0.6, delay: 1.1 }}
               className="flex flex-col sm:flex-row gap-4 pt-3"
             >
-              <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-md hover:from-purple-700 hover:to-purple-900 transition-all duration-300 shadow-lg shadow-purple-900/30 flex items-center justify-center">
+              <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-md hover:from-purple-700 hover:to-purple-900 transition-all duration-300 shadow-lg shadow-purple-900/30 flex items-center justify-center"
+              onClick={() => navigate("/dashboard/register")} >
                 <FaRobot className="mr-2" /> Get Started with AI
               </button>
               <button className="px-6 py-3 bg-gray-800 text-purple-400 border border-purple-700/30 rounded-md hover:bg-gray-700 transition-all duration-300 flex items-center justify-center">
