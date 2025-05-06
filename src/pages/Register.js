@@ -232,7 +232,7 @@ const Register = (props) => {
                 type="text"
                 onChange={(e) => {
                   const { value } = e.target;
-                  if (/[^a-zA-Z0-9\s]/.test(value)) {
+                  if (/[^a-zA-Z\s]/.test(value)) {
                     toast.error("Name can only contain letters.");
                   }
                 }}

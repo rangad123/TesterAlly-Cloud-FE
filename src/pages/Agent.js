@@ -26,6 +26,7 @@ export class AgentList extends Component {
       agentDetails: null,
       agentDetailsLoading: false,
       updatingAgentId: null,
+      showInstructionsModal: false,
     };
   }
 
@@ -511,7 +512,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_011.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_012.exe";
     
     // Extract version from the URL
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
@@ -591,7 +592,7 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_011.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_012.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
   
@@ -662,7 +663,7 @@ detectBestArchitecture = () => {
 
     this.setState({ updatingAgentId: agentId });
 
-    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_011.exe";
+    const downloadUrl = "https://github.com/rangad123/TestAuth-BE/releases/download/V1.0/TesterAlly_01_012.exe";
     const fileNameMatch = downloadUrl.match(/TesterAlly_([^.]+)\.exe/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -1183,6 +1184,79 @@ hasAgentForCurrentOs = () => {
     );
   }
 
+  toggleInstructionsModal = () => {
+    this.setState(prevState => ({
+      showInstructionsModal: !prevState.showInstructionsModal
+    }));
+  }
+  renderInstructionsModal = () => {
+    if (!this.state.showInstructionsModal) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+          <div className="flex justify-between items-center p-6 border-b border-gray-200">
+            <h3 className="text-xl font-semibold text-gray-800">Testing Agent Instructions</h3>
+            <button 
+              onClick={this.toggleInstructionsModal}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          
+          <div className="p-6">
+            <ul className="space-y-4">
+              <li className="flex items-start">
+                <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="ml-3 text-gray-700">You can create only one agent per system. Once created, it cannot be duplicated on the same system.</p>
+              </li>
+              <li className="flex items-start">
+                <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="ml-3 text-gray-700">When you create a new agent, the installation file will automatically download to your system.</p>
+              </li>
+              <li className="flex items-start">
+                <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="ml-3 text-gray-700">After installation is complete, you'll need to register with your agent key which can be found in the "Agent Key" column.</p>
+              </li>
+              <li className="flex items-start">
+                <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="ml-3 text-gray-700">Keep your agent key secure - it's required to authenticate your automated testing sessions.</p>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="bg-gray-50 p-4 flex justify-end">
+            <button
+              onClick={this.toggleInstructionsModal}
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md shadow-sm transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { 
       agents, 
@@ -1221,7 +1295,18 @@ hasAgentForCurrentOs = () => {
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <div className="flex flex-col md:flex-row items-start md:items-center">
                 <div className="flex-1">
+                <div className="flex items-center">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">Automate Your Testing</h2>
+                    <button 
+                      onClick={this.toggleInstructionsModal}
+                      className="ml-2 text-purple-500 hover:text-purple-700"
+                      title="View Instructions"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                  </div>
                   <p className="text-gray-600 mb-2">
                     Testerally Agent is a powerful testing automation tool that helps you create, run, and manage automated tests.
                   </p>
@@ -1466,6 +1551,7 @@ hasAgentForCurrentOs = () => {
         </div>
         {/* Details Modal */}
         {this.renderDetailsModal()}
+        <this.renderInstructionsModal />
       </div>
     );
   }
