@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { MdDashboard, MdAccountCircle } from "react-icons/md";
+import { RiRobot2Fill } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import MemberSubBar from "./MemberSubBar";
@@ -111,6 +112,12 @@ const MemberSidebar = () => {
     setIsSettingsVisible(false);
 
   };
+  const handleNavigateToAgent = () => {
+    navigate("/agent");
+    setIsMTestCasesVisible(false);
+    setIsProjectSettingsVisible(false);
+    setIsSettingsVisible(false);
+  };
 
   useEffect(() => {
 
@@ -157,6 +164,17 @@ const MemberSidebar = () => {
       <MdDashboard className={`icon project-icon ${window.location.pathname === "/member-dashboard" ? "active-icon" : ""}`}  />
       <div className="option-name-container">
         <span className="option-name">Dashboard</span>
+      </div>
+    </div>
+
+    {/* Agent Option */}
+    <div
+      className={`sidebar-option ${currentPath === "/agent" ? "active" : ""}`}
+      onClick={handleNavigateToAgent}
+    >
+      <RiRobot2Fill className={`icon project-icon ${window.location.pathname === "/agent" ? "active-icon" : ""}`}  />
+      <div className="option-name-container">
+        <span className="option-name">Agent</span>
       </div>
     </div>
 
