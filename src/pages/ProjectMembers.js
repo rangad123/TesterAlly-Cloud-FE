@@ -32,9 +32,6 @@ const ProjectMembers = () => {
           project_id: selectedProject.id,
           user_id: userId
         },
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
       });
 
       setInvitedMembers(response.data || []);
@@ -100,11 +97,7 @@ const ProjectMembers = () => {
       const response = await axios.post(
         `https://api.testerally.ai/api/send-invite/`,
         payload,
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
+      
       );
       
       setInviteEmail("");
