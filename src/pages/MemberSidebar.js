@@ -113,7 +113,7 @@ const MemberSidebar = () => {
 
   };
   const handleNavigateToAgent = () => {
-    navigate("/agent");
+    navigate("/member-agent");
     setIsMTestCasesVisible(false);
     setIsProjectSettingsVisible(false);
     setIsSettingsVisible(false);
@@ -169,10 +169,10 @@ const MemberSidebar = () => {
 
     {/* Agent Option */}
     <div
-      className={`sidebar-option ${currentPath === "/agent" ? "active" : ""}`}
+      className={`sidebar-option ${currentPath === "/member-agent" ? "active" : ""}`}
       onClick={handleNavigateToAgent}
     >
-      <RiRobot2Fill className={`icon project-icon ${window.location.pathname === "/agent" ? "active-icon" : ""}`}  />
+      <RiRobot2Fill className={`icon project-icon ${window.location.pathname === "/member-agent" ? "active-icon" : ""}`}  />
       <div className="option-name-container">
         <span className="option-name">Agent</span>
       </div>

@@ -350,6 +350,7 @@ import MemberRequirementType from "./pages/MemberRequirementType";
 import MemberPriorities from "./pages/MemberPriorities";
 import TestAutomationControl from "./pages/TestExecution";
 import Agent from "./pages/Agent";
+import { MemberAgent } from "./pages/MemberAgent";
 
 // import { MdDashboard } from "react-icons/md";
 // import { FaUserCircle } from "react-icons/fa";
@@ -608,6 +609,15 @@ const App = () => {
                 element={
                   <PrivateRoute isLoggedIn={isLoggedIn}>
                     <Agent name={name} email={email} />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="member-agent"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberAgent name={name} email={email} />
                   </PrivateRoute>
                 }
               />
