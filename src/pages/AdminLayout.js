@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaFileAlt, FaCog, FaUsers, FaTasks, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaFileAlt, FaCog, FaUsers, FaTasks, FaChevronLeft, FaChevronRight, FaUserSecret } from 'react-icons/fa';
 import axios from 'axios';
 
 const AdminLayout = ({ children }) => {
@@ -108,23 +108,24 @@ const AdminLayout = ({ children }) => {
   );
 
   const projectMenuItems = [
-    { icon: FaTasks, label: "Test Cases", id: 'test-cases' },
-    { icon: FaUsers, label: "Members", id: 'members' },
-    { icon: FaCog, label: "Settings", id: 'settings' },
+    { icon: FaTasks, label: "Test Cases", id: 'test-cases', path: `/admin-project-details/${selectedProject?.id}/test-cases` },
+    { icon: FaUsers, label: "Members", id: 'members', path: `/admin-project-details/${selectedProject?.id}/members` },
+    { icon: FaCog, label: "Settings", id: 'settings', path: `/admin-project-details/${selectedProject?.id}/settings` },
   ];
 
   const l1MenuItems = [
-    { 
-      icon: FaFileAlt, 
-      label: "Projects", 
-      onClick: () => {
-        if (selectedOrg) {
-          setIsProjectsDropdownOpen(!isProjectsDropdownOpen);
-        }
+  { 
+    icon: FaFileAlt, 
+    label: "Projects", 
+    onClick: () => {
+      if (selectedOrg) {
+        setIsProjectsDropdownOpen(!isProjectsDropdownOpen);
       }
-    },
-    { icon: FaCog, label: "Settings", path: "/admin-org-settings" },
-  ];
+    }
+  },
+  { icon: FaUserSecret, label: "Agent", path: "/admin-org-agent" },
+  { icon: FaCog, label: "Settings", path: "/admin-org-settings" },
+];
 
   return (
     <div className="flex h-screen">
@@ -273,7 +274,11 @@ const AdminLayout = ({ children }) => {
                 key={item.id}
                 className={`flex items-center gap-2 p-3 cursor-pointer rounded-md transition-colors
                   ${activeProjectTab === item.id ? 'bg-purple-100 text-purple-700' : 'text-gray-600 hover:bg-gray-100'}`}
-                onClick={() => setActiveProjectTab(item.id)}
+                onClick={() => {
+                  setActiveProjectTab(item.id);
+                  navigate(item.path); 
+                }}
+
               >
                 <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
