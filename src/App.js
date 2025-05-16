@@ -350,6 +350,10 @@ import MemberRequirementType from "./pages/MemberRequirementType";
 import MemberPriorities from "./pages/MemberPriorities";
 import TestAutomationControl from "./pages/TestExecution";
 import Agent from "./pages/Agent";
+import { MemberAgent } from "./pages/MemberAgent";
+import MemberDetails from "./pages/AdminMemberDetails";
+import AdminTestCaseDetails from "./pages/AdminTestCaseDetails";
+import AdminAgentDetails from "./pages/AdminAgentDetails";
 
 // import { MdDashboard } from "react-icons/md";
 // import { FaUserCircle } from "react-icons/fa";
@@ -531,6 +535,37 @@ const App = () => {
                 }
               />
               <Route
+                path="/admin-org-agent"
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminLayout>
+                      <AdminAgentDetails />
+                    </AdminLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin-project-details/:projectId/test-cases"
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminLayout>
+                      <AdminTestCaseDetails />
+                    </AdminLayout>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/admin-project-details/:projectId/members"
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <AdminLayout>
+                      <MemberDetails />
+                    </AdminLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
                 path="/admin-requirements"
                 exact
                 element={
@@ -608,6 +643,15 @@ const App = () => {
                 element={
                   <PrivateRoute isLoggedIn={isLoggedIn}>
                     <Agent name={name} email={email} />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="member-agent"
+                exact
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <MemberAgent name={name} email={email} />
                   </PrivateRoute>
                 }
               />
