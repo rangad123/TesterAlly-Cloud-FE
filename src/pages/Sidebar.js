@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { MdDashboard, MdAccountCircle } from "react-icons/md";
-//import { RiRobot2Fill } from "react-icons/ri";
+import { RiRobot2Fill } from "react-icons/ri";
 import { BiAddToQueue } from "react-icons/bi";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
@@ -155,6 +155,13 @@ const Sidebar = () => {
     setIsIntegrationVisible(false);
   };
 
+  const handleNavigateToAgent = () => {
+    navigate("/agent");
+    setIsSubSidebarVisible(false);
+    setIsTestCasesVisible(false);
+    setIsProjectSettingsVisible(false);
+    setIsSettingsVisible(false);
+  }
 
   const handleNavigateToDashboard = () => {
     navigate("/dashboard-user");
@@ -237,6 +244,17 @@ const Sidebar = () => {
       <MdDashboard className={`icon project-icon ${window.location.pathname === "/dashboard-user" ? "active-icon" : ""}`}  />
       <div className="option-name-container">
         <span className="option-name">Dashboard</span>
+      </div>
+    </div>
+
+    {/* Agent Option */}
+    <div
+      className={`sidebar-option ${currentPath === "/agent" ? "active" : ""}`}
+      onClick={handleNavigateToAgent}
+    >
+      <RiRobot2Fill className={`icon project-icon ${window.location.pathname === "/agent" ? "active-icon" : ""}`}  />
+      <div className="option-name-container">
+        <span className="option-name">Agent</span>
       </div>
     </div>
 
