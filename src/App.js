@@ -354,6 +354,7 @@ import { MemberAgent } from "./pages/MemberAgent";
 import MemberDetails from "./pages/AdminMemberDetails";
 import AdminTestCaseDetails from "./pages/AdminTestCaseDetails";
 import AdminAgentDetails from "./pages/AdminAgentDetails";
+import GitHubIntegration from "./pages/GitHub";
 
 // import { MdDashboard } from "react-icons/md";
 // import { FaUserCircle } from "react-icons/fa";
@@ -981,14 +982,23 @@ const App = () => {
                     <TestEnvironmentConfig />
                   </PrivateRoute>
                 }
-              />
-              <Route
-                path="/run"
-                exact
-                element={ 
-                  <TestAutomationControl />
-                }
-              />
+                />
+                <Route
+                  path="/run"
+                  exact
+                  element={ 
+                    <TestAutomationControl />
+                  }
+                />
+                <Route
+                  path="/github"
+                  exact
+                  element={ 
+                    <PrivateRoute isLoggedIn={isLoggedIn}>
+                      <GitHubIntegration />
+                    </PrivateRoute>
+                  }
+                />
             </Routes>
           </div>
     </div>
