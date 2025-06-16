@@ -2,6 +2,7 @@ import React from "react";
 import "./Style2.css";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import CookieConsent from "./CookieConsent";
+import { Link } from "react-router-dom";
 import AgentHeroSection from "./HeroSection";
 
 export default function Dashboard() {
@@ -176,6 +177,7 @@ export default function Dashboard() {
               <p className="text-gray-300">Next-generation test automation with artificial intelligence</p>
             </div>
             <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+              <Link to="/resources" className="text-gray-300 hover:text-purple-300 transition-colors">Resources</Link>
               <a href="#features" className="text-gray-300 hover:text-purple-300 transition-colors">Features</a>
               <a href="#how-it-works" className="text-gray-300 hover:text-purple-300 transition-colors">How it Works</a>
               <a href="#about-us" className="text-gray-300 hover:text-purple-300 transition-colors">About</a>

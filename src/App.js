@@ -289,6 +289,7 @@ import "./App.css";
 import AppNavBar from "./components/AppNavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Resources from "./pages/ResourceLinks";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/ForgotPassword";
 import { ToastContainer } from "react-toastify";
@@ -461,6 +462,7 @@ const App = () => {
                   <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
                 }
               />
+              <Route path="/resources" element={<Resources />} />
               <Route
                 path="/adminlogin"
                 exact
