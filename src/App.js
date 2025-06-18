@@ -431,7 +431,7 @@ const App = () => {
 
   return (
 
-    <div className="h-full flex flex-col" style={{ paddingTop: "64px" }}>
+    <div className="h-full flex flex-col overflow-y-none" style={{ paddingTop: "64px" }}>
         {/* Only show sidebar if logged in AND not on admin routes */}
         {isLoggedIn && !isAdminRoute && !isMemberRoute && (
           <div>

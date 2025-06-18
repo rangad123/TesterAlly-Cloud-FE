@@ -125,8 +125,8 @@ export default function Dashboard() {
       <section id="blog" className="blog-highlights max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="section-title">From Our Blog</h2>
         <div className="blog-grid">
-          <div className="blog-card">
-            <h4>Crowd Intelligence – Its impact on the training of AI</h4>
+          <div className="blog-card border-gray-700 bg-gray-800">
+            <h4 className="text-white">Crowd Intelligence – Its impact on the training of AI</h4>
             <p>
               Explore how AI is transforming the landscape of test automation
               and what it means for the future of software development. Discover
@@ -135,8 +135,8 @@ export default function Dashboard() {
             </p>
             <button className="btn primary-btn" onClick={() => window.location.href = "https://www.crowd4test.com/blog/artificial-intelligence/crowd-intelligence-its-impact-on-the-training-of-ai/"} >Read More</button>
           </div>
-          <div className="blog-card">
-            <h4>Artificial Intelligence AI and Software Testing – The Scope</h4>
+          <div className="blog-card border-gray-700 bg-gray-800">
+            <h4 className="text-white">Artificial Intelligence AI and Software Testing – The Scope</h4>
             <p>
               Learn essential strategies to ensure your application performs
               flawlessly across all browsers and devices. Learn how AI can help
@@ -151,19 +151,19 @@ export default function Dashboard() {
       <section id="testimonials" className="testimonials max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <h2 className="section-title">What Our Users Say</h2>
         <div className="testimonials-grid">
-          <div className="testimonial-card">
+          <div className="testimonial-card bg-gray-800">
             <p>
               "This platform has completely transformed our testing workflow.
               The AI capabilities are top-notch!"
             </p>
-            <h4>- Jane Doe, Software Engineer</h4>
+            <h4 className="text-white">- Jane Doe, Software Engineer</h4>
           </div>
-          <div className="testimonial-card">
+          <div className="testimonial-card bg-gray-800">
             <p>
               "Detailed reporting and secure testing have made our development
               process much smoother."
             </p>
-            <h4>- John Smith, QA Lead</h4>
+            <h4 className="text-white">- John Smith, QA Lead</h4>
           </div>
         </div>
       </section>
@@ -181,7 +181,6 @@ export default function Dashboard() {
               <a href="#features" className="text-gray-300 hover:text-purple-300 transition-colors">Features</a>
               <a href="#how-it-works" className="text-gray-300 hover:text-purple-300 transition-colors">How it Works</a>
               <a href="#about-us" className="text-gray-300 hover:text-purple-300 transition-colors">About</a>
-              <a href="#resources" className="text-gray-300 hover:text-purple-300 transition-colors">Resources</a>
             </div>
           </div>
           <hr className="border-gray-800 mb-8" />

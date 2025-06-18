@@ -1,136 +1,314 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 
 const sections = [
   {
-    key: 'intro',
-    label: 'Getting Started Guide',
-    content: (
-      <>
-        <h1 className="text-5xl font-bold mb-5 text-blue-600">Introduction</h1>
-        <h3 className='text-2xl font-bold mb-4  text-blue-500'> Getting started with TesterAlly</h3>
-        <p className='ml-2 mb-4'>
-          TesterAlly is an AI-powered testing agent that empowers anyone—technical or not—to build full end-to-end tests simply by describing user actions in plain English. By focusing on the end user's perspective, TesterAlly dramatically reduces the need for ongoing maintenance caused by frequent UI or locator changes.
-        </p>
-        <h3 className='text-2xl font-bold mb-4 text-blue-500'> Platform Support</h3>
-        <p className="mt-2">
-          TesterAlly seamlessly supports test automation across a variety of platforms, including:
-        </p>
-        <ul className="list-disc ml-6 mt-2">
-          <li>Web applications</li>
-          <li>Mobile applications (iOS and Android)</li>
-          <li>Desktop applications</li>
-          <li>REST APIs and microservices</li>
-          <li>Third-party integrations</li>
-        </ul>
-        <h3 className='text-2xl font-bold mb-4 mt-6 text-blue-500'> No-Code Simplicity</h3>
-        <p className="ml-2 mb-4">
-          Write tests in plain English—no coding required. With intelligent language interpretation, TesterAlly turns your instructions into robust, reliable test cases that adapt as your UI evolves.
-        </p>
-        <h3 className='text-2xl font-bold mb-4 mt-6 text-blue-500'> Smart Maintenance</h3>
-        <p className="ml-2 mb-4">
-          Say goodbye to brittle locators. TesterAlly uses semantic analysis to detect changes in UI and auto-adjust your test steps accordingly.
-        </p>
-      </>
-    ),
-  },
-  {
-    key:'doc',
+    key: 'documentation',
     label: 'Documentation',
-    content: (
-      <>
-        <h2 className="text-4xl font-semibold mb-4 text-blue-400">Documentation</h2>
-        <p>
-          The TesterAlly documentation provides detailed information on how to use the platform effectively. It includes:
-        </p>
-        <ul className="list-disc ml-6 mt-2">
-          <li>Getting started guides</li>
-          <li>API references</li>
-          <li>Command structure and syntax</li>
-          <li>Best practices for writing test cases</li>
-          <li>Troubleshooting tips</li>
-        </ul>
-        <p className="mt-4">
-          Visit our full documentation site at <a href="https://docs.testerally.com" className="text-blue-300 hover:underline">docs.testerally.com</a>
-        </p>
-      </>
-    ),
-  },
-  {
-    key:'commands',
-    label: 'Supported Commands',
-    content: (
-      <>
-        <h2 className="text-4xl font-semibold mb-4 text-blue-400">Supported Commands</h2>
-        <p>
-          TesterAlly supports a wide range of commands for interacting with your application. Common actions include:
-        </p>
-        <ul className="list-disc ml-6 mt-2">
-          <li><strong>Go to:</strong> Navigate to a specific URL (e.g., "Go to https://example.com").</li>
-          <li><strong>Click:</strong> Click a button or link (e.g., "Click the login button").</li>
-          <li><strong>Type:</strong> Enter text in input fields (e.g., "Type 'admin' into the username field").</li>
-          <li><strong>Select:</strong> Choose an option from a dropdown (e.g., "Select 'India' from the country list").</li>
-          <li><strong>Verify:</strong> Ensure UI elements are visible or contain expected values.</li>
-        </ul>
-        <p className="mt-4">These commands form the building blocks of readable, maintainable tests that align with real user behavior.</p>
-      </>
-    ),
+    hasSubsections: true,
+    subsections: [
+      {
+        key: 'getting-started',
+        label: 'Getting Started',
+        content: (
+          <>
+            <h1 className="text-5xl font-bold mb-6 text-purple-500">TesterAlly</h1>
+            <h2 className="text-3xl font-semibold mb-4 text-purple-500">AI-Powered Testing Made Simple</h2>
+            <p className="text-lg mb-6 leading-relaxed">
+              TesterAlly is an AI-powered testing agent that empowers anyone—technical or not—to build full end-to-end tests simply by describing user actions in plain English. By focusing on the end user's perspective, TesterAlly dramatically reduces the need for ongoing maintenance caused by frequent UI or locator changes.
+            </p>
+            
+            <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
+              <h3 className="text-2xl font-bold mb-4 text-purple-400">Key Features</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-purple-300">No-Code Simplicity</h4>
+                  <p className="text-gray-300">Write tests in plain English—no coding required. Intelligent language interpretation turns your instructions into robust test cases.</p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2 text-purple-300">Smart Maintenance</h4>
+                  <p className="text-gray-300">Say goodbye to brittle locators. Auto-adjusts test steps when UI changes are detected through semantic analysis.</p>
+                </div>
+              </div>
+            </div>
 
+            <h3 className="text-2xl font-bold mb-4 text-purple-500">Platform Support</h3>
+            <p className="mb-3 text-gray-300">TesterAlly seamlessly supports test automation across multiple platforms:</p>
+            <div className="grid md:grid-cols-2 gap-2 mb-6">
+              <ul className="list-disc ml-6 space-y-1 text-gray-300">
+                <li>Web applications</li>
+                <li>Mobile applications (iOS and Android)</li>
+              </ul>
+            </div>
+            <h2 className="text-4xl font-semibold mb-6 text-purple-500">Getting Started</h2>
+            
+            <div className="bg-gray-800 rounded-lg p-6 mb-6 border-l-4 border-purple-600">
+              <h3 className="text-2xl font-bold mb-4 text-purple-400">Quick Start Guide</h3>
+              <p className="mb-4 text-gray-300">Follow these simple steps to create your first test with TesterAlly:</p>
+              <ol className="list-decimal ml-6 space-y-2 text-gray-300">
+                <li>Sign up for a TesterAlly account</li>
+                <li>Create a new agent</li>
+                <li>Install the agent file and log in using your agent key</li>
+                <li>Connect with your GitHub account</li>
+                <li>Create a project and invite members to your project</li>
+              </ol>
+            </div>
+
+            <h3 className="text-2xl font-bold mb-4 text-purple-500">Best Practices</h3>
+            <div className="space-y-4 mb-6">
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <h4 className="text-lg font-semibold mb-2 text-purple-400">Write User-Focused Tests</h4>
+                <p className="text-gray-300">Focus on what users actually do, not technical implementation details. This makes tests more maintainable and meaningful.</p>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <h4 className="text-lg font-semibold mb-2 text-purple-400">Use Clear, Descriptive Language</h4>
+                <p className="text-gray-300">Be specific about elements and actions. Instead of "click button", use "click the Submit button" or "click the red Save button".</p>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <h4 className="text-lg font-semibold mb-2 text-purple-400">Add Verification Steps</h4>
+                <p className="text-gray-300">Always verify that actions completed successfully. Check for success messages, page changes, or expected elements.</p>
+              </div>
+            </div>
+          </>
+        )
+      },
+      {
+        key: 'commands',
+        label: 'Supported Commands',
+        content: (
+          <>
+            <h2 className="text-4xl font-semibold mb-6 text-purple-500">Supported Commands</h2>
+            <p className="mb-6 text-lg text-gray-300">TesterAlly supports a comprehensive set of commands for interacting with your application. All commands use natural language syntax.</p>
+
+            <div className="space-y-6">
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Navigation Commands</h3>
+                <div className="space-y-3">
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">open [URL]</code>
+                    <p className="mt-1 text-gray-300">Navigate to a specific URL</p>
+                    <p className="text-sm text-gray-400 italic">Example: "open https://example.com"</p>
+                  </div>
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">Refresh page</code>
+                    <p className="mt-1 text-gray-300">Reload the current page</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Interaction Commands</h3>
+                <div className="space-y-3">
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">click [element]</code>
+                    <p className="mt-1 text-gray-300">Click on buttons, links, or any clickable element</p>
+                    <p className="text-sm text-gray-400 italic">Example: "Click the Login button"</p>
+                  </div>
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">type [text] in [element]</code>
+                    <p className="mt-1 text-gray-300">Enter text into input fields</p>
+                    <p className="text-sm text-gray-400 italic">Example: "Type 'admin' in the username field"</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Verification Commands</h3>
+                <div className="space-y-3">
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">verify [element]</code>
+                    <p className="mt-1 text-gray-300">Check if an element is displayed on the page</p>
+                  </div>
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">get [element]</code>
+                    <p className="mt-1 text-gray-300">Check if an element contains specific text</p>
+                  </div>
+                  <div>
+                    <code className="bg-gray-700 px-3 py-1 rounded text-green-400 font-mono">wait (modal appear)</code>
+                    <p className="mt-1 text-gray-300">Wait for an element to become visible</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+      },
+      {
+        key: 'examples',
+        label: 'Examples',
+        content: (
+          <>
+            <h2 className="text-4xl font-semibold mb-6 text-purple-500">Test Examples</h2>
+            <p className="mb-6 text-lg text-gray-300">Here are practical examples showing how to write effective tests with TesterAlly.</p>
+
+            <div className="space-y-8">
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 1: User Login Flow</h3>
+                <p className="mb-4 text-gray-300">A complete test for user authentication:</p>
+                <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
+{`1. open https://app.testerally.com/login
+2. click Login
+3. type user@example.com in Your Email
+4. type password123 in Your Password
+5. click Login 
+6. verify Welcome back
+7. get user@example.com`}
+                </pre>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 2: E-commerce Purchase</h3>
+                <p className="mb-4 text-gray-300">Testing a complete purchase workflow:</p>
+                <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
+{`1. open https://shop.example.com
+2. type laptop in the search box
+3. click Search
+4. click first product in the results
+5. click Add to Cart
+6. verify cart icon shows 1 item
+7. click cart icon`}
+                </pre>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 3: Mobile App Testing</h3>
+                <p className="mb-4 text-gray-300">Testing mobile application features:</p>
+                <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
+{`1. Open chrome
+2. click Sign Up
+3. type newuser@email.com in the email field
+4. type SecurePass123 in the password field
+5. type SecurePass123 in the confirm password field
+6. click Create Account
+7. wait for the verification screen to appear
+8. verify Please check your email
+9. click Skip for now
+10. Tap Get Started`}
+                </pre>
+              </div>
+            </div>
+          </>
+        )
+      }
+    ]
   },
   {
-    key: 'examples',
-    label: 'Examples',
+    key: 'api',
+    label: 'API Reference',
     content: (
       <>
-        <h2 className="text-4xl font-semibold mb-4 text-blue-400">Examples</h2>
-        <pre className="bg-gray-800 text-green-300 p-4 rounded">
-          {`1. Go to "https://app.testerally.com"
-2. Type "user@example.com" into the "Email" field
-3. Type "password123" into the "Password" field
-4. Click the "Login" button
-5. Verify the dashboard is visible`}
-        </pre>
+        <h2 className="text-4xl font-semibold mb-6 text-purple-500">API Reference</h2>
+        <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
+          <p className="text-lg mb-4 text-gray-300">
+            TesterAlly provides a comprehensive REST API for programmatic test management and execution.
+          </p>
+          <p className="mb-4 text-gray-300">
+            The API documentation includes:
+          </p>
+          <ul className="list-disc ml-6 space-y-2 text-gray-300">
+            <li>Authentication and authorization</li>
+            <li>Test creation and management endpoints</li>
+            <li>Test execution and scheduling</li>
+            <li>Results and reporting APIs</li>
+            <li>Webhook integrations</li>
+            <li>SDK libraries for popular languages</li>
+          </ul>
+          <div className="mt-6 p-4 bg-purple-900 bg-opacity-30 rounded border border-purple-600">
+            <p className="text-purple-300 font-semibold">📚 Complete API Documentation</p>
+            <p className="text-gray-300 mt-2">
+              Visit our comprehensive API documentation at{' '}
+              <a href="https://docs.testerally.com/api" className="text-purple-400 hover:text-purple-300 underline">
+                docs.testerally.com/api
+              </a>
+            </p>
+          </div>
+        </div>
       </>
     ),
   },
 ];
 
-function ResourceLinks() {
-  const [activeSection, setActiveSection] = useState(sections[0].key);
-  const currentSection = sections.find(sec => sec.key === activeSection);
+function TesterAllyDocs() {
+  const [activeSection, setActiveSection] = useState('documentation');
+  const [activeSubsection, setActiveSubsection] = useState('getting-started');
+
+  const getCurrentContent = () => {
+    const section = sections.find(sec => sec.key === activeSection);
+    if (!section) return null;
+
+    if (section.hasSubsections && activeSubsection) {
+      const subsection = section.subsections.find(sub => sub.key === activeSubsection);
+      return subsection ? subsection.content : section.content;
+    }
+    
+    return section.content;
+  };
+
+  const handleSectionClick = (sectionKey) => {
+    const section = sections.find(sec => sec.key === sectionKey);
+    setActiveSection(sectionKey);
+    
+    if (section && section.hasSubsections) {
+      setActiveSubsection(section.subsections[0].key);
+    } else {
+      setActiveSubsection(null);
+    }
+  };
+
 
   return (
-    <div
-      className="flex min-h-screen bg-gray-900 text-gray-200"
-      style={{ marginTop: '13px' }}
-    >
+    <div className="flex min-h-screen bg-gray-700 text-gray-200" style={{ marginTop: '13px' }}>
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 border-r border-gray-700 p-6 sticky top-16 h-[calc(100vh-64px)]">
-        <h2 className="font-bold mb-6 text-purple-300 text-lg">Resources</h2>
-        <ul className="space-y-2">
+      <aside className="w-72 bg-gray-800 border-r border-gray-700 p-6 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
+        <div className="mb-6">
+          <h2 className="font-bold text-xl text-purple-400 mb-2">Resources</h2>
+          {/* <p className="text-sm text-white-400">Resources</p> */}
+        </div>
+        
+        <nav className="space-y-2">
           {sections.map(section => (
-            <li key={section.key}>
+            <div key={section.key}>
               <button
-                className={`w-full text-left px-3 py-2 rounded transition-colors ${
+                className={`w-full text-left px-3 py-2 rounded transition-colors font-medium ${
                   activeSection === section.key
-                    ? 'bg-purple-700 text-white font-semibold'
-                    : 'hover:bg-gray-700 text-purple-200'
+                    ? 'bg-purple-600 text-white'
+                    : 'hover:bg-gray-700 text-gray-300 hover:text-white'
                 }`}
-                onClick={() => setActiveSection(section.key)}
+                onClick={() => handleSectionClick(section.key)}
               >
                 {section.label}
               </button>
-            </li>
+              
+              {/* Subsections */}
+              {section.hasSubsections && activeSection === section.key && (
+                <div className="ml-4 mt-2 space-y-1">
+                  {section.subsections.map(subsection => (
+                    <button
+                      key={subsection.key}
+                      className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
+                        activeSubsection === subsection.key
+                          ? 'bg-purple-500 text-white'
+                          : 'hover:bg-gray-700 text-gray-400 hover:text-gray-200'
+                      }`}
+                      onClick={() => setActiveSubsection(subsection.key)}
+                    >
+                      {subsection.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
-        </ul>
+        </nav>
       </aside>
+
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto h-[calc(100vh-64px)]">
-        <div className="max-w-3xl mx-auto">
-          {currentSection.content}
+      <main className="flex-1 p-8 overflow-y-auto h-[calc(100vh-64px)] bg-gray-700">
+        <div className="max-w-4xl mx-auto">
+          {getCurrentContent()}
         </div>
       </main>
     </div>
   );
 }
 
-export default ResourceLinks;
+export default TesterAllyDocs;
