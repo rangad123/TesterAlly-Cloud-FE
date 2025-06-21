@@ -1,290 +1,4 @@
-// // App.js
-
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import "./App.css";
-// import AppNavBar from "./components/AppNavBar";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Home from "./pages/Home";
-// import ForgotPassword from "./pages/ForgotPassword";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import ResetPassword from "./pages/ResetPassword";
-// import Profile from "./pages/Profile";
-// import PostLogin from "./pages/DashBoard";
-// import Sidebar from "./pages/Sidebar";
-// import { useState,useEffect } from "react";
-// import { TiThMenu } from "react-icons/ti";
-
-// const App = () => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-//   useEffect(() => {
-//     // Check if the user is logged in when the app loads
-//     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-//     const storedName = localStorage.getItem("name");
-//     const storedEmail = localStorage.getItem("email");
-
-//     if (storedIsLoggedIn === "true") {
-//       setIsLoggedIn(true);
-//       setName(storedName);
-//       setEmail(storedEmail);
-//     }
-//   }, []);
-
-//   const toggleSidebar = () => {
-//     setIsSidebarOpen((prev) => !prev); // Toggle sidebar visibility
-//   };
-
-//   return (
-//     <div className="md:h-screen bg-purple-100">
-//       <BrowserRouter>
-//         <ToastContainer />
-//         <AppNavBar
-//           isLoggedIn={isLoggedIn}
-//           setIsLoggedIn={setIsLoggedIn}
-//           name={name}
-//           setName={setName}
-//           email={email}
-//           setEmail={setEmail}
-//         />
-//         {isLoggedIn && (
-//           <button
-//             onClick={toggleSidebar}
-//             className="fixed top-14 left-0 z-50 px-4 py-2 bg-gray-300 rounded shadow-md"
-//           >
-//             <TiThMenu />
-//           </button>
-//         )}
-//         {/* Sidebar Component */}
-//         <div className="">
-//         <Sidebar
-//           isOpen={isSidebarOpen}
-//           toggleSidebar={toggleSidebar}
-//           isLoggedIn={isLoggedIn}
-//           setIsLoggedIn={setIsLoggedIn}
-//           setName={setName}
-//           setEmail={setEmail}
-//         />
-
-//         <div
-//         // className={`transition-all duration-300 ease-in-out ${
-//         //       isSidebarOpen ? "ml-96" : "ml-64"
-//         //     }`}
-
-//             >
-//           <Routes>
-//             <Route path="/" exact
-//               element={
-//                 <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-//               }
-//             />
-//             <Route path="register" exact
-//               element={
-//                 <Register
-//                   isLoggedIn={isLoggedIn}
-//                   setIsLoggedIn={setIsLoggedIn}
-//                   setName={setName}
-//                   setEmail={setEmail}
-//                 />
-//               }
-//             />
-//             <Route path="login" exact
-//               element={
-//                 <Login
-//                   isLoggedIn={isLoggedIn}
-//                   setIsLoggedIn={setIsLoggedIn}
-//                   setName={setName}
-//                   setEmail={setEmail}
-//                 />
-//               }
-//             />
-//             <Route path="forgotPassword" exact
-//               element={<ForgotPassword isLoggedIn={isLoggedIn} />}
-//             />
-//             <Route path="resetPassword"
-//               element={<ResetPassword isLoggedIn={isLoggedIn} />}
-//             />
-//             <Route path="profile" exact
-//               element={
-//                 <Profile isLoggedIn={isLoggedIn} name={name} email={email} />
-//               }
-//             />
-//             <Route path="dashboard" exact
-//               element={
-//                 <PostLogin isLoggedIn={isLoggedIn} name={name} email={email} />
-//               }
-//             />
-//           </Routes>
-//           </div>
-//         </div>
-//       </BrowserRouter>
-//     </div>
-//   );
-// };
-
-// export default App;
-
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import "./App.css";
-// import AppNavBar from "./components/AppNavBar";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Home from "./pages/Home";
-// import ForgotPassword from "./pages/ForgotPassword";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import ResetPassword from "./pages/ResetPassword";
-// import Profile from "./pages/Profile";
-// import PostLogin from "./pages/DashBoard";
-// import Sidebar from "./pages/Sidebar";
-// import { useState, useEffect } from "react";
-// import { TiThMenu } from "react-icons/ti";
-
-// const App = () => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-//   useEffect(() => {
-//     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-//     const storedName = localStorage.getItem("name");
-//     const storedEmail = localStorage.getItem("email");
-
-//     if (storedIsLoggedIn === "true") {
-//       setIsLoggedIn(true);
-//       setName(storedName);
-//       setEmail(storedEmail);
-//     }
-//   }, []);
-
-//   const toggleSidebar = () => {
-//     setIsSidebarOpen((prev) => !prev);
-//   };
-
-//   const handleLogout = () => {
-//     setIsLoggedIn(false);
-//     setIsSidebarOpen(false); // Reset sidebar state on logout
-//     setName("");
-//     setEmail("");
-//     localStorage.removeItem("isLoggedIn");
-//     localStorage.removeItem("name");
-//     localStorage.removeItem("email");
-//   };
-
-//   return (
-//     <div className="md:h-screen bg-purple-100">
-//       <BrowserRouter>
-//         <ToastContainer />
-//         {/* <div className="fixed top-0 left-0 w-full z-50 bg-white"> */}
-//         <AppNavBar
-//           isLoggedIn={isLoggedIn}
-//           setIsLoggedIn={setIsLoggedIn}
-//           name={name}
-//           setName={setName}
-//           email={email}
-//           setEmail={setEmail}
-//         />
-//         {/* </div> */}
-//         <div className="h-full flex">
-//           {isLoggedIn && (
-//             <>
-//               <button
-//                 onClick={toggleSidebar}
-//                 className="fixed left-0 z-50 px-4 py-2 bg-gray-300 rounded shadow-md"
-//                 style={{ top: "52px" }}
-//               >
-//                 <TiThMenu />
-//               </button>
-//               <Sidebar
-//                 isOpen={isSidebarOpen}
-//                 toggleSidebar={toggleSidebar}
-//                 isLoggedIn={isLoggedIn}
-//                 setIsLoggedIn={setIsLoggedIn}
-//                 setName={setName}
-//                 setEmail={setEmail}
-//                 onLogout={handleLogout}
-//               />
-//             </>
-//           )}
-//           <div
-//             className={`transition-all duration-300 ease-in-out flex-grow ${
-//               isSidebarOpen && isLoggedIn ? "ml-72" : "ml-0"
-//             }`}
-//           >
-//             <Routes>
-//               <Route
-//                 path="/"
-//                 exact
-//                 element={
-//                   <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-//                 }
-//               />
-//               <Route
-//                 path="register"
-//                 exact
-//                 element={
-//                   <Register
-//                     isLoggedIn={isLoggedIn}
-//                     setIsLoggedIn={setIsLoggedIn}
-//                     setName={setName}
-//                     setEmail={setEmail}
-//                   />
-//                 }
-//               />
-//               <Route
-//                 path="login"
-//                 exact
-//                 element={
-//                   <Login
-//                     isLoggedIn={isLoggedIn}
-//                     setIsLoggedIn={setIsLoggedIn}
-//                     setName={setName}
-//                     setEmail={setEmail}
-//                   />
-//                 }
-//               />
-//               <Route
-//                 path="forgotPassword"
-//                 exact
-//                 element={<ForgotPassword isLoggedIn={isLoggedIn} />}
-//               />
-//               <Route
-//                 path="resetPassword"
-//                 element={<ResetPassword isLoggedIn={isLoggedIn} />}
-//               />
-//               <Route
-//                 path="profile"
-//                 exact
-//                 element={
-//                   <Profile isLoggedIn={isLoggedIn} name={name} email={email} />
-//                 }
-//               />
-//               <Route
-//                 path="dashboard"
-//                 exact
-//                 element={
-//                   <PostLogin
-//                     isLoggedIn={isLoggedIn}
-//                     name={name}
-//                     email={email}
-//                   />
-//                 }
-//               />
-//             </Routes>
-//           </div>
-//         </div>
-//       </BrowserRouter>
-//     </div>
-//   );
-// };
-
-
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AppNavBar from "./components/AppNavBar";
 import Login from "./pages/Login";
@@ -299,7 +13,6 @@ import Profile from "./pages/Profile";
 import Sidebar from "./pages/Sidebar";
 import UserDashboard from "./pages/UserDashboard";
 import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 import CreateProject from "./pages/CreateProject";
 import CreateTestCases from "./pages/CreateTestCases";
 import WriteTestManually from "./pages/WriteTestManually";
@@ -357,12 +70,6 @@ import AdminTestCaseDetails from "./pages/AdminTestCaseDetails";
 import AdminAgentDetails from "./pages/AdminAgentDetails";
 import GitHubIntegration from "./pages/GitHub";
 import BillingPage from "./pages/BillingPage";
-import PaymentSuccessPage from "./pages/PaymentSuccessPage";
-
-// import { MdDashboard } from "react-icons/md";
-// import { FaUserCircle } from "react-icons/fa";
-// import { RiLogoutBoxLine } from "react-icons/ri";
-// import Dropdown from "./pages/Dropdown";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -370,25 +77,37 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
   useEffect(() => {
+    // Check if user is logged in from localStorage
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
     const storedName = localStorage.getItem("userName");
     const storedEmail = localStorage.getItem("userEmail");
+    const storedUserId = localStorage.getItem("userId");
 
-    if (storedIsLoggedIn === "true") {
+    // If all required data exists, restore login state
+    if (storedIsLoggedIn === "true" && storedName && storedEmail && storedUserId) {
       setIsLoggedIn(true);
       setName(storedName);
       setEmail(storedEmail);
+    } else {
+      // If any required data is missing, ensure clean state
+      handleLogout();
     }
 
+    // Only listen for explicit logout events from other tabs
     const handleStorageChange = (event) => {
-      if (event.key === "isLoggedIn" && event.newValue !== "true") {
-        handleLogout(); 
+      // Only logout if isLoggedIn is explicitly set to false
+      if (event.key === "isLoggedIn" && event.newValue === "false") {
+        handleLogout();
+      }
+      // Also logout if critical user data is removed
+      if ((event.key === "userId" || event.key === "userName" || event.key === "userEmail") && 
+          event.newValue === null && localStorage.getItem("isLoggedIn") === "true") {
+        handleLogout();
       }
     };
 
@@ -404,32 +123,42 @@ const App = () => {
     if (userId) {
       localStorage.removeItem(`selectedProject_${userId}`);
     }
+
+    // Clear all user-related data
     localStorage.removeItem("userId");
-
     localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("name");
-    localStorage.removeItem("email");
-    sessionStorage.removeItem("sessionActive");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
     localStorage.removeItem("projects");
+    
+    // Clear any session data
+    sessionStorage.clear();
 
+    // Update state
     setIsLoggedIn(false);
     setName("");
     setEmail("");
-
   };
 
-  console.log("localStorage after logout:", localStorage);
-  console.log("sessionStorage after logout:", sessionStorage);
+  // Login function to be used when user logs in
+  const handleLogin = (userData) => {
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userName", userData.name);
+    localStorage.setItem("userEmail", userData.email);
+    localStorage.setItem("userId", userData.userId);
+    
+    setIsLoggedIn(true);
+    setName(userData.name);
+    setEmail(userData.email);
+  };
 
-  
   const MainContent = () => {
     const location = useLocation();
     const isAdminRoute = location.pathname.includes('admin');
     const isMemberRoute = location.pathname.includes('member-');
 
-  return (
-
-    <div className="h-full flex flex-col overflow-y-none" style={{ paddingTop: "64px" }}>
+    return (
+      <div className="h-full flex flex-col overflow-y-none" style={{ paddingTop: "64px" }}>
         {/* Only show sidebar if logged in AND not on admin routes */}
         {isLoggedIn && !isAdminRoute && !isMemberRoute && (
           <div>
@@ -452,607 +181,588 @@ const App = () => {
             isSidebarOpen && isLoggedIn && !isAdminRoute ? "ml-64" : "ml-0"
           }`}
         >
-            <Routes>
-              <Route
-                path="dashboard"
-                exact
-                element={
-                  <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-                }
-              />
-              <Route path="/resources" element={<Resources />} />
-              <Route
-                path="/adminlogin"
-                exact
-                element={
-                  <AdminLogin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-                }
-              />
-              <Route
-                path="/admin-dashboard"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminDashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-project-details"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminLayout>
-                      <AdminProjectDetails />
-                    </AdminLayout>
-                  </PrivateRoute>
-                }
-              />
-              <Route 
-                path="/admin-organization"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminLayout>
-                      <AdminOrganization/>
-                    </AdminLayout>
-                  </PrivateRoute>
-                }
+          <Routes>
+            <Route
+              path="dashboard"
+              exact
+              element={
+                <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+              }
+            />
+            <Route path="/resources" element={<Resources />} />
+            <Route
+              path="/adminlogin"
+              exact
+              element={
+                <AdminLogin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+              }
+            />
+            <Route
+              path="/admin-dashboard"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-project-details"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminLayout>
+                    <AdminProjectDetails />
+                  </AdminLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path="/admin-organization"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminLayout>
+                    <AdminOrganization/>
+                  </AdminLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-setting"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminSetting/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-users"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminUsers />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-projects"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminProjects />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-testcases"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminTestCases />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-org-agent"
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminLayout>
+                    <AdminAgentDetails />
+                  </AdminLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-project-details/:projectId/test-cases"
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminLayout>
+                    <AdminTestCaseDetails />
+                  </AdminLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-project-details/:projectId/members"
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AdminLayout>
+                    <MemberDetails />
+                  </AdminLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-requirements"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminRequirements />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-testsuites"
+              exact
+              element={
+                <PrivateRoute  isLoggedIn={isLoggedIn}>
+                  <AdminTestSuite />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="dashboard/register"
+              exact
+              element={
+                <Register
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setName={setName}
+                  setEmail={setEmail}
+                  onLogin={handleLogin}
                 />
-                <Route
-                  path="/admin-setting"
-                  exact
-                  element={
-                    <PrivateRoute  isLoggedIn={isLoggedIn}>
-                      <AdminSetting/>
-                    </PrivateRoute>
-                  }
-                  />
-              <Route
-                path="/admin-users"
-                exact
-                element={
-                  <PrivateRoute  isLoggedIn={isLoggedIn}>
-                    <AdminUsers />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-projects"
-                exact
-                element={
-                  <PrivateRoute  isLoggedIn={isLoggedIn}>
-                    <AdminProjects />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-testcases"
-                exact
-                element={
-                  <PrivateRoute  isLoggedIn={isLoggedIn}>
-                    <AdminTestCases />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-org-agent"
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminLayout>
-                      <AdminAgentDetails />
-                    </AdminLayout>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-project-details/:projectId/test-cases"
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminLayout>
-                      <AdminTestCaseDetails />
-                    </AdminLayout>
-                  </PrivateRoute>
-                }
-              />
+              }
+            />
+            <Route
+              path="member-register/:token"
+              exact
+              element={
+                <MemberRegister
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setName={setName}
+                  setEmail={setEmail}
+                  onLogin={handleLogin}
+                />
+              }
+            />
+            <Route
+              path="dashboard/login"
+              exact
+              element={
+                <Login
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setName={setName}
+                  setEmail={setEmail}
+                  onLogin={handleLogin}
+                />
+              }
+            />
+            <Route
+              path="forgotPassword"
+              exact
+              element={<ForgotPassword isLoggedIn={isLoggedIn} />}
+            />
+            <Route
+              path="resetPassword/:token"
+              element={<ResetPassword isLoggedIn={isLoggedIn} />}
+            />
+            <Route
+              path="profile"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <Profile name={name} email={email} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="agent"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <Agent name={name} email={email} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="member-agent"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberAgent name={name} email={email} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/"
+              exact
+              element={
+                <DashBoard
+                  isLoggedIn={isLoggedIn}
+                  name={name}
+                  email={email}
+                />
+              }
+            />
+            <Route
+              path="dashboard-user"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <UserDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-dashboard"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberDashBoard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-projects"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberProjects />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-project-details"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberProjectDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-profile"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-details"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-create-testcase"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestCases />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-write-testcase"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberWriteTest />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-cases/:testCaseId/steps"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestStep />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-data"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestData />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-suite"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestSuites />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-requirement"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberRequirement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-test-types"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberTestType />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-requirement-types"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberRequirementType />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/member-prorities"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <MemberPriorities />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="create-project"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <CreateProject  />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="test-cases/create-testcases"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <CreateTestCases />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="write-manually"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <WriteTestManually />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="testsuite"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestSuite />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="test-data"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestData />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/test-suites/create-testsuite"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <CreateTestSuite />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="project-details"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <ProjectDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="projects-list"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <ProjectList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/project-details/project-list-details"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <ProjectListDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="project-members"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <ProjectMembers />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="test-cases"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestCases />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="test-cases/:testCaseId/steps"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestSteps />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="testcase-Priorities"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestCasePriorities />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="create-requirement"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <Requirement />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="requirement-type"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <RequirementTypes />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="testcases-type"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestcasesTypes />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="test-suites"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestSuites />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="requirement-details"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <RequirementDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path="user-roles"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <UserRoles/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/environment-run"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestEnvironmentConfig />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/run"
+              exact
+              element={ 
+                <TestAutomationControl />
+              }
+            />
+            <Route
+              path="/github"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <GitHubIntegration />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/pricing"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <BillingPage />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </div>
+      </div>
+    );
+  };
 
-              <Route
-                path="/admin-project-details/:projectId/members"
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <AdminLayout>
-                      <MemberDetails />
-                    </AdminLayout>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-requirements"
-                exact
-                element={
-                  <PrivateRoute  isLoggedIn={isLoggedIn}>
-                    <AdminRequirements />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin-testsuites"
-                exact
-                element={
-                  <PrivateRoute  isLoggedIn={isLoggedIn}>
-                    <AdminTestSuite />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="dashboard/register"
-                exact
-                element={
-                  <Register
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setName={setName}
-                    setEmail={setEmail}
-                  />
-                }
-              />
-              <Route
-                path="member-register/:token"
-                exact
-                element={
-                  <MemberRegister
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setName={setName}
-                    setEmail={setEmail}
-                  />
-                }
-              />
-              <Route
-                path="dashboard/login"
-                exact
-                element={
-                  isLoggedIn ? (
-                    localStorage.getItem("role") === "admin" ? (
-                      <Navigate to="/admin-dashboard" />
-                    ) : localStorage.getItem("role") === "member" ? (
-                      <Navigate to="/member-dashboard" />
-                    ) : (
-                      <Navigate to="/dashboard-user" />
-                    )
-                  ) : (
-                    <Login
-                      isLoggedIn={isLoggedIn}
-                      setIsLoggedIn={setIsLoggedIn}
-                      setName={setName}
-                      setEmail={setEmail}
-                    />
-                  )
-                }
-
-              />
-              <Route
-                path="forgotPassword"
-                exact
-                element={<ForgotPassword isLoggedIn={isLoggedIn} />}
-              />
-              <Route
-                path="resetPassword/:token"
-                element={<ResetPassword isLoggedIn={isLoggedIn} />}
-              />
-              <Route
-                path="profile"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <Profile name={name} email={email} />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="agent"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <Agent name={name} email={email} />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="member-agent"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberAgent name={name} email={email} />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/"
-                exact
-                element={
-                  <DashBoard
-                    isLoggedIn={isLoggedIn}
-                    name={name}
-                    email={email}
-                  />
-                }
-              />
-              <Route
-                path="dashboard-user"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <UserDashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-dashboard"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberDashBoard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-projects"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberProjects />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-project-details"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberProjectDetails />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-profile"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberProfile />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-details"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestDetails />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-create-testcase"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestCases />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-write-testcase"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberWriteTest />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-cases/:testCaseId/steps"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestStep />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-data"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestData />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-suite"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestSuites />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-requirement"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberRequirement />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-test-types"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberTestType />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-requirement-types"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberRequirementType />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/member-prorities"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <MemberPriorities />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="create-project"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <CreateProject  />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="test-cases/create-testcases"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <CreateTestCases />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="write-manually"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <WriteTestManually />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="testsuite"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestSuite />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="test-data"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestData />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/test-suites/create-testsuite"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <CreateTestSuite />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="project-details"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <ProjectDetails />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="projects-list"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <ProjectList />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/project-details/project-list-details"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <ProjectListDetails />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="project-members"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <ProjectMembers />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="test-cases"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestCases />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="test-cases/:testCaseId/steps"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestSteps />
-                  </PrivateRoute>
-                }
-              />
-
-              <Route
-                path="testcase-Priorities"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestCasePriorities />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="create-requirement"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <Requirement />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="requirement-type"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <RequirementTypes />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="testcases-type"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestcasesTypes />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="test-suites"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestSuites />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="requirement-details"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <RequirementDetails />
-                  </PrivateRoute>
-                }
-              />
-              <Route 
-                path="user-roles"
-                exact
-                element={
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <UserRoles/>
-                  </PrivateRoute>
-                }
-                />
-                <Route
-                path="/environment-run"
-                exact
-                element={ 
-                  <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <TestEnvironmentConfig />
-                  </PrivateRoute>
-                }
-                />
-                <Route
-                  path="/run"
-                  exact
-                  element={ 
-                    <TestAutomationControl />
-                  }
-                />
-                <Route
-                  path="/github"
-                  exact
-                  element={ 
-                    <PrivateRoute isLoggedIn={isLoggedIn}>
-                      <GitHubIntegration />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/pricing"
-                  exact
-                  element={ 
-                    <PrivateRoute isLoggedIn={isLoggedIn}>
-                      <BillingPage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="payment-success/"
-                  exact
-                  element={ 
-                    <PrivateRoute isLoggedIn={isLoggedIn}>
-                      <PaymentSuccessPage />
-                    </PrivateRoute>
-                  }
-                />
-            </Routes>
-          </div>
+  return (
+    <div className="bg-purple-100">
+      <BrowserRouter>
+        <ToastContainer />
+        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+          <AppNavBar
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            onLogout={handleLogout}
+          />
+        </div>
+        <MainContent />
+      </BrowserRouter>
     </div>
   );
-};
-
-
-return (
-  <div className="bg-purple-100">
-    <BrowserRouter>
-      <ToastContainer />
-      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-        <AppNavBar
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          name={name}
-          setName={setName}
-          email={email}
-          setEmail={setEmail}
-        />
-      </div>
-      <MainContent />
-    </BrowserRouter>
-  </div>
-);
 };
 
 export default App;

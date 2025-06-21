@@ -12,35 +12,7 @@ const UserDashboard = () => {
   
   const userId = localStorage.getItem("userId");
 
-useEffect(() => {
-  if (hasShownModal.current) return;
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const paymentSuccess = urlParams.get('payment_success');
-  const sessionId = urlParams.get('session_id');
-
-  const referrer = document.referrer;
-  const isFromPaymentSuccess = referrer && referrer.includes('/payment-success');
-  
-  const paymentFlagRaw = sessionStorage.getItem('payment_completed');
-  const paymentFlag = paymentFlagRaw ? JSON.parse(paymentFlagRaw) : null;
-
-  if (paymentSuccess === 'true' && sessionId) {
-    showPaymentSuccessModal('standard', sessionId);
-    hasShownModal.current = true;
-    window.history.replaceState({}, document.title, window.location.pathname);
-  } else if (isFromPaymentSuccess) {
-    showPaymentSuccessModal('standard', `session_${Date.now()}`);
-    hasShownModal.current = true;
-  } else if (paymentFlag) {
-    showPaymentSuccessModal('standard', paymentFlag.sessionId || `session_${Date.now()}`);
-    hasShownModal.current = true;
-    sessionStorage.removeItem('payment_completed');
-  }
-}, []);
-
-
-  const showPaymentSuccessModal = (planType, sessionId) => {
+  const showPaymentSuccessModal = useCallback((planType, sessionId) => {
     setShowPaymentSuccess(true);
     
     const planDetails = {
@@ -66,7 +38,27 @@ useEffect(() => {
       date: new Date().toLocaleDateString(),
       transactionId: `TXN${Math.random().toString(36).substr(2, 9).toUpperCase()}`
     });
-  };
+  }, []);
+
+useEffect(() => {
+  if (hasShownModal.current) return;
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentSuccess = urlParams.get('payment_success');
+  const sessionId = urlParams.get('session_id');
+  
+  // 🔍 Debug logging
+  console.log('Current URL:', window.location.href);
+  console.log('Payment success:', paymentSuccess);
+  console.log('Session ID:', sessionId);
+  
+  if (paymentSuccess === 'true' && sessionId) {
+    console.log('Showing payment modal'); // 🔍 Debug
+    showPaymentSuccessModal('standard', sessionId);
+    hasShownModal.current = true;
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}, [showPaymentSuccessModal]);
 
   const checkGitHubStatus = useCallback(async () => {
     try {
@@ -296,12 +288,12 @@ useEffect(() => {
               AI-based Test Automation Tool to simplify your testing process. Empower your testing with the power of AI.
             </p>
           </div>
-<button 
+{/* <button 
   onClick={() => showPaymentSuccessModal('standard', 'test_session')}
   className="bg-purple-600 text-white px-4 py-2 rounded"
 >
   Test Payment Success Modal
-</button>
+</button> */}
 
           {/* GitHub Status Card */}
           <GitStatusCard />
