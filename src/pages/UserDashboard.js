@@ -1,39 +1,85 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { CheckCircle, AlertCircle, Loader2, Github, Download, Settings } from 'lucide-react';
-import "./style.css";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { CheckCircle, AlertCircle, Loader2, Github, Download, Settings, X, Sparkles, Crown, Zap } from 'lucide-react';
 
 const UserDashboard = () => {
   const [gitStatus, setGitStatus] = useState('checking'); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
+
+  const hasShownModal = useRef(false);
   
   const userId = localStorage.getItem("userId");
+
+useEffect(() => {
+  if (hasShownModal.current) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentSuccess = urlParams.get('payment_success');
+  const sessionId = urlParams.get('session_id');
+
+  const referrer = document.referrer;
+  const isFromPaymentSuccess = referrer && referrer.includes('/payment-success');
+  
+  const paymentFlagRaw = sessionStorage.getItem('payment_completed');
+  const paymentFlag = paymentFlagRaw ? JSON.parse(paymentFlagRaw) : null;
+
+  if (paymentSuccess === 'true' && sessionId) {
+    showPaymentSuccessModal('standard', sessionId);
+    hasShownModal.current = true;
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else if (isFromPaymentSuccess) {
+    showPaymentSuccessModal('standard', `session_${Date.now()}`);
+    hasShownModal.current = true;
+  } else if (paymentFlag) {
+    showPaymentSuccessModal('standard', paymentFlag.sessionId || `session_${Date.now()}`);
+    hasShownModal.current = true;
+    sessionStorage.removeItem('payment_completed');
+  }
+}, []);
+
+
+  const showPaymentSuccessModal = (planType, sessionId) => {
+    setShowPaymentSuccess(true);
+    
+    const planDetails = {
+      standard: {
+        name: 'Standard Plan',
+        price: 29,
+        period: 'month',
+        icon: Zap,
+        color: 'purple'
+      },
+      pro: {
+        name: 'Professional Plan', 
+        price: 79,
+        period: 'month',
+        icon: Crown,
+        color: 'purple'
+      }
+    };
+    
+    setPaymentDetails({
+      ...planDetails[planType],
+      sessionId,
+      date: new Date().toLocaleDateString(),
+      transactionId: `TXN${Math.random().toString(36).substr(2, 9).toUpperCase()}`
+    });
+  };
 
   const checkGitHubStatus = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`https://api.testerally.ai/integrate/git_status/?user_id=${userId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
+      // Simulate API call for demo
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (response.ok) {
-        const data = await response.json();
-        console.log('GitHub status response:', data);
-        
-        const isConnected = data.connected || false;
-        setGitStatus(isConnected ? 'connected' : 'disconnected');
-      } else {
-        console.error('Failed to check GitHub status:', response.status);
-        setGitStatus('disconnected');
-        if (response.status === 404) {
-          setError('Unable to check GitHub connection status');
-        }
-      }
+      // Mock response - in real app, make actual API call
+      const mockConnected = Math.random() > 0.5; // Random for demo
+      setGitStatus(mockConnected ? 'connected' : 'disconnected');
+      
     } catch (err) {
       console.error('Error checking GitHub status:', err);
       setGitStatus('disconnected');
@@ -41,7 +87,7 @@ const UserDashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -51,6 +97,110 @@ const UserDashboard = () => {
       setLoading(false);
     }
   }, [checkGitHubStatus, userId]);
+
+  const handlePaymentSuccessClose = () => {
+    setShowPaymentSuccess(false);
+  };
+
+  const PaymentSuccessModal = () => {
+    if (!showPaymentSuccess || !paymentDetails) return null;
+
+    // const PlanIcon = paymentDetails.icon;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+          {/* Header with confetti effect */}
+          <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 text-white relative overflow-hidden">
+            <button
+              onClick={handlePaymentSuccessClose}
+              className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            {/* Animated background elements */}
+            <div className="absolute inset-0 opacity-20">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute animate-bounce"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${1 + Math.random()}s`
+                  }}
+                >
+                  <Sparkles className="w-3 h-3 text-white" />
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center relative z-10">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold mb-2">🎉 Payment Successful!</h2>
+              <p className="text-purple-100">Welcome to TesterAlly {paymentDetails.name.split(' ')[0]}!</p>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6">
+            {/* <div className="text-center mb-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <PlanIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">{paymentDetails.name}</h3>
+              <p className="text-purple-600 font-medium">${paymentDetails.price}/{paymentDetails.period}</p>
+            </div> */}
+
+            {/* <div className="bg-gray-50 rounded-lg p-4 mb-6 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Transaction ID:</span>
+                <span className="text-gray-900 font-mono">{paymentDetails.transactionId}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Date:</span>
+                <span className="text-gray-900">{paymentDetails.date}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Status:</span>
+                <span className="text-green-600 font-medium">Active</span>
+              </div>
+            </div> */}
+
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="flex items-start">
+                <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
+                  <CheckCircle className="w-3 h-3 text-white" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-blue-900 mb-1">✨ Subscription Activated</h4>
+                  <p className="text-blue-700 text-sm">
+                    Your account has been upgraded and all features are now available.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handlePaymentSuccessClose}
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+              >
+                Continue to Dashboard
+              </button>
+              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                Download Receipt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const GitStatusCard = () => {
     if (loading) {
@@ -134,62 +284,73 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="main-content">
-        <div className="text-center space-y-5 mb-12">
-          <h1 className="text-5xl font-bold">Welcome to TesterAlly</h1>
-          <p className="text-xl text-gray-600">
-            AI-based Test Automation Tool to simplify your testing process. Empower your testing with the power of AI.
-          </p>
+    <div className="min-h-screen">
+      {/* Payment Success Modal */}
+      <PaymentSuccessModal />
+
+      <div className="dashboard-container">
+        <div className="main-content p-8">
+          <div className="text-center space-y-5 mb-12">
+            <h1 className="text-5xl font-bold text-gray-900">Welcome to TesterAlly</h1>
+            <p className="text-xl text-gray-600">
+              AI-based Test Automation Tool to simplify your testing process. Empower your testing with the power of AI.
+            </p>
+          </div>
+<button 
+  onClick={() => showPaymentSuccessModal('standard', 'test_session')}
+  className="bg-purple-600 text-white px-4 py-2 rounded"
+>
+  Test Payment Success Modal
+</button>
+
+          {/* GitHub Status Card */}
+          <GitStatusCard />
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+              <div className="flex items-center space-x-3">
+                <AlertCircle className="w-5 h-5 text-red-600" />
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Additional Dashboard Content */}
+          {gitStatus === 'connected' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-8">
+              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-center mb-4">
+                  <Github className="w-8 h-8 text-gray-700 mr-3" />
+                  <h3 className="text-lg font-semibold">Repository Manager</h3>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  Manage and integrate your GitHub repositories with TesterAlly's testing suite.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-center mb-4">
+                  <Settings className="w-8 h-8 text-gray-700 mr-3" />
+                  <h3 className="text-lg font-semibold">Test Automation</h3>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  Create and run automated tests with AI-powered suggestions and optimizations.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-center mb-4">
+                  <CheckCircle className="w-8 h-8 text-gray-700 mr-3" />
+                  <h3 className="text-lg font-semibold">CI/CD Integration</h3>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  Seamlessly integrate testing workflows into your continuous deployment pipeline.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* GitHub Status Card */}
-        <GitStatusCard />
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
-            <div className="flex items-center space-x-3">
-              <AlertCircle className="w-5 h-5 text-red-600" />
-              <p className="text-red-700 text-sm">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Additional Dashboard Content */}
-        {gitStatus === 'connected' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-8">
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-center mb-4">
-                <Github className="w-8 h-8 text-gray-700 mr-3" />
-                <h3 className="text-lg font-semibold">Repository Manager</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Manage and integrate your GitHub repositories with TesterAlly's testing suite.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-center mb-4">
-                <Settings className="w-8 h-8 text-gray-700 mr-3" />
-                <h3 className="text-lg font-semibold">Test Automation</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Create and run automated tests with AI-powered suggestions and optimizations.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-center mb-4">
-                <CheckCircle className="w-8 h-8 text-gray-700 mr-3" />
-                <h3 className="text-lg font-semibold">CI/CD Integration</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Seamlessly integrate testing workflows into your continuous deployment pipeline.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

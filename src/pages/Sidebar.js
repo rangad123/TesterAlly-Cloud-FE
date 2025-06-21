@@ -11,7 +11,7 @@ import {
   FaCreditCard
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import { MdDashboard, MdAccountCircle } from "react-icons/md";
+import { MdDashboard, MdAccountCircle, MdPayment } from "react-icons/md";
 import { RiRobot2Fill } from "react-icons/ri";
 import { BiAddToQueue } from "react-icons/bi";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -124,6 +124,15 @@ const Sidebar = () => {
 
   const toggleProfileSidebar = () => {
     setIsProfileVisible((prevState) => !prevState);
+    setIsSubSidebarVisible(false);
+    setIsSettingsVisible(false);
+    setIsTestCasesVisible(false);
+    setIsProjectSettingsVisible(false);
+    setIsIntegrationVisible(false);
+  };
+
+  const togglePricingSidebar = () => {
+    navigate("pricing");
     setIsSubSidebarVisible(false);
     setIsSettingsVisible(false);
     setIsTestCasesVisible(false);
@@ -321,6 +330,17 @@ const Sidebar = () => {
       <MdAccountCircle className={`icon project-icon ${currentPath === "/profile" || currentPath === "/billing" ? "active-icon" : ""}`} />
       <div className="option-name-container">
         <span className="option-name">Profile</span>
+      </div>
+    </div>
+
+    {/* Pricing Option */}
+    <div
+      className={`sidebar-option ${currentPath === "/pricing" || currentPath === "/pricing" ? "active" : ""}`}
+      onClick={togglePricingSidebar}
+    >
+      <MdPayment className={`icon project-icon ${currentPath === "/pricing" || currentPath === "/pricing" ? "active-icon" : ""}`} />
+      <div className="option-name-container">
+        <span className="option-name">Pricing</span>
       </div>
     </div>
 

@@ -153,24 +153,23 @@ const sections = [
 6. verify Welcome back
 7. get user@example.com`}
                 </pre>
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold mb-3 text-purple-300">Test Execution Screenshot</h4>
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                    <img 
+                      src="pic1.png" 
+                      alt="TesterAlly test execution showing browser automation"
+                      className="w-full max-w-4xl mx-auto rounded border border-gray-600"
+                    />
+                    <p className="text-sm text-gray-400 mt-2 text-center">
+                      Screenshot showing the test execution with browser automation and step-by-step progress
+                    </p>
+                  </div>
+                </div>
               </div>
 
               <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
-                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 2: E-commerce Purchase</h3>
-                <p className="mb-4 text-gray-300">Testing a complete purchase workflow:</p>
-                <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
-{`1. open https://shop.example.com
-2. type laptop in the search box
-3. click Search
-4. click first product in the results
-5. click Add to Cart
-6. verify cart icon shows 1 item
-7. click cart icon`}
-                </pre>
-              </div>
-
-              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
-                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 3: Mobile App Testing</h3>
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 2: Mobile App Testing</h3>
                 <p className="mb-4 text-gray-300">Testing mobile application features:</p>
                 <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
 {`1. Open chrome
@@ -183,6 +182,33 @@ const sections = [
 8. verify Please check your email
 9. click Skip for now
 10. Tap Get Started`}
+                </pre>
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold mb-3 text-purple-300">Test Execution Screenshot</h4>
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                    <img 
+                      src="pic2.png" 
+                      alt="TesterAlly test execution showing browser automation"
+                      className="w-full max-w-4xl mx-auto rounded border border-gray-600"
+                    />
+                    <p className="text-sm text-gray-400 mt-2 text-center">
+                      Screenshot showing the test execution with browser automation and step-by-step progress
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                <h3 className="text-2xl font-bold mb-4 text-purple-400">Example 3: E-commerce Purchase</h3>
+                <p className="mb-4 text-gray-300">Testing a complete purchase workflow:</p>
+                <pre className="bg-gray-900 text-green-300 p-4 rounded border border-gray-700 overflow-x-auto">
+{`1. open https://shop.example.com
+2. type laptop in the search box
+3. click Search
+4. click first product in the results
+5. click Add to Cart
+6. verify cart icon shows 1 item
+7. click cart icon`}
                 </pre>
               </div>
             </div>

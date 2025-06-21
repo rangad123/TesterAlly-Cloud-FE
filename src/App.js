@@ -284,7 +284,7 @@
 // };
 
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AppNavBar from "./components/AppNavBar";
 import Login from "./pages/Login";
@@ -356,6 +356,8 @@ import MemberDetails from "./pages/AdminMemberDetails";
 import AdminTestCaseDetails from "./pages/AdminTestCaseDetails";
 import AdminAgentDetails from "./pages/AdminAgentDetails";
 import GitHubIntegration from "./pages/GitHub";
+import BillingPage from "./pages/BillingPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 
 // import { MdDashboard } from "react-icons/md";
 // import { FaUserCircle } from "react-icons/fa";
@@ -375,17 +377,13 @@ const App = () => {
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    const storedName = localStorage.getItem("name");
-    const storedEmail = localStorage.getItem("email");
-    const sessionActive = sessionStorage.getItem("sessionActive");
+    const storedName = localStorage.getItem("userName");
+    const storedEmail = localStorage.getItem("userEmail");
 
-    if (storedIsLoggedIn === "true" && sessionActive !== "true") {
-      handleLogout();
-    } else if (storedIsLoggedIn === "true") {
+    if (storedIsLoggedIn === "true") {
       setIsLoggedIn(true);
       setName(storedName);
       setEmail(storedEmail);
-      sessionStorage.setItem("sessionActive", "true");
     }
 
     const handleStorageChange = (event) => {
@@ -614,13 +612,24 @@ const App = () => {
                 path="dashboard/login"
                 exact
                 element={
-                  <Login
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setName={setName}
-                    setEmail={setEmail}
-                  />
+                  isLoggedIn ? (
+                    localStorage.getItem("role") === "admin" ? (
+                      <Navigate to="/admin-dashboard" />
+                    ) : localStorage.getItem("role") === "member" ? (
+                      <Navigate to="/member-dashboard" />
+                    ) : (
+                      <Navigate to="/dashboard-user" />
+                    )
+                  ) : (
+                    <Login
+                      isLoggedIn={isLoggedIn}
+                      setIsLoggedIn={setIsLoggedIn}
+                      setName={setName}
+                      setEmail={setEmail}
+                    />
+                  )
                 }
+
               />
               <Route
                 path="forgotPassword"
@@ -998,6 +1007,24 @@ const App = () => {
                   element={ 
                     <PrivateRoute isLoggedIn={isLoggedIn}>
                       <GitHubIntegration />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/pricing"
+                  exact
+                  element={ 
+                    <PrivateRoute isLoggedIn={isLoggedIn}>
+                      <BillingPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="payment-success/"
+                  exact
+                  element={ 
+                    <PrivateRoute isLoggedIn={isLoggedIn}>
+                      <PaymentSuccessPage />
                     </PrivateRoute>
                   }
                 />
