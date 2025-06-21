@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Login.css";
 
@@ -20,8 +20,6 @@ const Login = (props) => {
   let navigate = useNavigate();
   const { setIsLoggedIn, setName, setEmail } = props;
 
-
-
   useEffect(() => {
     const form = document.querySelector("form");
     if (form) {
@@ -38,7 +36,7 @@ const Login = (props) => {
     }
   };
 
-  const handleRedirect = (roleId) => {
+  const handleRedirect = useCallback((roleId) => {
     console.log("Redirecting with Role ID:", roleId);
     roleId = Number(roleId);
     switch (roleId) {
@@ -55,7 +53,16 @@ const Login = (props) => {
         navigate("/dashboard/login"); 
         break;
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      const roleId = localStorage.getItem("userRoleId"); 
+      if (roleId) {
+        handleRedirect(parseInt(roleId));
+      }
+    }
+  }, [props.isLoggedIn,handleRedirect]);
 
   useEffect(() => {
     const form = document.querySelector("form");
@@ -114,16 +121,14 @@ const Login = (props) => {
         localStorage.setItem("userName", data.user.name);
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("user_id", data.user.user_id);
+        localStorage.setItem("userRoleId", data.user.roleId); 
 
         setIsLoggedIn(true);
         setEmail(email);
         setName(data.user.name);
 
         console.log("Role ID:", data.user.roleId); 
-
-
         handleRedirect(data.user.roleId);
-  
       
         console.timeEnd("Post-Success Operations");
       } else {
@@ -142,9 +147,6 @@ const Login = (props) => {
       console.timeEnd("Login Total Time");
     }
   };
-  
-  
-  
 
   return (
     <div className="w-full flex flex-col bg-gray-900 lg:flex-row justify-center items-center min-h-screen -mt-10 px-6 py-8 gap-8">

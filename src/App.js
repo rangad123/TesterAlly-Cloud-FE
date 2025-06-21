@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import AppNavBar from "./components/AppNavBar";
 import Login from "./pages/Login";
@@ -70,6 +70,7 @@ import AdminTestCaseDetails from "./pages/AdminTestCaseDetails";
 import AdminAgentDetails from "./pages/AdminAgentDetails";
 import GitHubIntegration from "./pages/GitHub";
 import BillingPage from "./pages/BillingPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -124,23 +125,20 @@ const App = () => {
       localStorage.removeItem(`selectedProject_${userId}`);
     }
 
-    // Clear all user-related data
     localStorage.removeItem("userId");
+    localStorage.removeItem("userRoleId");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userName");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("projects");
-    
-    // Clear any session data
+
     sessionStorage.clear();
 
-    // Update state
     setIsLoggedIn(false);
     setName("");
     setEmail("");
   };
 
-  // Login function to be used when user logs in
   const handleLogin = (userData) => {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userName", userData.name);
@@ -151,6 +149,35 @@ const App = () => {
     setName(userData.name);
     setEmail(userData.email);
   };
+
+
+
+const DashBoardWrapper = ({ isLoggedIn, onLogout }) => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      onLogout();
+    }
+  }, [isLoggedIn, onLogout]);
+
+  return <DashBoard isLoggedIn={false} name="" email="" />;
+};
+const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin, onLogout }) => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      onLogout();
+    }
+  }, [isLoggedIn, onLogout]);
+
+  return (
+    <Register
+      isLoggedIn={false}
+      setIsLoggedIn={setIsLoggedIn}
+      setName={setName}
+      setEmail={setEmail}
+      onLogin={onLogin}
+    />
+  );
+};
 
   const MainContent = () => {
     const location = useLocation();
@@ -316,12 +343,13 @@ const App = () => {
               path="dashboard/register"
               exact
               element={
-                <Register
+                <RegisterWrapper
                   isLoggedIn={isLoggedIn}
                   setIsLoggedIn={setIsLoggedIn}
                   setName={setName}
                   setEmail={setEmail}
                   onLogin={handleLogin}
+                  onLogout={handleLogout}
                 />
               }
             />
@@ -391,11 +419,21 @@ const App = () => {
               path="/"
               exact
               element={
-                <DashBoard
-                  isLoggedIn={isLoggedIn}
-                  name={name}
-                  email={email}
-                />
+                isLoggedIn ? (
+                  <Navigate to={
+                    localStorage.getItem("userRoleId") === "1" ? "/admin-dashboard" :
+                    localStorage.getItem("userRoleId") === "2" ? "/dashboard-user" :
+                    localStorage.getItem("userRoleId") === "3" ? "/member-dashboard" :
+                    "/dashboard"
+                  } replace />
+                ) : (
+                  <DashBoardWrapper
+                    isLoggedIn={isLoggedIn}
+                    name={name}
+                    email={email}
+                    onLogout={handleLogout}
+                  />
+                )
               }
             />
             <Route
@@ -735,6 +773,15 @@ const App = () => {
               element={ 
                 <PrivateRoute isLoggedIn={isLoggedIn}>
                   <BillingPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/payment-success"
+              exact
+              element={ 
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <PaymentSuccessPage />
                 </PrivateRoute>
               }
             />
