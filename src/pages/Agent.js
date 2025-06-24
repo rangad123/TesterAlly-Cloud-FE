@@ -27,9 +27,9 @@ export class AgentList extends Component {
       agentDetailsLoading: false,
       updatingAgentId: null,
       showInstructionsModal: false,
-      userPlan: 'free', 
-      showBillingModal: false,
-      planLoading: false,
+      // userPlan: 'free', 
+      // showBillingModal: false,
+      // planLoading: false,
     };
   }
 
@@ -38,7 +38,7 @@ export class AgentList extends Component {
     this.setState({ userId }, () => {
       this.fetchAgents();
       this.detectSystemInfoClient();
-      this.checkUserPlan(); 
+      // this.checkUserPlan(); 
     });
   }
 
@@ -48,30 +48,30 @@ export class AgentList extends Component {
     return newUserId;
   }
 
-  checkUserPlan = async () => {
-    this.setState({ planLoading: true });
-    try {
-      const response = await fetch(`https://api.testerally.ai/billing/user-plan/?user_id=${this.state.userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        this.setState({ 
-          userPlan: data.plan || 'free',
-          planLoading: false 
-        });
-      } else {
-        this.setState({ 
-          userPlan: 'free',
-          planLoading: false 
-        });
-      }
-    } catch (error) {
-      console.error('Failed to check user plan:', error);
-      this.setState({ 
-        userPlan: 'free',
-        planLoading: false 
-      });
-    }
-  };
+  // checkUserPlan = async () => {
+  //   this.setState({ planLoading: true });
+  //   try {
+  //     const response = await fetch(`https://api.testerally.ai/billing/user-plan/?user_id=${this.state.userId}`);
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       this.setState({ 
+  //         userPlan: data.plan || 'free',
+  //         planLoading: false 
+  //       });
+  //     } else {
+  //       this.setState({ 
+  //         userPlan: 'free',
+  //         planLoading: false 
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to check user plan:', error);
+  //     this.setState({ 
+  //       userPlan: 'free',
+  //       planLoading: false 
+  //     });
+  //   }
+  // };
 
   // Fetch existing agents for the user
   fetchAgents = async () => {
@@ -135,13 +135,13 @@ export class AgentList extends Component {
     });
   }
 
-  closeBillingModal = () => {
-    this.setState({ showBillingModal: false });
-  }
+  // closeBillingModal = () => {
+  //   this.setState({ showBillingModal: false });
+  // }
 
-  goToBilling = () => {
-    window.location.href = '/billing'; 
-  }
+  // goToBilling = () => {
+  //   window.location.href = '/billing'; 
+  // }
 
   // Client-side system detection
 detectSystemInfoClient = async () => {
@@ -1231,82 +1231,82 @@ hasAgentForCurrentOs = () => {
     }));
   }
 
-  renderBillingModal = () => {
-    if (!this.state.showBillingModal) return null;
+  // renderBillingModal = () => {
+  //   if (!this.state.showBillingModal) return null;
 
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-xl p-8 max-w-md w-full">
-          <div className="text-center">
-            {/* Icon */}
-            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 mb-6">
-              <svg className="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
+  //   return (
+  //     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+  //       <div className="bg-white rounded-xl p-8 max-w-md w-full">
+  //         <div className="text-center">
+  //           {/* Icon */}
+  //           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 mb-6">
+  //             <svg className="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+  //             </svg>
+  //           </div>
             
-            {/* Title */}
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Upgrade Required
-            </h3>
+  //           {/* Title */}
+  //           <h3 className="text-lg font-semibold text-gray-900 mb-4">
+  //             Upgrade Required
+  //           </h3>
             
-            {/* Message */}
-            <p className="text-gray-600 mb-6">
-              To create and use TesterAlly agents, you need to upgrade to a paid plan. 
-              Choose from our flexible monthly plans to unlock all features.
-            </p>
+  //           {/* Message */}
+  //           <p className="text-gray-600 mb-6">
+  //             To create and use TesterAlly agents, you need to upgrade to a paid plan. 
+  //             Choose from our flexible monthly plans to unlock all features.
+  //           </p>
             
-            {/* Features */}
-            <div className="bg-purple-50 rounded-lg p-4 mb-6">
-              <h4 className="font-semibold text-purple-900 mb-3 text-sm">What you'll get:</h4>
-              <ul className="text-purple-700 text-sm space-y-2 text-left">
-                <li className="flex items-center">
-                  <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Create unlimited agents
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Advanced test automation
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Priority support
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  GitHub integration
-                </li>
-              </ul>
-            </div>
+  //           {/* Features */}
+  //           <div className="bg-purple-50 rounded-lg p-4 mb-6">
+  //             <h4 className="font-semibold text-purple-900 mb-3 text-sm">What you'll get:</h4>
+  //             <ul className="text-purple-700 text-sm space-y-2 text-left">
+  //               <li className="flex items-center">
+  //                 <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  //                 </svg>
+  //                 Create unlimited agents
+  //               </li>
+  //               <li className="flex items-center">
+  //                 <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  //                 </svg>
+  //                 Advanced test automation
+  //               </li>
+  //               <li className="flex items-center">
+  //                 <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  //                 </svg>
+  //                 Priority support
+  //               </li>
+  //               <li className="flex items-center">
+  //                 <svg className="w-4 h-4 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  //                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  //                 </svg>
+  //                 GitHub integration
+  //               </li>
+  //             </ul>
+  //           </div>
             
-            {/* Buttons */}
-            <div className="flex flex-col space-y-3">
-              <button
-                onClick={this.goToBilling}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
-              >
-                Choose Plan & Upgrade
-              </button>
-              <button
-                onClick={this.closeBillingModal}
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium transition-colors"
-              >
-                Maybe Later
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //           {/* Buttons */}
+  //           <div className="flex flex-col space-y-3">
+  //             <button
+  //               onClick={this.goToBilling}
+  //               className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+  //             >
+  //               Choose Plan & Upgrade
+  //             </button>
+  //             <button
+  //               onClick={this.closeBillingModal}
+  //               className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium transition-colors"
+  //             >
+  //               Maybe Later
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   
   renderInstructionsModal = () => {
     if (!this.state.showInstructionsModal) return null;
@@ -1469,14 +1469,14 @@ hasAgentForCurrentOs = () => {
                   )}
 
                   {/* Show plan status */}
-                  {this.state.userPlan === 'free' && (
+                  {/* {this.state.userPlan === 'free' && (
                     <p className="text-sm text-orange-600 mt-2 text-center">
                       <svg className="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       Paid plan required to create agents
                     </p>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
@@ -1680,7 +1680,7 @@ hasAgentForCurrentOs = () => {
         </div>
         {/* Details Modal */}
         {this.renderDetailsModal()}
-        {this.renderBillingModal()}
+        {/* {this.renderBillingModal()} */}
         <this.renderInstructionsModal />
       </div>
     );
