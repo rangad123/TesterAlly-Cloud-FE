@@ -23,7 +23,7 @@ const Home = ({ setIsLoggedIn, setName, setEmail }) => {
     setName("");
     setEmail("");
 
-    navigate("/login");
+    navigate("/dashboard/login");
   }, [navigate, setIsLoggedIn, setName, setEmail]);
 
   useEffect(() => {

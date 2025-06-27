@@ -555,7 +555,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://bit.ly/TesterAlly_01_029";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_030";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -599,6 +599,7 @@ detectBestArchitecture = () => {
         // Step 2: Start the actual download
         const link = document.createElement('a');
         link.href = downloadUrl;
+        link.setAttribute('target', '_blank');
         link.setAttribute('download', `TesterAlly_${versionString}.exe`); 
   
         document.body.appendChild(link);
@@ -633,7 +634,7 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    const downloadUrl = "https://bit.ly/TesterAlly_01_029";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_030";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
   
@@ -704,7 +705,7 @@ detectBestArchitecture = () => {
 
     this.setState({ updatingAgentId: agentId });
 
-    const downloadUrl = "https://bit.ly/TesterAlly_01_029";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_030";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -728,6 +729,7 @@ detectBestArchitecture = () => {
 
       const link = document.createElement('a');
       link.href = downloadUrl;
+      link.setAttribute('target', '_blank');
       link.setAttribute('download', `TesterAlly_${versionString}.exe`);
       document.body.appendChild(link);
       link.click();

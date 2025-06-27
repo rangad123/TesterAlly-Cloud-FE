@@ -213,7 +213,9 @@ const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin
               path="dashboard"
               exact
               element={
-                <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
+                setName={setName}
+                setEmail={setEmail} />
               }
             />
             <Route path="/resources" element={<Resources />} />

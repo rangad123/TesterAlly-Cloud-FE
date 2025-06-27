@@ -224,11 +224,6 @@ function TesterAllyDocs() {
                           <p className="text-gray-300 mb-1">Navigate to a specific URL in mobile browser</p>
                           <p className="text-sm text-gray-400 italic">Example: "open https://m.example.com"</p>
                         </div>
-                        {/* <div>
-                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">Refresh page</code>
-                          <p className="text-gray-300 mb-1">Reload the current page</p>
-                          <p className="text-sm text-gray-400 italic">Example: "Refresh page"</p>
-                        </div> */}
                       </div>
                     </div>
 
@@ -245,16 +240,6 @@ function TesterAllyDocs() {
                           <p className="text-gray-300 mb-1">Enter text into input fields</p>
                           <p className="text-sm text-gray-400 italic">Example: "type admin in the username field"</p>
                         </div>
-                        {/* <div className="border-b border-gray-700 pb-3">
-                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe [direction]</code>
-                          <p className="text-gray-300 mb-1">Swipe in specified direction</p>
-                          <p className="text-sm text-gray-400 italic">Example: "Swipe left on the carousel"</p>
-                        </div>
-                        <div>
-                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll [direction]</code>
-                          <p className="text-gray-300 mb-1">Scroll the page in specified direction</p>
-                          <p className="text-sm text-gray-400 italic">Example: "Scroll down to load more content"</p>
-                        </div> */}
                       </div>
                     </div>
 
@@ -275,6 +260,42 @@ function TesterAllyDocs() {
                           <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">wait (modal appear)</code>
                           <p className="text-gray-300 mb-1">Wait for an element to become visible</p>
                           <p className="text-sm text-gray-400 italic">Example: "wait for loading spinner to disappear"</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                      <h3 className="text-2xl font-bold mb-4 text-purple-400">Scroll & Swipe Commands</h3>
+                      <div className="space-y-4">
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll up</code>
+                          <p className="text-gray-300 mb-1">Scroll the page upward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll up"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll down</code>
+                          <p className="text-gray-300 mb-1">Scroll the page downward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll down"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe left</code>
+                          <p className="text-gray-300 mb-1">Swipe left gesture</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe left"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe right</code>
+                          <p className="text-gray-300 mb-1">Swipe right gesture</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe right"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe long left</code>
+                          <p className="text-gray-300 mb-1">Perform a long swipe to the left</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe long left"</p>
+                        </div>
+                        <div>
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe long right</code>
+                          <p className="text-gray-300 mb-1">Perform a long swipe to the right</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe long right"</p>
                         </div>
                       </div>
                     </div>
@@ -357,6 +378,42 @@ function TesterAllyDocs() {
                           <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">wait (element appear)</code>
                           <p className="text-gray-300 mb-1">Wait for an element to become visible</p>
                           <p className="text-sm text-gray-400 italic">Example: "wait for video to load"</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                      <h3 className="text-2xl font-bold mb-4 text-purple-400">Scroll & Swipe Commands</h3>
+                      <div className="space-y-4">
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll up</code>
+                          <p className="text-gray-300 mb-1">Scroll the page upward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll up"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll down</code>
+                          <p className="text-gray-300 mb-1">Scroll the page downward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll down"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe left</code>
+                          <p className="text-gray-300 mb-1">Swipe left gesture</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe left"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe right</code>
+                          <p className="text-gray-300 mb-1">Swipe right gesture</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe right"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe long left</code>
+                          <p className="text-gray-300 mb-1">Perform a long swipe to the left</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe long left"</p>
+                        </div>
+                        <div>
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">swipe long right</code>
+                          <p className="text-gray-300 mb-1">Perform a long swipe to the right</p>
+                          <p className="text-sm text-gray-400 italic">Example: "swipe long right"</p>
                         </div>
                       </div>
                     </div>
