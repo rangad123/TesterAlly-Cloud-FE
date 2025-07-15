@@ -47,7 +47,7 @@ function TesterAllyDocs() {
               
               <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
                 <h3 className="text-2xl font-bold mb-4 text-purple-400">Key Features</h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="text-lg font-semibold mb-2 text-purple-300">No-Code Simplicity</h4>
                     <p className="text-gray-300">Write tests in plain English—no coding required. Intelligent language interpretation turns your instructions into robust test cases.</p>
@@ -56,6 +56,10 @@ function TesterAllyDocs() {
                     <h4 className="text-lg font-semibold mb-2 text-purple-300">Smart Maintenance</h4>
                     <p className="text-gray-300">Say goodbye to brittle locators. Auto-adjusts test steps when UI changes are detected through semantic analysis.</p>
                   </div>
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2 text-purple-300">AI Prompt Generation</h4>
+                    <p className="text-gray-300">Simply describe your test scenario in natural language and TesterAlly automatically generates complete test steps for you.</p>
+                  </div>
                 </div>
               </div>
 
@@ -63,8 +67,8 @@ function TesterAllyDocs() {
               <p className="mb-3 text-gray-300">TesterAlly seamlessly supports test automation across multiple platforms:</p>
               <div className="grid md:grid-cols-2 gap-2 mb-6">
                 <ul className="list-disc ml-6 space-y-1 text-gray-300">
-                  <li>Web applications</li>
-                  <li>Mobile applications (iOS and Android)</li>
+                  <li>Web applications (Laptop/PC and Mobile)</li>
+                  <li>Mobile applications (Android)</li>
                 </ul>
               </div>
               <h2 className="text-4xl font-semibold mb-6 text-purple-500">Getting Started</h2>
@@ -78,7 +82,37 @@ function TesterAllyDocs() {
                   <li>Install the agent file and log in using your agent key</li>
                   <li>Connect with your GitHub account</li>
                   <li>Create a project and invite members to your project</li>
+                  <li>Use the AI prompt feature to quickly generate test steps from descriptions</li>
                 </ol>
+              </div>
+
+              <h3 className="text-2xl font-bold mb-4 text-purple-500">AI Prompt to Test Steps</h3>
+              <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
+                <p className="text-gray-300 mb-4">
+                  TesterAlly's AI-powered prompt feature allows you to generate complete test cases by simply describing what you want to test in natural language.
+                </p>
+                <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 mb-4">
+                  <h4 className="text-lg font-semibold mb-3 text-purple-400">How it works:</h4>
+                  <ol className="list-decimal ml-6 space-y-2 text-gray-300">
+                    <li>Describe your test scenario in plain English</li>
+                    <li>AI converts your description into actionable test steps</li>
+                    <li>Review and modify the generated steps if needed</li>
+                    <li>Execute all steps automatically</li>
+                  </ol>
+                </div>
+                <div className="bg-purple-900 bg-opacity-30 rounded-lg p-4 border border-purple-600">
+                  <p className="text-purple-300 font-semibold mb-2">💡 Example Prompt:</p>
+                  <p className="text-gray-300 italic mb-3">"Test user login with email admin@test.com and password 123, then verify the dashboard loads and shows welcome message"</p>
+                  <p className="text-purple-300 font-semibold mb-2">🔄 Generated Steps:</p>
+                  <ol className="list-decimal ml-6 text-green-300 text-sm">
+                    <li>open https://app.example.com/login</li>
+                    <li>type admin@test.com in email field</li>
+                    <li>type 123 in password field</li>
+                    <li>click Login button</li>
+                    <li>verify Dashboard page loads</li>
+                    <li>verify Welcome message appears</li>
+                  </ol>
+                </div>
               </div>
 
               <h3 className="text-2xl font-bold mb-4 text-purple-500">Best Practices</h3>
@@ -94,6 +128,10 @@ function TesterAllyDocs() {
                 <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
                   <h4 className="text-lg font-semibold mb-2 text-purple-400">Add Verification Steps</h4>
                   <p className="text-gray-300">Always verify that actions completed successfully. Check for success messages, page changes, or expected elements.</p>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                  <h4 className="text-lg font-semibold mb-2 text-purple-400">Leverage AI Prompt Generation</h4>
+                  <p className="text-gray-300">Use descriptive prompts to quickly generate test cases. The more specific your description, the better the generated steps will be.</p>
                 </div>
               </div>
             </>
