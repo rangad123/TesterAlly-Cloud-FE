@@ -39,53 +39,90 @@ function TesterAllyDocs() {
           label: 'Getting Started',
           content: (
             <>
-              <h1 className="text-5xl font-bold mb-6 text-purple-500">TesterAlly</h1>
-              <h2 className="text-3xl font-semibold mb-4 text-purple-500">AI-Powered Testing Made Simple</h2>
-              <p className="text-lg mb-6 leading-relaxed">
-                TesterAlly is an AI-powered testing agent that empowers anyone—technical or not—to build full end-to-end tests simply by describing user actions in plain English. By focusing on the end user's perspective, TesterAlly dramatically reduces the need for ongoing maintenance caused by frequent UI or locator changes.
-              </p>
-              
+              {/* Header Section */}
+              <div className="text-center mb-10">
+                <h1 className="text-5xl font-bold mb-6 text-purple-500">TesterAlly</h1>
+                <h2 className="text-3xl font-semibold mb-4 text-purple-500">AI-Powered Testing Made Simple</h2>
+                <div className="max-w-4xl mx-auto">
+                  <p className="text-lg mb-6 leading-relaxed">
+                    TesterAlly is an AI-powered testing agent that empowers anyone—technical or not—to build full end-to-end tests simply by describing user actions in plain English. By focusing on the end user's perspective, TesterAlly dramatically reduces the need for ongoing maintenance caused by frequent UI or locator changes.
+                  </p>
+                </div>
+              </div>
+
+              {/* Key Features */}
               <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
                 <h3 className="text-2xl font-bold mb-4 text-purple-400">Key Features</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                     <h4 className="text-lg font-semibold mb-2 text-purple-300">No-Code Simplicity</h4>
                     <p className="text-gray-300">Write tests in plain English—no coding required. Intelligent language interpretation turns your instructions into robust test cases.</p>
                   </div>
-                  <div>
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                     <h4 className="text-lg font-semibold mb-2 text-purple-300">Smart Maintenance</h4>
                     <p className="text-gray-300">Say goodbye to brittle locators. Auto-adjusts test steps when UI changes are detected through semantic analysis.</p>
                   </div>
-                  <div>
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                     <h4 className="text-lg font-semibold mb-2 text-purple-300">AI Prompt Generation</h4>
                     <p className="text-gray-300">Simply describe your test scenario in natural language and TesterAlly automatically generates complete test steps for you.</p>
+                  </div>
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-lg font-semibold mb-2 text-blue-300">OTP Verification</h4>
+                    <p className="text-gray-300">Built-in support for OTP verification during test execution. Connect your OTP receiver device for seamless authentication testing.</p>
                   </div>
                 </div>
               </div>
 
-              <h3 className="text-2xl font-bold mb-4 text-purple-500">Platform Support</h3>
-              <p className="mb-3 text-gray-300">TesterAlly seamlessly supports test automation across multiple platforms:</p>
-              <div className="grid md:grid-cols-2 gap-2 mb-6">
-                <ul className="list-disc ml-6 space-y-1 text-gray-300">
-                  <li>Web applications (Laptop/PC and Mobile)</li>
-                  <li>Mobile applications (Android)</li>
-                </ul>
+              {/* Platform Support */}
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold mb-4 text-purple-500">Platform Support</h3>
+                <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                  <p className="mb-3 text-gray-300">TesterAlly seamlessly supports test automation across multiple platforms:</p>
+                  <div className="grid md:grid-cols-2 gap-2 mb-6">
+                    <ul className="list-disc ml-6 space-y-1 text-gray-300">
+                      <li>Web applications (Laptop/PC and Mobile)</li>
+                      <li>Mobile applications (Android)</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
+
+              {/* Getting Started */}
               <h2 className="text-4xl font-semibold mb-6 text-purple-500">Getting Started</h2>
               
               <div className="bg-gray-800 rounded-lg p-6 mb-6 border-l-4 border-purple-600">
                 <h3 className="text-2xl font-bold mb-4 text-purple-400">Quick Start Guide</h3>
                 <p className="mb-4 text-gray-300">Follow these simple steps to create your first test with TesterAlly:</p>
-                <ol className="list-decimal ml-6 space-y-2 text-gray-300">
-                  <li>Sign up for a TesterAlly account</li>
-                  <li>Create a new agent</li>
-                  <li>Install the agent file and log in using your agent key</li>
-                  <li>Connect with your GitHub account</li>
-                  <li>Create a project and invite members to your project</li>
-                  <li>Use the AI prompt feature to quickly generate test steps from descriptions</li>
-                </ol>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+                    <span className="text-gray-300 pt-1">Sign up for a TesterAlly account</span>
+                  </div>
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+                    <span className="text-gray-300 pt-1">Create a new agent</span>
+                  </div>
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
+                    <span className="text-gray-300 pt-1">Install the agent file and log in using your agent key</span>
+                  </div>
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">4</div>
+                    <span className="text-gray-300 pt-1">Connect with your GitHub account</span>
+                  </div>
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">5</div>
+                    <span className="text-gray-300 pt-1">Create a project and invite members to your project</span>
+                  </div>
+                  <div className="flex items-start space-x-3 bg-gray-900 rounded-lg p-4">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">6</div>
+                    <span className="text-gray-300 pt-1">Use the AI prompt feature to quickly generate test steps from descriptions</span>
+                  </div>
+                </div>
               </div>
 
+              {/* AI Prompt to Test Steps */}
               <h3 className="text-2xl font-bold mb-4 text-purple-500">AI Prompt to Test Steps</h3>
               <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-purple-600">
                 <p className="text-gray-300 mb-4">
@@ -93,12 +130,24 @@ function TesterAllyDocs() {
                 </p>
                 <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 mb-4">
                   <h4 className="text-lg font-semibold mb-3 text-purple-400">How it works:</h4>
-                  <ol className="list-decimal ml-6 space-y-2 text-gray-300">
-                    <li>Describe your test scenario in plain English</li>
-                    <li>AI converts your description into actionable test steps</li>
-                    <li>Review and modify the generated steps if needed</li>
-                    <li>Execute all steps automatically</li>
-                  </ol>
+                  <div className="space-y-2">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">1</div>
+                      <span className="text-gray-300">Describe your test scenario in plain English</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">2</div>
+                      <span className="text-gray-300">AI converts your description into actionable test steps</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">3</div>
+                      <span className="text-gray-300">Review and modify the generated steps if needed</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">4</div>
+                      <span className="text-gray-300">Execute all steps automatically</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="bg-purple-900 bg-opacity-30 rounded-lg p-4 border border-purple-600">
                   <p className="text-purple-300 font-semibold mb-2">💡 Example Prompt:</p>
@@ -115,23 +164,83 @@ function TesterAllyDocs() {
                 </div>
               </div>
 
+              {/* OTP Verification Feature */}
+              <h3 className="text-2xl font-bold mb-4 text-purple-500">OTP Verification</h3>
+              <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-blue-600">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <span className="text-white font-bold">🔐</span>
+                  </div>
+                  <h4 className="text-xl font-semibold text-blue-300">Seamless OTP Testing</h4>
+                </div>
+                
+                <p className="text-gray-300 mb-4">
+                  TesterAlly includes built-in support for OTP (One-Time Password) verification during test case creation and execution. This feature enables comprehensive testing of authentication flows that require OTP validation.
+                </p>
+                
+                <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 mb-4">
+                  <h5 className="text-lg font-semibold mb-3 text-blue-400">Setup Requirements:</h5>
+                  <div className="space-y-2 text-gray-300">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>Connect your OTP receiver device to TesterAlly</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>Configure device settings in your agent configuration</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>Follow the detailed instructions provided within the tool</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-900 bg-opacity-30 rounded-lg p-4 border border-blue-600">
+                  <p className="text-blue-300 font-semibold mb-2">📱 Example Usage in Prompt:</p>
+                  <p className="text-gray-300 italic mb-3">"Test user registration with phone number +1234567890, wait for OTP verification, enter OTP code, and verify account creation success"</p>
+                  <p className="text-blue-300 font-semibold mb-2">🔄 Generated Steps with OTP:</p>
+                  <ol className="list-decimal ml-6 text-green-300 text-sm">
+                    <li>open https://app.example.com/register</li>
+                    <li>type +1234567890 in phone number field</li>
+                    <li>click Send OTP button</li>
+                    <li>wait for OTP verification step</li>
+                    <li>retrieve OTP from connected device</li>
+                    <li>type OTP code in verification field</li>
+                    <li>click Verify button</li>
+                    <li>verify Account created successfully message</li>
+                  </ol>
+                </div>
+                
+                <div className="mt-4 p-3 bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded-lg">
+                  <p className="text-yellow-300 text-sm">
+                    <strong>Note:</strong> For OTP verification, simply include "OTP" or "verification code" in your test description. TesterAlly will automatically handle the OTP retrieval process using your connected device.
+                  </p>
+                </div>
+              </div>
+
+              {/* Best Practices */}
               <h3 className="text-2xl font-bold mb-4 text-purple-500">Best Practices</h3>
               <div className="space-y-4 mb-6">
-                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-purple-500 transition-colors">
                   <h4 className="text-lg font-semibold mb-2 text-purple-400">Write User-Focused Tests</h4>
                   <p className="text-gray-300">Focus on what users actually do, not technical implementation details. This makes tests more maintainable and meaningful.</p>
                 </div>
-                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-purple-500 transition-colors">
                   <h4 className="text-lg font-semibold mb-2 text-purple-400">Use Clear, Descriptive Language</h4>
                   <p className="text-gray-300">Be specific about elements and actions. Instead of "click button", use "click the Submit button" or "click the red Save button".</p>
                 </div>
-                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-purple-500 transition-colors">
                   <h4 className="text-lg font-semibold mb-2 text-purple-400">Add Verification Steps</h4>
                   <p className="text-gray-300">Always verify that actions completed successfully. Check for success messages, page changes, or expected elements.</p>
                 </div>
-                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-purple-500 transition-colors">
                   <h4 className="text-lg font-semibold mb-2 text-purple-400">Leverage AI Prompt Generation</h4>
                   <p className="text-gray-300">Use descriptive prompts to quickly generate test cases. The more specific your description, the better the generated steps will be.</p>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-4 border border-blue-700 hover:border-blue-500 transition-colors">
+                  <h4 className="text-lg font-semibold mb-2 text-blue-400">Include OTP Testing When Needed</h4>
+                  <p className="text-gray-300">For authentication flows requiring OTP, simply mention "OTP verification" in your test description. Ensure your OTP receiver device is properly connected and configured.</p>
                 </div>
               </div>
             </>
