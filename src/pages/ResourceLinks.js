@@ -357,6 +357,22 @@ function TesterAllyDocs() {
                         </div>
                       </div>
                     </div>
+
+                    <div className="bg-gray-800 rounded-lg p-6 border border-purple-600">
+                      <h3 className="text-2xl font-bold mb-4 text-purple-400">Scroll Commands</h3>
+                      <div className="space-y-4">
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll up</code>
+                          <p className="text-gray-300 mb-1">Scroll the page upward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll up"</p>
+                        </div>
+                        <div className="border-b border-gray-700 pb-3">
+                          <code className="bg-gray-700 px-3 py-2 rounded text-green-400 font-mono text-sm block mb-2">scroll down</code>
+                          <p className="text-gray-300 mb-1">Scroll the page downward</p>
+                          <p className="text-sm text-gray-400 italic">Example: "scroll down"</p>
+                        </div>
+                      </div>
+                    </div>
                   </>
                 )}
 

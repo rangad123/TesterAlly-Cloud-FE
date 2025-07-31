@@ -555,7 +555,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_036";
+    const downloadUrl = "https://rebrand.ly/TesterAlly_01_037";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -634,7 +634,7 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_036";
+    const downloadUrl = "https://rebrand.ly/TesterAlly_01_037";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
   
@@ -705,7 +705,7 @@ detectBestArchitecture = () => {
 
     this.setState({ updatingAgentId: agentId });
 
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_036";
+    const downloadUrl = "https://rebrand.ly/TesterAlly_01_037";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     

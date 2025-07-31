@@ -284,7 +284,8 @@ const AgentHeroSection = () => {
               onClick={() => navigate("/dashboard/register")} >
                 <FaRobot className="mr-2" /> Get Started with AI
               </button>
-              <button className="px-6 py-3 bg-gray-800 text-purple-400 border border-purple-700/30 rounded-md hover:bg-gray-700 transition-all duration-300 flex items-center justify-center">
+              <button className="px-6 py-3 bg-gray-800 text-purple-400 border border-purple-700/30 rounded-md hover:bg-gray-700 transition-all duration-300 flex items-center justify-center"
+              onClick={() => navigate("/resources")} >
                 <FaCode className="mr-2" /> View Documentation
               </button>
             </motion.div>
