@@ -1,14 +1,29 @@
 import React from "react";
 import "./Style2.css";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import CookieConsent from "./CookieConsent";
+import { FaCog, FaChartBar, FaShieldAlt, FaRobot, FaEye, FaBolt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import CookieConsent from "./CookieConsent";
 import AgentHeroSection from "./HeroSection";
 
 export default function Dashboard() {
-  const FeatureCard = ({ title, description, icon }) => (
-    <div className="feature-card bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20">
-      <div className="feature-icon text-purple-400 text-3xl mb-4">{icon}</div>
+  
+  const FeatureCard = ({ title, description, icon: IconComponent, hoverBg }) => (
+    <div 
+      className={`feature-card bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 hover:border-purple-500/50 cursor-pointer`}
+      style={{
+        transition: 'background-color 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = hoverBg;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'rgb(31 41 55)'; // bg-gray-800
+      }}
+    >
+      <div className="feature-icon text-3xl mb-4" style={{ color: '#9333ea' }}>
+        <IconComponent />
+      </div>
       <h3 className="text-xl font-bold text-purple-200 mb-2">{title}</h3>
       <p className="text-gray-300">{description}</p>
     </div>
@@ -46,37 +61,67 @@ export default function Dashboard() {
           <span className="text-purple-400">Advanced</span> <span className="text-blue-300">AI-Driven Web Testing</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
           <FeatureCard
             title="Intelligent Test Automation"
             description="Leverage advanced AI to generate and maintain test cases in simple, human-readable language. Streamline testing workflows by automating repetitive tasks, reducing manual effort, and ensuring higher accuracy in testing."
-            icon="⚙️"
-            
+            icon={FaCog}
+            hoverBg="rgb(30 58 138)"
           />
           <FeatureCard
             title="Comprehensive Analytics"
             description="Get real-time insights into testing performance with detailed analytics and reporting tools. Identify bottlenecks, track progress, and make informed decisions to enhance the quality of your testing processes."
-            icon="📊"
+            icon={FaChartBar}
+            hoverBg="rgb(30 58 138)"
           />
           <FeatureCard
             title="Reliable Test Coverage"
             description="Perform robust testing with dynamic datasets to simulate real-world scenarios. Validate application behavior under various conditions to achieve higher reliability and enhanced test coverage."
-            icon="🔒"
+            icon={FaShieldAlt}
+            hoverBg="rgb(30 58 138)"
           />
           <FeatureCard
             title="AI-Driven Workflows"
             description="Accelerate testing with automated workflows powered by cutting-edge AI technology."
-            icon="🤖"
+            icon={FaRobot}
+            hoverBg="rgb(30 58 138)"
           />
           <FeatureCard
             title="Smart Element Recognition"
             description="Identify and interact with UI elements through intelligent visual detection and precise coordinate mapping."
-            icon="👁"
+            icon={FaEye}
+            hoverBg="rgb(30 58 138)"
           />
           <FeatureCard
             title="Efficient Interaction Testing"
             description="Automate complex testing tasks, such as form interactions and multi-step operations, with precision and ease."
-            icon="⚡"
+            icon={FaBolt}
+            hoverBg="rgb(30 58 138)"
           />
+        </div>
+      </section>
+
+      {/* Technology Stack */}
+      <section className="bg-gray-900/50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Our Technology Stack</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              { name: "Python", icon: "🐍" },
+              { name: "React", icon: "⚛️" },
+              { name: "AWS", icon: "☁️" },
+              // { name: "Selenium", icon: "🔧" },
+              // { name: "Playwright", icon: "🎭" },
+              { name: "OpenAI", icon: "🤖" },
+              { name: "OmniParser", icon: "🖼️" },  
+              { name: "LangGraph", icon: "🕸️" } 
+            ].map((tech, index) => (
+              <div key={index} className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-center hover:border-purple-600/50 transition-colors">
+                <div className="text-3xl mb-2">{tech.icon}</div>
+                <p className="text-sm text-gray-300">{tech.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -169,20 +214,68 @@ export default function Dashboard() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-gray-900 border-t border-gray-800 py-10 px-4">
+      <footer id="contact" className="bg-gray-900 border-t border-gray-800 py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold text-white mb-2">TesterAlly <span className="text-purple-400">AI Agent</span></h3>
-              <p className="text-gray-300">Next-generation test automation with artificial intelligence</p>
+          
+          {/* Main Footer Content - Side by Side Layout */}
+          <div className="flex flex-wrap justify-between gap-12 mb-12">
+            
+            {/* About Section */}
+            <div className="min-w-[200px]">
+              <h3 className="text-xl font-bold text-purple-400 mb-6">About</h3>
+              <div className="flex flex-col space-y-3">
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Our Story </Link>
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Team</Link>
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Careers</Link>
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Press</Link>
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Contact Us</Link>
+              </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-              <Link to="/resources" className="text-gray-300 hover:text-purple-300 transition-colors">Resources</Link>
-              <a href="#features" className="text-gray-300 hover:text-purple-300 transition-colors">Features</a>
-              <a href="#how-it-works" className="text-gray-300 hover:text-purple-300 transition-colors">How it Works</a>
-              <a href="#about-us" className="text-gray-300 hover:text-purple-300 transition-colors">About</a>
+
+            {/* Features Section */}
+            <div className="min-w-[200px]">
+              <h3 className="text-xl font-bold text-purple-400 mb-6">Features</h3>
+              <div className="flex flex-col space-y-3">
+                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">AI Test Automation</a>
+                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Analytics & Reporting</a>
+                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Test Coverage</a>
+                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Smart Recognition</a>
+                <a href="how-it-works" className="text-gray-300 hover:text-purple-300 transition-colors">How It Works</a>
+              </div>
+            </div>
+
+            {/* Pricing Section */}
+            <div className="min-w-[200px]">
+              <h3 className="text-xl font-bold text-purple-400 mb-6">Pricing</h3>
+              <div className="flex flex-col space-y-3">
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Free Trial</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Starter Plan</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Professional</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Enterprise</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Custom Solutions</Link>
+              </div>
+            </div>
+
+            {/* Resources Section */}
+            <div className="min-w-[200px]">
+              <h3 className="text-xl font-bold text-purple-400 mb-6">Resources</h3>
+              <div className="flex flex-col space-y-3">
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Documentation</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Blog</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Tutorials</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">API Reference</Link>
+                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Support Center</Link>
+              </div>
             </div>
           </div>
+
+          {/* Brand Section */}
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-white mb-2">TesterAlly <span className="text-purple-400">AI Agent</span></h3>
+            <p className="text-gray-300 text-lg">Next-generation test automation with artificial intelligence</p>
+          </div>
+
+          {/* Footer Bottom */}
           <hr className="border-gray-800 mb-8" />
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-300 mb-4 md:mb-0">© 2024 TesterAlly AI Agent v2.0.1. All Rights Reserved.</p>

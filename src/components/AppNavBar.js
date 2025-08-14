@@ -84,11 +84,12 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import UserIcon from "../images/user.png";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { FaTimes } from "react-icons/fa";
 import "./AppNavBar.css"
 
 import "./AppNavBar.css";
@@ -140,6 +141,36 @@ const AppNavBar = (props) => {
     if (!isLoggedIn) {
       navigate("/");
     }
+  };
+
+  const [showBookDemo, setShowBookDemo] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    reason: ''
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleBookDemoSubmit = (e) => {
+    e.preventDefault();
+    console.log('Book Demo Form Data:', formData);
+    // Handle form submission here
+    setShowBookDemo(false);
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      reason: ''
+    });
   };
 
 
@@ -240,6 +271,13 @@ const AppNavBar = (props) => {
           </div>
         ) : (
           <div className="text-sm/6 font-semibold text-gray-900 auth-buttons">
+            <button 
+              onClick={() => setShowBookDemo(true)}
+              className="bg-purple-600 hover:bg-purple-400 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Book Demo
+            </button>
+
             <button
               onClick={() => navigate("/dashboard/login")}
               className="login-button"
@@ -249,6 +287,116 @@ const AppNavBar = (props) => {
           </div>
         )}
       </Navbar>
+
+      {/* Book Demo Modal */}
+      {showBookDemo && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white border border-purple-600/30 rounded-lg p-6 w-full max-w-md shadow-lg">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-black">Book a Demo</h3>
+              <button 
+                onClick={() => setShowBookDemo(false)}
+                className="text-gray-600 hover:text-black transition-colors"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">First Name</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="Enter your first name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">Last Name</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Enter your last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">What is the primary reason you are here?</label>
+                  <select
+                    name="reason"
+                    value={formData.reason}
+                    onChange={handleInputChange}
+                    className="gray-600-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-purple-600"
+                    required
+                  >
+                    <option value="">Select a reason</option>
+                    <option value="evaluate-testing-tools">Evaluate testing tools</option>
+                    <option value="improve-test-automation">Improve test automation</option>
+                    <option value="scale-testing-team">Scale testing team</option>
+                    <option value="reduce-testing-time">Reduce testing time</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setShowBookDemo(false)}
+                  className="flex-1 border border-gray-400 text-gray-600 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBookDemoSubmit}
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors"
+                >
+                  Book Demo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

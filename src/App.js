@@ -71,6 +71,7 @@ import AdminAgentDetails from "./pages/AdminAgentDetails";
 import GitHubIntegration from "./pages/GitHub";
 import BillingPage from "./pages/BillingPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import AboutPage from "./pages/AboutPage"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -150,8 +151,6 @@ const App = () => {
     setEmail(userData.email);
   };
 
-
-
 const DashBoardWrapper = ({ isLoggedIn, onLogout }) => {
   useEffect(() => {
     if (isLoggedIn) {
@@ -161,6 +160,8 @@ const DashBoardWrapper = ({ isLoggedIn, onLogout }) => {
 
   return <DashBoard isLoggedIn={false} name="" email="" />;
 };
+
+
 const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin, onLogout }) => {
   useEffect(() => {
     if (isLoggedIn) {
@@ -445,6 +446,13 @@ const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin
                 <PrivateRoute isLoggedIn={isLoggedIn}>
                   <UserDashboard />
                 </PrivateRoute>
+              }
+            />
+            <Route
+              path="about-page"
+              exact
+              element={ 
+                <AboutPage />
               }
             />
             <Route
