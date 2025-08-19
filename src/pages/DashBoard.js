@@ -2,6 +2,9 @@ import React from "react";
 import "./Style2.css";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { FaCog, FaChartBar, FaShieldAlt, FaRobot, FaEye, FaBolt } from "react-icons/fa";
+import { SiPython, SiReact, SiOpenai, SiAwsamplify } from "react-icons/si";
+import { FaProjectDiagram } from "react-icons/fa";
+import { MdImage } from "react-icons/md"; 
 import { Link } from "react-router-dom";
 import CookieConsent from "./CookieConsent";
 import AgentHeroSection from "./HeroSection";
@@ -107,14 +110,16 @@ export default function Dashboard() {
           <h2 className="text-3xl font-bold text-center mb-12 text-white">Our Technology Stack</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {[
-              { name: "Python", icon: "🐍" },
-              { name: "React", icon: "⚛️" },
-              { name: "AWS", icon: "☁️" },
-              // { name: "Selenium", icon: "🔧" },
-              // { name: "Playwright", icon: "🎭" },
-              { name: "OpenAI", icon: "🤖" },
-              { name: "OmniParser", icon: "🖼️" },  
-              { name: "LangGraph", icon: "🕸️" } 
+              { name: "Python", icon: <SiPython className="text-blue-500" /> },
+              { name: "React", icon: <SiReact className="text-cyan-400" /> },
+              { name: "AWS", icon: <SiAwsamplify className="text-orange-500" /> },
+              { name: "OpenAI", icon: <SiOpenai className="text-green-600" /> },
+              { name: "OmniParser", icon: <MdImage className="text-pink-500" /> }, 
+              { name: "LangGraph", icon: <FaProjectDiagram className="text-purple-500" /> },
+              // { name: "Selenium", icon: <SiSelenium className="text-green-500" /> },
+              // { name: "Playwright", icon: <SiPlaywright className="text-yellow-500" /> },
+              // { name: "LangChain", icon: <SiLangchain className="text-indigo-500" /> },
+
             ].map((tech, index) => (
               <div key={index} className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-center hover:border-purple-600/50 transition-colors">
                 <div className="text-3xl mb-2">{tech.icon}</div>
