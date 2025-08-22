@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts';
-import { Users, Download, Monitor, Activity, TrendingUp, TrendingDown, Settings, Bell, BarChart3, MapPin, Laptop, Computer, Smartphone, Bot, Zap, Chrome } from 'lucide-react';
+import { Users, Download, Monitor, Activity, TrendingUp, TrendingDown, Settings, Bell, BarChart3, MapPin, Laptop, Computer, Smartphone, Bot, Zap, Chrome, FileText } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [metrics, setMetrics] = useState({
@@ -16,6 +17,8 @@ const AdminDashboard = () => {
 
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   // Fetch data from API
   useEffect(() => {
@@ -45,6 +48,11 @@ const AdminDashboard = () => {
 
     fetchData();
   }, []);
+
+  const handleLoggerClick = () => {
+    console.log('Navigate to logger page');
+    navigate("/admin-test-logs");
+  };
 
   // Geographic distribution data - from API
   const geoData = apiData ? apiData.analytics.geo_distribution.map(country => ({
@@ -159,6 +167,13 @@ const AdminDashboard = () => {
           <p className="text-lg text-gray-600 mt-2">Monitor your AI agents, users, and automation performance</p>
         </div>
         <div className="flex items-center space-x-3">
+          <button 
+            onClick={handleLoggerClick}
+            className="bg-white border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors flex items-center"
+            title="View Logs"
+          >
+            <FileText size={20} className="text-purple-600" />
+          </button>
           <button className="bg-white border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors">
             <Bell size={20} className="text-gray-600" />
           </button>

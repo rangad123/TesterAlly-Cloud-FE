@@ -310,7 +310,7 @@ const AppNavBar = (props) => {
                     <input
                       type="text"
                       name="firstName"
-                      placeholder="Enter your first name"
+                      placeholder="First Name"
                       value={formData.firstName}
                       onChange={handleInputChange}
                       className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
@@ -322,7 +322,7 @@ const AppNavBar = (props) => {
                     <input
                       type="text"
                       name="lastName"
-                      placeholder="Enter your last name"
+                      placeholder="Last Name"
                       value={formData.lastName}
                       onChange={handleInputChange}
                       className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
@@ -336,7 +336,7 @@ const AppNavBar = (props) => {
                   <input
                     type="email"
                     name="email"
-                    placeholder="Enter your email"
+                    placeholder="Business Email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
@@ -345,11 +345,11 @@ const AppNavBar = (props) => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">Phone Number</label>
+                  <label className="block text-sm font-medium text-black mb-1">Mobile Number</label>
                   <input
                     type="tel"
                     name="phone"
-                    placeholder="Enter your phone number"
+                    placeholder="+91-98765-43210"
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"

@@ -72,6 +72,7 @@ import GitHubIntegration from "./pages/GitHub";
 import BillingPage from "./pages/BillingPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import AboutPage from "./pages/AboutPage"
+import TestExecutionLogs from "./pages/TestExecutionLogs";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -233,6 +234,15 @@ const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin
               element={
                 <PrivateRoute isLoggedIn={isLoggedIn}>
                   <AdminDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin-test-logs"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <TestExecutionLogs />
                 </PrivateRoute>
               }
             />

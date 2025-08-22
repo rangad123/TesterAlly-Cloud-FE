@@ -60,8 +60,8 @@ export default function Dashboard() {
 
       {/* Features Section */}
       <section id="features" className="features max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="section-title text-3xl font-bold text-center mb-12 text-white">
-          <span className="text-purple-400">Advanced</span> <span className="text-blue-300">AI-Driven Web Testing</span>
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">
+          <span className="text-purple-600">Advanced</span> <span className="text-purple-600">AI-Driven Web Testing</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
@@ -132,8 +132,8 @@ export default function Dashboard() {
 
       {/* How It Works Section */}
       <section id="how-it-works" className="how-it-works max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gray-850">
-        <h2 className="section-title text-3xl font-bold text-center mb-12 text-white">
-          How Our <span className="text-purple-400">AI</span> <span className="text-blue-300">Testing Works</span>
+        <h2 className="text-3xl font-bold text-center mb-12 text-purple-600">
+          How Our <span className="text-purple-600">AI</span> <span className="text-purple-600">Testing Works</span>
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -157,7 +157,7 @@ export default function Dashboard() {
 
       {/* About Agent Section */}
       <section id="about-us" className="about-us max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="section-title text-3xl font-bold text-center mb-8 text-white">
+        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">
           About Us
         </h2>
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-md">
@@ -173,7 +173,7 @@ export default function Dashboard() {
 
       {/* Blog Highlights Section */}
       <section id="blog" className="blog-highlights max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="section-title">From Our Blog</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">From Our Blog</h2>
         <div className="blog-grid">
           <div className="blog-card border-gray-700 bg-gray-800">
             <h4 className="text-white">Crowd Intelligence – Its impact on the training of AI</h4>
@@ -199,7 +199,7 @@ export default function Dashboard() {
 
       {/* Testimonials Section */}
       <section id="testimonials" className="testimonials max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-        <h2 className="section-title">What Our Users Say</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">What Our Users Say</h2>
         <div className="testimonials-grid">
           <div className="testimonial-card bg-gray-800">
             <p>
