@@ -262,7 +262,7 @@ const BillingPage = () => {
     const isPlanDisabled = plan.id === 'free' && currentPlan !== 'free';
     
     return (
-      <div className={`relative bg-white rounded-xl shadow-lg p-6 border-2 transition-all duration-300 ${
+      <div className={`bg-white rounded-xl shadow-lg p-6 border-2 transition-all duration-300 ${
         plan.popular 
           ? 'border-purple-600 ring-2 ring-purple-600 ring-opacity-50' 
           : isCurrentPlan 
