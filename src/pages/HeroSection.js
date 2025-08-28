@@ -256,7 +256,7 @@ const AgentHeroSection = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
-                className="text-sm font-semibold mt-2 ml-1 text-purple-400 flex items-center"
+                className="text-sm font-semibold mt-2 text-purple-400 flex items-center justify-center"
               >
                 <FaRobot className="mr-2" /> TesterAlly AI Agent v2.0
               </motion.div>
