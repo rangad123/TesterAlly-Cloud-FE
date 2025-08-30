@@ -272,18 +272,18 @@ const AppNavBar = (props) => {
         ) : (
           <div className="text-sm/6 font-semibold text-gray-900 auth-buttons">
 
-            <button 
-              onClick={() => setShowBookDemo(true)}
-              className="bg-purple-600 hover:bg-purple-400 text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              Book Demo
-            </button>
-
             <button
               onClick={() => navigate("/dashboard/login")}
               className="login-button"
             >
               Login<span aria-hidden="true">&rarr;</span>
+            </button>
+
+            <button 
+              onClick={() => setShowBookDemo(true)}
+              className="bg-purple-600 hover:bg-purple-400 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Book Demo
             </button>
             
           </div>
