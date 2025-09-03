@@ -276,7 +276,7 @@ const AppNavBar = (props) => {
               onClick={() => setShowBookDemo(true)}
               className="bg-purple-600 hover:bg-purple-400 text-white px-6 py-2 rounded-lg transition-colors"
             >
-              Book Demo
+              Book a Demo
             </button>
 
             <button
