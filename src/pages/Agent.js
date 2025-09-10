@@ -555,7 +555,7 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_041";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_042";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -634,7 +634,7 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_041";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_042";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
   
@@ -705,7 +705,7 @@ detectBestArchitecture = () => {
 
     this.setState({ updatingAgentId: agentId });
 
-    const downloadUrl = "https://rebrand.ly/TesterAlly_01_041";
+    const downloadUrl = "https://bit.ly/TesterAlly_01_042";
     const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
     const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
     
@@ -1317,7 +1317,7 @@ hasAgentForCurrentOs = () => {
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
           <div className="flex justify-between items-center p-6 border-b border-gray-200">
-            <h3 className="text-xl font-semibold text-gray-800">Testing Agent Instructions</h3>
+            <h3 className="text-xl font-semibold text-gray-800">TesterAlly Studio Instructions</h3>
             <button 
               onClick={this.toggleInstructionsModal}
               className="text-gray-500 hover:text-gray-700"
@@ -1336,7 +1336,7 @@ hasAgentForCurrentOs = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="ml-3 text-gray-700">You can create only one agent per system. Once created, it cannot be duplicated on the same system.</p>
+                <p className="ml-3 text-gray-700">You can create only one studio per system. Once created, it cannot be duplicated on the same system.</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
@@ -1344,7 +1344,7 @@ hasAgentForCurrentOs = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="ml-3 text-gray-700">When you create a new agent, the installation file will automatically download to your system.</p>
+                <p className="ml-3 text-gray-700">When you create a new Studio, the installation file will automatically download to your system.</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
@@ -1352,7 +1352,7 @@ hasAgentForCurrentOs = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="ml-3 text-gray-700">After installation is complete, you'll need to register with your agent key which can be found in the "Agent Key" column.</p>
+                <p className="ml-3 text-gray-700">After installation is complete, you'll need to register with your studio key which can be found in the "Studio Key" column.</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600">
@@ -1394,8 +1394,8 @@ hasAgentForCurrentOs = () => {
           {/* Header Section */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-purple-600">Testerally Agents</h1>
-              <p className="text-gray-600 mt-1">Create and manage your automation agents</p>
+              <h1 className="text-3xl font-bold text-purple-600">TesterAlly Studio</h1>
+              <p className="text-gray-600 mt-1">Create and manage your automation studios</p>
             </div>
           </div>
           
@@ -1429,7 +1429,7 @@ hasAgentForCurrentOs = () => {
                     </button>
                   </div>
                   <p className="text-gray-600 mb-2">
-                    Testerally Agent is a powerful testing automation tool that helps you create, run, and manage automated tests.
+                    Testerally Studio is a powerful testing automation tool that helps you create, run, and manage automated tests.
                   </p>
                   <ul className="text-gray-600 ml-5 list-disc mb-4 md:mb-0">
                     <li>Record and replay user interactions</li>
@@ -1449,11 +1449,11 @@ hasAgentForCurrentOs = () => {
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>
-                          Create Agent
+                          Create Studio
                         </span>
                       </button>
                       <p className="text-sm text-red-600 mt-2">
-                        You already have an agent for your current system.
+                        You already have an Studio for your current system.
                       </p>
                     </>
                   ) : (
@@ -1488,7 +1488,7 @@ hasAgentForCurrentOs = () => {
           {isCreating && (
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Create New Agent</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Create New Studio</h2>
                 <button 
                   onClick={this.cancelCreateAgent}
                   className="text-gray-500 hover:text-gray-700"
@@ -1542,14 +1542,14 @@ hasAgentForCurrentOs = () => {
           {/* Agent List */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800">Your Agents</h2>
-              <p className="text-gray-600 mt-1">View and manage all your installed agents</p>
+              <h2 className="text-xl font-semibold text-gray-800">Your Studios</h2>
+              <p className="text-gray-600 mt-1">View and manage all your installed Studios</p>
             </div>
             
             {isLoading ? (
               <div className="p-6 flex justify-center">
                 <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                <span className="ml-2 text-purple-600">Loading agents...</span>
+                <span className="ml-2 text-purple-600">Loading studios...</span>
               </div>
             ) : agents.length === 0 ? (
               <div className="p-6 text-center">
@@ -1558,19 +1558,19 @@ hasAgentForCurrentOs = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
-                <p className="text-gray-600">You don't have any agents yet.</p>
-                <p className="text-gray-500 text-sm mt-1">Create your first agent by clicking the "Create Agent" button.</p>
+                <p className="text-gray-600">You don't have any studios yet.</p>
+                <p className="text-gray-500 text-sm mt-1">Create your first studios by clicking the "Create Studio" button.</p>
               </div>
             ) : (
               <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700">
                   <thead className="bg-gray-100 top-0">
                     <tr>
-                      <th className="px-6 py-3 font-semibold tracking-wide">Agent ID</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Studio ID</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">System</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Last Active</th>
                       <th className="px-6 py-3 font-semibold tracking-wide">Download Count</th>
-                      <th className="px-6 py-3 font-semibold tracking-wide">Agenty Key</th>
+                      <th className="px-6 py-3 font-semibold tracking-wide">Studio Key</th>
                     
                     </tr>
                   </thead>

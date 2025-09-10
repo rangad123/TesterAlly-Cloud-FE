@@ -263,7 +263,7 @@ const Sidebar = () => {
     >
       <RiRobot2Fill className={`icon project-icon ${window.location.pathname === "/agent" ? "active-icon" : ""}`}  />
       <div className="option-name-container">
-        <span className="option-name">Agent</span>
+        <span className="option-name">Studio</span>
       </div>
     </div>
 

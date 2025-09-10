@@ -315,7 +315,7 @@ const AppNavBar = (props) => {
                       placeholder="First Name"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-purple-600"
                       required
                     />
                   </div>
@@ -327,7 +327,7 @@ const AppNavBar = (props) => {
                       placeholder="Last Name"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                      className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-purple-600"
                       required
                     />
                   </div>
@@ -341,7 +341,7 @@ const AppNavBar = (props) => {
                     placeholder="Business Email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-purple-600"
                     required
                   />
                 </div>
@@ -354,7 +354,7 @@ const AppNavBar = (props) => {
                     placeholder="+91-98765-43210"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-600"
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-purple-600"
                     required
                   />
                 </div>
