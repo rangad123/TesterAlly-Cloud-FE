@@ -555,9 +555,13 @@ detectBestArchitecture = () => {
   }
 
   handleDownload = async () => {
-    const downloadUrl = "https://bit.ly/TesterAlly_01_069";
-    const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
-    const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
+    const downloadUrl = "https://rebrand.ly/Test_01_072";
+    // const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
+    // const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
+    const versionMatch = downloadUrl.match(/\d{2}_\d{3}/);
+    const versionString = versionMatch ? versionMatch[0] : "unknown";
+
+    console.log("Extracted Version:", versionString);
     
     // Rest of your existing download code...
     const existingAgent = this.state.agents.find(agent => 
@@ -634,10 +638,12 @@ detectBestArchitecture = () => {
   };
 
   isUpdateAvailable = (agent) => {
-    const downloadUrl = "https://bit.ly/TesterAlly_01_069";
-    const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
-    const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
-  
+    const downloadUrl = "https://rebrand.ly/Test_01_072";
+    // const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
+    // const currentVersion = fileNameMatch ? fileNameMatch[1] : "unknown";
+    const versionMatch = downloadUrl.match(/\d{2}_\d{3}/);
+    const currentVersion = versionMatch ? versionMatch[0] : "unknown";
+
     const agentVersion = agent.file_version || "unknown";
     const isUpdate = currentVersion !== agentVersion;
   
@@ -705,10 +711,12 @@ detectBestArchitecture = () => {
 
     this.setState({ updatingAgentId: agentId });
 
-    const downloadUrl = "https://bit.ly/TesterAlly_01_069";
-    const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
-    const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
-    
+    const downloadUrl = "https://rebrand.ly/Test_01_072";
+    // const fileNameMatch = downloadUrl.match(/TesterAlly_(.+)$/);
+    // const versionString = fileNameMatch ? fileNameMatch[1] : "unknown";
+    const versionMatch = downloadUrl.match(/\d{2}_\d{3}/);
+    const versionString = versionMatch ? versionMatch[0] : "unknown";
+
     try {
       const response = await fetch(`https://api.testerally.ai/installer/track-download/`, {
         method: 'POST',
