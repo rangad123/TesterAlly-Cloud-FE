@@ -92,7 +92,7 @@ const AppNavBar = (props) => {
 
 
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const isStudioRoute = location.pathname.startsWith("/studio");
+  const isStudioRoute = location.pathname.startsWith("/studio") || location.pathname.startsWith("/dashboard/login");
 
   return (
     <div className="py-2">

@@ -1,11 +1,12 @@
 
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { FaRobot, FaBrain, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
 
 const AgentHeroSection = () => {
   const containerRef = useRef(null);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -202,87 +203,101 @@ const AgentHeroSection = () => {
         <div className="grid md:grid-cols-2 gap-8 mt-12">
           
           {/* Agentic AI Testing */}
-          <div className="group relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 border-2 border-blue-500/30 rounded-2xl p-8 hover:border-blue-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 cursor-pointer flex flex-col">
+          <div className="group relative overflow-hidden border border-blue-500/30 rounded-3xl p-8 hover:border-blue-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
             
-            <div className="flex items-center mb-6">
-              <div className="bg-blue-500/20 p-4 rounded-xl">
-                <FaRobot className="text-4xl text-blue-400" />
+            {/* Decorative gradient orbs */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center mb-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-blue-600/20 p-4 rounded-2xl border border-blue-400/30 shadow-lg shadow-blue-500/20">
+                  <FaRobot className="text-4xl text-blue-400" />
+                </div>
+                <div className="ml-4">
+                  <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">Agentic AI Testing</h2>
+                  <p className="text-blue-300 text-sm font-medium">AI Tests Your Applications</p>
+                </div>
               </div>
-              <div className="ml-4">
-                <h2 className="text-2xl font-bold text-white">Agentic AI Testing</h2>
-                <p className="text-blue-300 text-sm">AI Tests Your Applications</p>
+
+              <p className="text-gray-300 mb-6 leading-relaxed text-base">
+                Deploy AI agents to autonomously test your web applications, mobile apps, and APIs. 
+                Our intelligent platform creates, executes, and maintains tests while adapting to your application's evolution.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Cross-platform web and mobile testing</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">RESTful and GraphQL API validation</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Self-healing test automation</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Automated root cause analysis</span>
+                </div>
               </div>
+
+              <button 
+              onClick={() => navigate("/studio")}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] mt-auto">
+                Learn More <FaArrowRight className="ml-2" />
+              </button>
             </div>
-
-            <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
-              Deploy AI agents to autonomously test your web applications, mobile apps, and APIs. 
-              Our intelligent platform creates, executes, and maintains tests while adapting to your application's evolution.
-            </p>
-
-            <div className="space-y-3 mb-8">
-              <div className="flex items-start">
-                <FaCheckCircle className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Cross-platform web and mobile testing</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">RESTful and GraphQL API validation</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Self-healing test automation</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Automated root cause analysis</span>
-              </div>
-            </div>
-
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-blue-500/50 mt-auto">
-              Learn More <FaArrowRight className="ml-2" />
-            </button>
           </div>
 
           {/* Testing AI Systems */}
-          <div className="group relative bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-2 border-purple-500/30 rounded-2xl p-8 hover:border-purple-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 cursor-pointer flex flex-col">
+          <div className="group relative overflow-hidden border border-purple-500/30 rounded-3xl p-8 hover:border-purple-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
             
-            <div className="flex items-center mb-6">
-              <div className="bg-purple-500/20 p-4 rounded-xl">
-                <FaBrain className="text-4xl text-purple-400" />
+            {/* Decorative gradient orbs */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl group-hover:bg-purple-500/30 transition-all duration-500"></div>
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center mb-6">
+                <div className="bg-gradient-to-br from-purple-500/30 to-purple-600/20 p-4 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                  <FaBrain className="text-4xl text-purple-400" />
+                </div>
+                <div className="ml-4">
+                  <h2 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">Testing AI Systems</h2>
+                  <p className="text-purple-300 text-sm font-medium">Test AI Models & Agents</p>
+                </div>
               </div>
-              <div className="ml-4">
-                <h2 className="text-2xl font-bold text-white">Testing AI Systems</h2>
-                <p className="text-purple-300 text-sm">Test AI Models & Agents</p>
+
+              <p className="text-gray-300 mb-6 leading-relaxed text-base">
+                Comprehensive validation framework for AI models, LLMs, and intelligent agents. 
+                Ensure accuracy, safety, and reliability of your AI systems before production deployment.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">LLM output validation and benchmarking</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Multi-agent system behavior testing</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Hallucination and bias detection</span>
+                </div>
+                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">Security and safety compliance testing</span>
+                </div>
               </div>
+
+              <button className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] mt-auto">
+                Learn More <FaArrowRight className="ml-2" />
+              </button>
             </div>
-
-            <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
-              Comprehensive validation framework for AI models, LLMs, and intelligent agents. 
-              Ensure accuracy, safety, and reliability of your AI systems before production deployment.
-            </p>
-
-            <div className="space-y-3 mb-8">
-              <div className="flex items-start">
-                <FaCheckCircle className="text-purple-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">LLM output validation and benchmarking</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-purple-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Multi-agent system behavior testing</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-purple-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Hallucination and bias detection</span>
-              </div>
-              <div className="flex items-start">
-                <FaCheckCircle className="text-purple-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-sm text-gray-300">Security and safety compliance testing</span>
-              </div>
-            </div>
-
-            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-purple-500/50 mt-auto">
-              Learn More <FaArrowRight className="ml-2" />
-            </button>
           </div>
         </div>
       </div>

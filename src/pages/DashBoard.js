@@ -80,13 +80,13 @@ export default function Dashboard() {
 
           {/* Tab Selector */}
           <div className="flex justify-center mb-10 lg:mb-12">
-            <div className="inline-flex bg-gray-800 rounded-xl p-1.5 border border-gray-700 shadow-lg">
+            <div className="inline-flex bg-gray-800/60 backdrop-blur-sm rounded-2xl p-2 border border-gray-700/50 shadow-xl">
               <button
                 onClick={() => setActiveTab('vertical1')}
-                className={`px-4 sm:px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold transition-all duration-300 text-sm lg:text-base ${
+                className={`px-6 sm:px-8 lg:px-10 py-3.5 lg:py-4 rounded-xl font-semibold transition-all duration-300 text-sm lg:text-base ${
                   activeTab === 'vertical1'
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/50'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/50 scale-105'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
                 }`}
               >
                 <span className="hidden sm:inline">Agentic AI Testing</span>
@@ -94,10 +94,10 @@ export default function Dashboard() {
               </button>
               <button
                 onClick={() => setActiveTab('vertical2')}
-                className={`px-4 sm:px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold transition-all duration-300 text-sm lg:text-base ${
+                className={`px-6 sm:px-8 lg:px-10 py-3.5 lg:py-4 rounded-xl font-semibold transition-all duration-300 text-sm lg:text-base ${
                   activeTab === 'vertical2'
-                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg shadow-purple-500/50 scale-105'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
                 }`}
               >
                 <span className="hidden sm:inline">Testing AI Systems</span>
@@ -107,152 +107,150 @@ export default function Dashboard() {
           </div>
 
           {/* Tab Content */}
-          <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 lg:p-10 shadow-2xl">
-            {activeTab === 'vertical1' ? (
-              <div className="space-y-8 lg:space-y-10">
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaCode className="text-xl lg:text-2xl text-blue-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">What We Test</h3>
-                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+          <div className="relative bg-gradient-to-br from-gray-800/90 via-gray-800/80 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 lg:p-12 shadow-2xl overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              {activeTab === 'vertical1' ? (
+                <div className="space-y-8 lg:space-y-10">
+                  {/* What We Test */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 p-3 rounded-xl flex-shrink-0 border border-blue-500/20 group-hover:border-blue-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/20">
+                        <FaCode className="text-xl text-blue-400" />
+                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
+                        What We Test
+                      </h3>
+                    </div>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
                       Web applications (React, Angular, Vue), native mobile apps (iOS/Android), 
                       REST and GraphQL APIs, microservices architectures, serverless functions, 
                       complex user workflows, and end-to-end business processes.
                     </p>
                   </div>
-                </div>
 
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaCogs className="text-xl lg:text-2xl text-blue-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Ideal For</h3>
-                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+
+                  {/* Ideal For */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 p-3 rounded-xl flex-shrink-0 border border-blue-500/20 group-hover:border-blue-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/20">
+                        <FaCogs className="text-xl text-blue-400" />
+                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
+                        Ideal For
+                      </h3>
+                    </div>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
                       QA Engineering teams, Software Development Engineers in Test (SDETs), DevOps and CI/CD teams, 
                       Product organizations, and startups scaling their quality assurance operations.
                     </p>
                   </div>
-                </div>
 
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaBolt className="text-xl lg:text-2xl text-blue-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Core Capabilities</h3>
-                    <div className="grid sm:grid-cols-2 gap-3 text-sm lg:text-base text-gray-300">
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Natural language test authoring</span>
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+
+                  {/* Core Capabilities */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 p-3 rounded-xl flex-shrink-0 border border-blue-500/20 group-hover:border-blue-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/20">
+                        <FaBolt className="text-xl text-blue-400" />
                       </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Visual regression detection</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Self-healing element locators</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Parallel test execution</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>AI-powered failure diagnosis</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Cross-browser compatibility</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>Automated regression suites</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-blue-400 mr-2">•</span>
-                        <span>CI/CD pipeline integration</span>
-                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
+                        Core Capabilities
+                      </h3>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 lg:gap-5 pl-0 sm:pl-16">
+                      {[
+                        'Natural language test authoring',
+                        'Visual regression detection',
+                        'Self-healing element locators',
+                        'Parallel test execution',
+                        'AI-powered failure diagnosis',
+                        'Cross-browser compatibility',
+                        'Automated regression suites',
+                        'CI/CD pipeline integration'
+                      ].map((capability, index) => (
+                        <div key={index} className="flex items-start gap-3 bg-gray-800/40 backdrop-blur-sm p-3.5 rounded-xl border border-gray-700/50 hover:border-blue-500/30 transition-all duration-300 hover:bg-gray-800/60">
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></div>
+                          <span className="text-sm text-gray-200">{capability}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-8 lg:space-y-10">
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaFlask className="text-xl lg:text-2xl text-purple-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">What We Test</h3>
-                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+              ) : (
+                <div className="space-y-8 lg:space-y-10">
+                  {/* What We Test */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 p-3 rounded-xl flex-shrink-0 border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                        <FaFlask className="text-xl text-purple-400" />
+                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors duration-300">
+                        What We Test
+                      </h3>
+                    </div>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
                       Large Language Models (GPT, Claude, Gemini), conversational AI systems, 
                       multi-agent orchestration platforms, RAG (Retrieval-Augmented Generation) pipelines, 
                       fine-tuned models, prompt templates, and AI-powered features.
                     </p>
                   </div>
-                </div>
 
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaLayerGroup className="text-xl lg:text-2xl text-purple-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Ideal For</h3>
-                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+
+                  {/* Ideal For */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 p-3 rounded-xl flex-shrink-0 border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                        <FaLayerGroup className="text-xl text-purple-400" />
+                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors duration-300">
+                        Ideal For
+                      </h3>
+                    </div>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
                       AI/ML Engineering teams, LLMOps specialists, Product teams building AI-native applications, 
                       AI Safety and Research teams, and organizations deploying production AI systems.
                     </p>
                   </div>
-                </div>
 
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
-                    <FaSearch className="text-xl lg:text-2xl text-purple-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Core Capabilities</h3>
-                    <div className="grid sm:grid-cols-2 gap-3 text-sm lg:text-base text-gray-300">
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Response accuracy validation</span>
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+
+                  {/* Core Capabilities */}
+                  <div className="group">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 p-3 rounded-xl flex-shrink-0 border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                        <FaSearch className="text-xl text-purple-400" />
                       </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Model version comparison</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Hallucination detection</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Bias and toxicity screening</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Prompt injection defense</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Context retrieval accuracy</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Agent behavior validation</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="text-purple-400 mr-2">•</span>
-                        <span>Performance benchmarking</span>
-                      </div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors duration-300">
+                        Core Capabilities
+                      </h3>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 lg:gap-5 pl-0 sm:pl-16">
+                      {[
+                        'Response accuracy validation',
+                        'Model version comparison',
+                        'Hallucination detection',
+                        'Bias and toxicity screening',
+                        'Prompt injection defense',
+                        'Context retrieval accuracy',
+                        'Agent behavior validation',
+                        'Performance benchmarking'
+                      ].map((capability, index) => (
+                        <div key={index} className="flex items-start gap-3 bg-gray-800/40 backdrop-blur-sm p-3.5 rounded-xl border border-gray-700/50 hover:border-purple-500/30 transition-all duration-300 hover:bg-gray-800/60">
+                          <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0"></div>
+                          <span className="text-sm text-gray-200">{capability}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -301,30 +299,6 @@ export default function Dashboard() {
               <p className="text-purple-400 font-semibold text-sm lg:text-base flex items-start">
                 <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
                 <span>Detected and prevented 47 potential hallucinations, ensuring 99.2% safety compliance with zero critical incidents post-launch</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Combined Use Case */}
-          <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-purple-500/30 rounded-xl p-6 lg:p-8 hover:border-purple-400/50 transition-all duration-300">
-            <div className="flex items-center mb-4">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-1.5 rounded-full text-white text-xs font-semibold mr-3">
-                Both Services Combined
-              </div>
-              <h3 className="text-lg lg:text-xl font-bold text-white">AI-Powered SaaS Application</h3>
-            </div>
-            <p className="text-sm lg:text-base text-gray-300 mb-4 leading-relaxed">
-              A SaaS company built an application with AI-powered features (smart recommendations, predictive analytics) 
-              alongside traditional features (user management, billing, dashboards, reporting).
-            </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <p className="text-blue-400 font-semibold text-sm lg:text-base flex items-start">
-                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
-                <span>Agentic AI Testing validates UI/UX, workflows, and traditional application features</span>
-              </p>
-              <p className="text-purple-400 font-semibold text-sm lg:text-base flex items-start">
-                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
-                <span>Testing AI Systems ensures recommendation engine accuracy, prevents bias, and validates safety</span>
               </p>
             </div>
           </div>
