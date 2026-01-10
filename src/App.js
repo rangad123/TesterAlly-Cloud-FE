@@ -18,7 +18,7 @@ import CreateTestCases from "./pages/CreateTestCases";
 import WriteTestManually from "./pages/WriteTestManually";
 import TestSuite from "./pages/TestSuite";
 import CreateTestSuite from "./pages/CreateTestSuite";
-import DashBoard from "./pages/DashBoard";
+import TesterallyBusinessUI from "./pages/DashBoard";
 import PrivateRoute from "./pages/PrivateRoute";
 import ProjectDetails from "./pages/ProjectDetails";
 import ProjectMembers from "./pages/ProjectMembers";
@@ -73,6 +73,7 @@ import BillingPage from "./pages/BillingPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import AboutPage from "./pages/AboutPage"
 import TestExecutionLogs from "./pages/TestExecutionLogs";
+import StudioHome from "./pages/StudioHome";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -159,7 +160,7 @@ const DashBoardWrapper = ({ isLoggedIn, onLogout }) => {
     }
   }, [isLoggedIn, onLogout]);
 
-  return <DashBoard isLoggedIn={false} name="" email="" />;
+  return <TesterallyBusinessUI isLoggedIn={false} name="" email="" />;
 };
 
 
@@ -391,6 +392,11 @@ const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin
                   onLogin={handleLogin}
                 />
               }
+            />
+            <Route
+              path="studio"
+              exact
+              element={<StudioHome isLoggedIn={isLoggedIn} />}
             />
             <Route
               path="forgotPassword"

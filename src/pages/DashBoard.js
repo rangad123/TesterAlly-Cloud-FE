@@ -1,43 +1,15 @@
-import React from "react";
+import React, { useState } from 'react';
 import "./Style2.css";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import { FaCog, FaChartBar, FaShieldAlt, FaRobot, FaEye, FaBolt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaCheckCircle, FaGithub, FaLinkedin, FaEnvelope, FaLightbulb, FaShieldAlt, FaChartLine, FaCode, FaCogs, FaFlask, FaSearch, FaBolt, FaLayerGroup } from 'react-icons/fa';
+import { Link, useNavigate } from "react-router-dom";
 import CookieConsent from "./CookieConsent";
 import AgentHeroSection from "./HeroSection";
 
 export default function Dashboard() {
-  
-  const FeatureCard = ({ title, description, icon: IconComponent, hoverBg }) => (
-    <div 
-      className={`feature-card bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 hover:border-purple-500/50 cursor-pointer`}
-      style={{
-        transition: 'background-color 0.3s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = hoverBg;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgb(31 41 55)'; // bg-gray-800
-      }}
-    >
-      <div className="feature-icon text-3xl mb-4" style={{ color: '#9333ea' }}>
-        <IconComponent />
-      </div>
-      <h3 className="text-xl font-bold text-purple-200 mb-2">{title}</h3>
-      <p className="text-gray-300">{description}</p>
-    </div>
-  );
 
-  const StepCard = ({ step, title, description }) => (
-    <div className="step-card bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
-      <div className="step-number bg-purple-600 text-white text-xl font-bold rounded-full w-10 h-10 flex items-center justify-center mb-4">
-        {step}
-      </div>
-      <h4 className="step-title text-xl font-bold text-purple-200 mb-2">{title}</h4>
-      <p className="step-description text-gray-300">{description}</p>
-    </div>
-  );
+  const [activeTab, setActiveTab] = useState('vertical1');
+
+  const navigate = useNavigate()
 
   return (
     <div className="bg-gray-900 text-gray-200 min-h-screen">
@@ -48,183 +20,335 @@ export default function Dashboard() {
         <AgentHeroSection />
       </section>
 
-      {/* Marquee Section - Dark theme with purple accent */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-4 my-8 mx-4 md:mx-8 lg:mx-auto lg:max-w-7xl rounded-lg border border-purple-600/30 shadow-md">
-        <p className="text-purple-300 text-sm md:text-base lg:text-lg font-semibold text-center animate-pulse">
-          🚀 Unlock the power of AI in testing | 🌟 Seamless automate web, mobile, and API testing | 📈 Scale your testing with TesterAlly today!
-        </p>
-      </div>
-
-      {/* Features Section */}
-      <section id="features" className="features max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12 text-white">
-          <span className="text-purple-600">Advanced</span> <span className="text-purple-600">AI-Driven Web Testing</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          <FeatureCard
-            title="Intelligent Test Automation"
-            description="Leverage advanced AI to generate and maintain test cases in simple, human-readable language. Streamline testing workflows by automating repetitive tasks, reducing manual effort, and ensuring higher accuracy in testing."
-            icon={FaCog}
-            hoverBg="rgb(30 58 138)"
-          />
-          <FeatureCard
-            title="Comprehensive Analytics"
-            description="Get real-time insights into testing performance with detailed analytics and reporting tools. Identify bottlenecks, track progress, and make informed decisions to enhance the quality of your testing processes."
-            icon={FaChartBar}
-            hoverBg="rgb(30 58 138)"
-          />
-          <FeatureCard
-            title="Reliable Test Coverage"
-            description="Perform robust testing with dynamic datasets to simulate real-world scenarios. Validate application behavior under various conditions to achieve higher reliability and enhanced test coverage."
-            icon={FaShieldAlt}
-            hoverBg="rgb(30 58 138)"
-          />
-          <FeatureCard
-            title="AI-Driven Workflows"
-            description="Accelerate testing with automated workflows powered by cutting-edge AI technology."
-            icon={FaRobot}
-            hoverBg="rgb(30 58 138)"
-          />
-          <FeatureCard
-            title="Smart Element Recognition"
-            description="Identify and interact with UI elements through intelligent visual detection and precise coordinate mapping."
-            icon={FaEye}
-            hoverBg="rgb(30 58 138)"
-          />
-          <FeatureCard
-            title="Efficient Interaction Testing"
-            description="Automate complex testing tasks, such as form interactions and multi-step operations, with precision and ease."
-            icon={FaBolt}
-            hoverBg="rgb(30 58 138)"
-          />
-        </div>
-      </section>
-
-      {/* Technology Stack */}
-      <section className="bg-gray-900/50 py-16">
+      {/* Platform Benefits */}
+      <section className="py-16 lg:py-24 bg-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Our Technology Stack</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {[
-              { 
-                name: "Python", 
-                icon: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" className="w-8 h-8" />
-              },
-              { 
-                name: "React", 
-                icon: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" className="w-8 h-8" />
-              },
-              { 
-                name: "AWS", 
-                icon: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS" className="w-8 h-8 invert" />
-              },
-              { 
-                name: "OpenAI", 
-                icon: <img src="https://seeklogo.com/images/O/open-ai-logo-8B9BFEDC26-seeklogo.com.png" alt="OpenAI" className="w-8 h-8" />
-              },
-              { 
-                name: "OmniParser", 
-                icon: <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="OmniParser" className="w-8 h-8" />
-              }, 
-              { 
-                name: "LangGraph", 
-                icon: <img src="https://avatars.githubusercontent.com/u/126733545?s=200&v=4" alt="LangGraph" className="w-12 h-12 invert" />
-              },
-            ].map((tech, index) => (
-              <div key={index} className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-center hover:border-purple-600/50 transition-colors">
-                <div className="text-3xl mb-2 flex justify-center items-center h-12">{tech.icon}</div>
-                <p className="text-sm text-gray-300">{tech.name}</p>
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              Why Leading Teams Choose <span className="text-purple-500">Testerally</span>
+            </h2>
+            <p className="text-gray-300 text-base lg:text-lg max-w-3xl mx-auto">
+              The only unified platform for testing both traditional applications and AI-powered systems
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 lg:p-8 text-center hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+              <div className="bg-purple-500/20 w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <FaLightbulb className="text-2xl lg:text-3xl text-purple-400" />
               </div>
-            ))}
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">Future-Ready Architecture</h3>
+              <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                Built for the AI era with support for both traditional software testing and cutting-edge AI system validation in a single unified platform
+              </p>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 lg:p-8 text-center hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+              <div className="bg-purple-500/20 w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <FaShieldAlt className="text-2xl lg:text-3xl text-purple-400" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">Enterprise-Grade Security</h3>
+              <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                Bank-level security with SOC 2 compliance, role-based access control, and comprehensive audit logging for regulated industries
+              </p>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 lg:p-8 text-center hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+              <div className="bg-purple-500/20 w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <FaChartLine className="text-2xl lg:text-3xl text-purple-400" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">Intelligent Insights</h3>
+              <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                AI-powered analytics deliver actionable recommendations, trend analysis, and predictive quality metrics to drive continuous improvement
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="how-it-works max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gray-850">
-        <h2 className="text-3xl font-bold text-center mb-12 text-purple-600">
-          How Our <span className="text-purple-600">AI</span> <span className="text-purple-600">Testing Works</span>
-        </h2>
+      {/* Service Comparison */}
+      <section className="py-16 lg:py-24 bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              Explore Our <span className="text-purple-500">Testing Services</span>
+            </h2>
+            <p className="text-gray-300 text-base lg:text-lg max-w-2xl mx-auto">
+              Choose the solution that fits your testing requirements
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <StepCard
-          step="1"
-          title="Codeless Test Creation"
-          description="Empower anyone to create test cases in simple, natural language, speeding up the test authoring process without the need for coding expertise."
-        />
-        <StepCard
-          step="2"
-          title="Test Execution Scheduling"
-          description="Set up tests to run as frequently as needed, whenever you choose, using the flexible Execution Planner to automate your testing cycles."
-        />
-        <StepCard
-          step="3"
-          title="Comprehensive Test Reporting"
-          description="Gather detailed insights from your test results, along with AI-generated suggestions to diagnose why a test may have failed, helping teams pinpoint issues efficiently."
-        />
+          {/* Tab Selector */}
+          <div className="flex justify-center mb-10 lg:mb-12">
+            <div className="inline-flex bg-gray-800 rounded-xl p-1.5 border border-gray-700 shadow-lg">
+              <button
+                onClick={() => setActiveTab('vertical1')}
+                className={`px-4 sm:px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold transition-all duration-300 text-sm lg:text-base ${
+                  activeTab === 'vertical1'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/50'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <span className="hidden sm:inline">Agentic AI Testing</span>
+                <span className="sm:hidden">AI Testing</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('vertical2')}
+                className={`px-4 sm:px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold transition-all duration-300 text-sm lg:text-base ${
+                  activeTab === 'vertical2'
+                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <span className="hidden sm:inline">Testing AI Systems</span>
+                <span className="sm:hidden">AI Systems</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 lg:p-10 shadow-2xl">
+            {activeTab === 'vertical1' ? (
+              <div className="space-y-8 lg:space-y-10">
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaCode className="text-xl lg:text-2xl text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">What We Test</h3>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                      Web applications (React, Angular, Vue), native mobile apps (iOS/Android), 
+                      REST and GraphQL APIs, microservices architectures, serverless functions, 
+                      complex user workflows, and end-to-end business processes.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaCogs className="text-xl lg:text-2xl text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Ideal For</h3>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                      QA Engineering teams, Software Development Engineers in Test (SDETs), DevOps and CI/CD teams, 
+                      Product organizations, and startups scaling their quality assurance operations.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-blue-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaBolt className="text-xl lg:text-2xl text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Core Capabilities</h3>
+                    <div className="grid sm:grid-cols-2 gap-3 text-sm lg:text-base text-gray-300">
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Natural language test authoring</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Visual regression detection</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Self-healing element locators</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Parallel test execution</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>AI-powered failure diagnosis</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Cross-browser compatibility</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>Automated regression suites</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-blue-400 mr-2">•</span>
+                        <span>CI/CD pipeline integration</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-8 lg:space-y-10">
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaFlask className="text-xl lg:text-2xl text-purple-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">What We Test</h3>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                      Large Language Models (GPT, Claude, Gemini), conversational AI systems, 
+                      multi-agent orchestration platforms, RAG (Retrieval-Augmented Generation) pipelines, 
+                      fine-tuned models, prompt templates, and AI-powered features.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaLayerGroup className="text-xl lg:text-2xl text-purple-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Ideal For</h3>
+                    <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                      AI/ML Engineering teams, LLMOps specialists, Product teams building AI-native applications, 
+                      AI Safety and Research teams, and organizations deploying production AI systems.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="bg-purple-500/20 p-3 lg:p-4 rounded-xl flex-shrink-0">
+                    <FaSearch className="text-xl lg:text-2xl text-purple-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">Core Capabilities</h3>
+                    <div className="grid sm:grid-cols-2 gap-3 text-sm lg:text-base text-gray-300">
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Response accuracy validation</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Model version comparison</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Hallucination detection</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Bias and toxicity screening</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Prompt injection defense</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Context retrieval accuracy</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Agent behavior validation</span>
+                      </div>
+                      <div className="flex items-start">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span>Performance benchmarking</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* About Agent Section */}
-      <section id="about-us" className="about-us max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">
-          About Us
-        </h2>
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-md">
-        <p>
-        TesterAlly is leading the charge in AI-powered test automation solutions. 
-        Our mission is to empower development and QA teams to achieve impeccable software quality with unparalleled speed and accuracy. 
-        Driven by innovation and a commitment to excellence, we are revolutionizing the testing process. With our cutting-edge platform, 
-        we combine AI’s power with intuitive, codeless interfaces to simplify and accelerate testing across web, mobile, and API applications. 
-        TesterAlly is your trusted partner for automating and enhancing the testing lifecycle, ensuring seamless delivery of high-quality software at scale.
-        </p>
+      {/* Use Cases */}
+      <section className="py-16 lg:py-24 bg-gray-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              Real-World <span className="text-purple-500">Applications</span>
+            </h2>
+            <p className="text-gray-300 text-base lg:text-lg max-w-2xl mx-auto">
+              See how organizations leverage Testerally across different scenarios
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
+            <div className="bg-gray-800/80 backdrop-blur-sm border border-blue-500/40 rounded-xl p-6 lg:p-8 hover:border-blue-400/60 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20">
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-500/20 px-4 py-1.5 rounded-full text-blue-400 text-xs font-semibold mr-3 border border-blue-500/30">
+                  Agentic AI Testing
+                </div>
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">E-Commerce Platform Testing</h3>
+              <p className="text-sm lg:text-base text-gray-300 mb-4 leading-relaxed">
+                A global retailer needed comprehensive testing for their checkout flow, payment gateway integration, 
+                inventory management system, and mobile shopping experience across iOS and Android platforms.
+              </p>
+              <p className="text-blue-400 font-semibold text-sm lg:text-base flex items-start">
+                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
+                <span>Achieved 95% test automation coverage with zero-maintenance self-healing tests and 60% reduction in QA cycle time</span>
+              </p>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm border border-purple-500/40 rounded-xl p-6 lg:p-8 hover:border-purple-400/60 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20">
+              <div className="flex items-center mb-4">
+                <div className="bg-purple-500/20 px-4 py-1.5 rounded-full text-purple-400 text-xs font-semibold mr-3 border border-purple-500/30">
+                  Testing AI Systems
+                </div>
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">AI Customer Support Validation</h3>
+              <p className="text-sm lg:text-base text-gray-300 mb-4 leading-relaxed">
+                A SaaS company deployed an LLM-powered customer support chatbot and required validation of response accuracy, 
+                handling of edge cases, safety compliance, and multilingual support before production release.
+              </p>
+              <p className="text-purple-400 font-semibold text-sm lg:text-base flex items-start">
+                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
+                <span>Detected and prevented 47 potential hallucinations, ensuring 99.2% safety compliance with zero critical incidents post-launch</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Combined Use Case */}
+          <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-purple-500/30 rounded-xl p-6 lg:p-8 hover:border-purple-400/50 transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-1.5 rounded-full text-white text-xs font-semibold mr-3">
+                Both Services Combined
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-white">AI-Powered SaaS Application</h3>
+            </div>
+            <p className="text-sm lg:text-base text-gray-300 mb-4 leading-relaxed">
+              A SaaS company built an application with AI-powered features (smart recommendations, predictive analytics) 
+              alongside traditional features (user management, billing, dashboards, reporting).
+            </p>
+            <div className="grid md:grid-cols-2 gap-4">
+              <p className="text-blue-400 font-semibold text-sm lg:text-base flex items-start">
+                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
+                <span>Agentic AI Testing validates UI/UX, workflows, and traditional application features</span>
+              </p>
+              <p className="text-purple-400 font-semibold text-sm lg:text-base flex items-start">
+                <FaCheckCircle className="mt-1 mr-2 flex-shrink-0" />
+                <span>Testing AI Systems ensures recommendation engine accuracy, prevents bias, and validates safety</span>
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Blog Highlights Section */}
-      <section id="blog" className="blog-highlights max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">From Our Blog</h2>
-        <div className="blog-grid">
-          <div className="blog-card border-gray-700 bg-gray-800">
-            <h4 className="text-white">Crowd Intelligence – Its impact on the training of AI</h4>
-            <p>
-              Explore how AI is transforming the landscape of test automation
-              and what it means for the future of software development. Discover
-              the latest trends in AI and how they are revolutionizing software
-              testing.
-            </p>
-            <button className="btn primary-btn" onClick={() => window.location.href = "https://www.crowd4test.com/blog/artificial-intelligence/crowd-intelligence-its-impact-on-the-training-of-ai/"} >Read More</button>
-          </div>
-          <div className="blog-card border-gray-700 bg-gray-800">
-            <h4 className="text-white">Artificial Intelligence AI and Software Testing – The Scope</h4>
-            <p>
-              Learn essential strategies to ensure your application performs
-              flawlessly across all browsers and devices. Learn how AI can help
-              QA teams achieve faster and more accurate results.
-            </p>
-            <button className="btn primary-btn" onClick={() => window.location.href = "https://www.crowd4test.com/blog/software-testing/artificial-intelligence-ai-and-software-testing-the-scope/"} >Read More</button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="testimonials max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-        <h2 className="text-3xl font-bold text-center mb-12 mt-8 text-purple-600">What Our Users Say</h2>
-        <div className="testimonials-grid">
-          <div className="testimonial-card bg-gray-800">
-            <p>
-              "This platform has completely transformed our testing workflow.
-              The AI capabilities are top-notch!"
-            </p>
-            <h4 className="text-white">- Jane Doe, Software Engineer</h4>
-          </div>
-          <div className="testimonial-card bg-gray-800">
-            <p>
-              "Detailed reporting and secure testing have made our development
-              process much smoother."
-            </p>
-            <h4 className="text-white">- John Smith, QA Lead</h4>
+      {/* CTA Section */}
+      <section className="py-16 lg:py-20 bg-gradient-to-r from-blue-900/30 via-purple-900/30 to-pink-900/30">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+            Ready to Transform Your Testing?
+          </h2>
+          <p className="text-lg lg:text-xl text-gray-300 mb-8">
+            Join the future of testing with Testerally's dual-service platform
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+            onClick={() => navigate("/dashboard/register")}
+            className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-600/50">
+              Start Free Trial
+            </button>
+            <button className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 font-semibold rounded-lg transition-all duration-300">
+              Schedule Demo
+            </button>
           </div>
         </div>
       </section>
@@ -233,14 +357,12 @@ export default function Dashboard() {
       <footer id="contact" className="bg-gray-900 border-t border-gray-800 py-16 px-4">
         <div className="max-w-7xl mx-auto">
           
-          {/* Main Footer Content - Side by Side Layout */}
           <div className="flex flex-wrap justify-between gap-12 mb-12">
             
-            {/* About Section */}
             <div className="min-w-[200px]">
               <h3 className="text-xl font-bold text-purple-400 mb-6">About</h3>
               <div className="flex flex-col space-y-3">
-                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Our Story </Link>
+                <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Our Story</Link>
                 <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Team</Link>
                 <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Careers</Link>
                 <Link to="about-page" className="text-gray-300 hover:text-purple-300 transition-colors">Press</Link>
@@ -248,19 +370,16 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Features Section */}
             <div className="min-w-[200px]">
-              <h3 className="text-xl font-bold text-purple-400 mb-6">Features</h3>
+              <h3 className="text-xl font-bold text-purple-400 mb-6">Solutions</h3>
               <div className="flex flex-col space-y-3">
-                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">AI Test Automation</a>
-                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Analytics & Reporting</a>
-                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Test Coverage</a>
-                <a href="features" className="text-gray-300 hover:text-purple-300 transition-colors">Smart Recognition</a>
-                <a href="how-it-works" className="text-gray-300 hover:text-purple-300 transition-colors">How It Works</a>
+                <a href="#vertical1" className="text-gray-300 hover:text-purple-300 transition-colors">AI-Assisted Testing</a>
+                <a href="#vertical2" className="text-gray-300 hover:text-purple-300 transition-colors">Testing AI Systems</a>
+                <a href="#features" className="text-gray-300 hover:text-purple-300 transition-colors">Platform Features</a>
+                <a href="#use-cases" className="text-gray-300 hover:text-purple-300 transition-colors">Use Cases</a>
               </div>
             </div>
 
-            {/* Pricing Section */}
             <div className="min-w-[200px]">
               <h3 className="text-xl font-bold text-purple-400 mb-6">Pricing</h3>
               <div className="flex flex-col space-y-3">
@@ -268,11 +387,9 @@ export default function Dashboard() {
                 <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Starter Plan</Link>
                 <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Professional</Link>
                 <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Enterprise</Link>
-                <Link to="resources" className="text-gray-300 hover:text-purple-300 transition-colors">Custom Solutions</Link>
               </div>
             </div>
 
-            {/* Resources Section */}
             <div className="min-w-[200px]">
               <h3 className="text-xl font-bold text-purple-400 mb-6">Resources</h3>
               <div className="flex flex-col space-y-3">
@@ -285,16 +402,14 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Brand Section */}
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white mb-2">TesterAlly <span className="text-purple-400">AI Agent</span></h3>
-            <p className="text-gray-300 text-lg">Next-generation test automation with artificial intelligence</p>
+            <h3 className="text-2xl font-bold text-white mb-2">Testerally</h3>
+            <p className="text-gray-300 text-lg">Agentic AI Testing Platform</p>
           </div>
 
-          {/* Footer Bottom */}
           <hr className="border-gray-800 mb-8" />
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 mb-4 md:mb-0">© 2024 TesterAlly AI Agent v2.0.1. All Rights Reserved.</p>
+            <p className="text-gray-300 mb-4 md:mb-0">© 2024 Testerally. All Rights Reserved.</p>
             <div className="flex gap-6">
               <a
                 href="https://linkedin.com"
@@ -305,7 +420,7 @@ export default function Dashboard() {
                 <FaLinkedin className="text-purple-600" /> LinkedIn
               </a>
               <a 
-                href="https://github.com/rangad123/TesterAlly-FE/"
+                href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-purple-300 transition-colors flex items-center gap-2"
@@ -313,13 +428,13 @@ export default function Dashboard() {
                 <FaGithub className="text-purple-600" /> GitHub
               </a>
               <a 
-                href="mailto:ai-support@testerally.com"
+                href="mailto:support@testerally.com"
                 className="text-gray-300 hover:text-purple-300 transition-colors flex items-center gap-2"
               >
                 <FaEnvelope className="text-purple-600" /> Support
               </a>
             </div>
-            </div>
+          </div>
         </div>
       </footer>
     </div>
