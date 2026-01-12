@@ -383,27 +383,6 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* LLM Models */}
-          <div className="mb-12 lg:mb-16">
-            <h3 className="text-xl lg:text-2xl font-bold text-white mb-6 text-center">
-              Supported AI Models
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-              {[
-                { name: 'GPT-4 Turbo', provider: 'OpenAI', icon: '🤖', color: 'from-blue-600 to-blue-700' },
-                { name: 'Claude Sonnet 4', provider: 'Anthropic', icon: '🧠', color: 'from-purple-600 to-purple-700' },
-                { name: 'Gemini Pro', provider: 'Google', icon: '✨', color: 'from-cyan-600 to-cyan-700' },
-                { name: 'Llama 3.1', provider: 'Meta', icon: '🦙', color: 'from-blue-700 to-purple-700' }
-              ].map((model, index) => (
-                <div key={index} className={`bg-gradient-to-br ${model.color} rounded-xl p-6 border border-gray-700/50 hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-${model.color.split('-')[1]}-500/20`}>
-                  <div className="text-4xl mb-3">{model.icon}</div>
-                  <h4 className="text-lg font-bold text-white mb-1">{model.name}</h4>
-                  <p className="text-sm text-gray-200 opacity-80">{model.provider}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* AI Frameworks & Protocols */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
             
@@ -414,7 +393,7 @@ export default function Dashboard() {
                   <FaCogs className="text-2xl text-blue-400" />
                 </div>
                 <h3 className="text-xl lg:text-2xl font-bold text-white ml-4">
-                  AI Frameworks
+                  Agentic Frameworks
                 </h3>
               </div>
               
@@ -473,6 +452,27 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* LLM Models */}
+          <div className="mb-6 mt-12 lg:mb-6">
+            <h3 className="text-xl lg:text-2xl font-bold text-white mb-6 text-center">
+              Supported AI Models
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {[
+                { name: 'GPT-4 Turbo', provider: 'OpenAI', icon: '🤖', color: 'from-blue-600 to-blue-700' },
+                { name: 'Claude Sonnet 4', provider: 'Anthropic', icon: '🧠', color: 'from-purple-600 to-purple-700' },
+                { name: 'Gemini Pro', provider: 'Google', icon: '✨', color: 'from-cyan-600 to-cyan-700' },
+                { name: 'Llama 3.1', provider: 'Meta', icon: '🦙', color: 'from-blue-700 to-purple-700' }
+              ].map((model, index) => (
+                <div key={index} className={`bg-gradient-to-br ${model.color} rounded-xl p-6 border border-gray-700/50 hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-${model.color.split('-')[1]}-500/20`}>
+                  <div className="text-4xl mb-3">{model.icon}</div>
+                  <h4 className="text-lg font-bold text-white mb-1">{model.name}</h4>
+                  <p className="text-sm text-gray-200 opacity-80">{model.provider}</p>
+                </div>
+              ))}
             </div>
           </div>
 

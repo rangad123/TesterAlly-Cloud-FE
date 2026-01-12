@@ -182,19 +182,22 @@ const AgentHeroSection = () => {
       title: "Manual Testing",
       description: "Time-intensive, human-dependent quality processes",
       image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80",
-      gradient: "from-gray-700 to-gray-800"
+      gradient: "from-gray-700 to-gray-800",
+      isActive: true
     },
     {
       title: "Tool-Based Testing",
       description: "Script-driven frameworks with high maintenance",
       image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&q=80",
-      gradient: "from-blue-700 to-blue-800"
+      gradient: "from-blue-700 to-blue-800",
+      isActive: true
     },
     {
       title: "AI-Assisted Testing",
       description: "Machine learning augmentation and pattern recognition",
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80",
-      gradient: "from-cyan-700 to-cyan-800"
+      gradient: "from-cyan-700 to-cyan-800",
+      isActive: true
     },
     {
       title: "Agentic AI Testing",
@@ -238,7 +241,7 @@ const AgentHeroSection = () => {
           <div className="hidden lg:block">
             <div className="relative">
               {/* Connecting Line with gradient */}
-              <div className="absolute top-[88px] left-[10%] right-[10%] h-1 bg-gradient-to-r from-gray-600 via-cyan-500/60 to-purple-500 rounded-full z-0" />
+              <div className="absolute top-[210px] left-[10%] right-[10%] h-1 bg-gradient-to-r from-gray-600 via-cyan-500/60 to-purple-500 rounded-full z-0" />
               
               <div className="grid grid-cols-4 gap-6 relative">
                 {evolutionStages.map((stage, index) => (
@@ -287,14 +290,6 @@ const AgentHeroSection = () => {
                           {stage.description}
                         </p>
                         
-                        {stage.isActive && (
-                          <div className="mt-4 pt-4 border-t border-purple-500/30">
-                            <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold">
-                              <FaCheckCircle />
-                              <span>Our Technology</span>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
