@@ -71,10 +71,10 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-              Explore Our <span className="text-purple-500">Testing Services</span>
+              Explore Our <span className="text-purple-500">Quality Solutions</span>
             </h2>
             <p className="text-gray-300 text-base lg:text-lg max-w-2xl mx-auto">
-              Choose the solution that fits your testing requirements
+              Choose the intelligent solution that transforms your quality engineering
             </p>
           </div>
 
@@ -89,8 +89,8 @@ export default function Dashboard() {
                     : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
                 }`}
               >
-                <span className="hidden sm:inline">Agentic AI Testing</span>
-                <span className="sm:hidden">AI Testing</span>
+                <span className="hidden sm:inline">Agentic AI Quality Engineering</span>
+                <span className="sm:hidden">AI Quality</span>
               </button>
               <button
                 onClick={() => setActiveTab('vertical2')}
@@ -115,20 +115,20 @@ export default function Dashboard() {
             <div className="relative z-10">
               {activeTab === 'vertical1' ? (
                 <div className="space-y-8 lg:space-y-10">
-                  {/* What We Test */}
+                  {/* What We Validate */}
                   <div className="group">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 p-3 rounded-xl flex-shrink-0 border border-blue-500/20 group-hover:border-blue-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/20">
                         <FaCode className="text-xl text-blue-400" />
                       </div>
                       <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
-                        What We Test
+                        What We Validate
                       </h3>
                     </div>
                     <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
-                      Web applications (React, Angular, Vue), native mobile apps (iOS/Android), 
-                      REST and GraphQL APIs, microservices architectures, serverless functions, 
-                      complex user workflows, and end-to-end business processes.
+                      Web experiences (React, Angular, Vue), native mobile applications (iOS/Android), 
+                      API behaviors (REST, GraphQL), microservices ecosystems, serverless architectures, 
+                      complex user journeys, and end-to-end business workflows.
                     </p>
                   </div>
 
@@ -145,8 +145,8 @@ export default function Dashboard() {
                       </h3>
                     </div>
                     <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
-                      QA Engineering teams, Software Development Engineers in Test (SDETs), DevOps and CI/CD teams, 
-                      Product organizations, and startups scaling their quality assurance operations.
+                      Quality Engineering teams, Platform Engineering organizations, DevOps and continuous delivery teams, 
+                      Product-focused companies, and high-velocity teams scaling quality without scaling headcount.
                     </p>
                   </div>
 
@@ -164,14 +164,14 @@ export default function Dashboard() {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 lg:gap-5 pl-0 sm:pl-16">
                       {[
-                        'Natural language test authoring',
-                        'Visual regression detection',
-                        'Self-healing element locators',
-                        'Parallel test execution',
-                        'AI-powered failure diagnosis',
-                        'Cross-browser compatibility',
-                        'Automated regression suites',
-                        'CI/CD pipeline integration'
+                        'Intent-based quality validation',
+                        'Intelligent visual behavior detection',
+                        'Adaptive reasoning for dynamic applications',
+                        'Autonomous exploration and edge case discovery',
+                        'Cognitive failure analysis and insights',
+                        'Cross-platform experience consistency',
+                        'Self-evolving quality logic',
+                        'Continuous quality orchestration'
                       ].map((capability, index) => (
                         <div key={index} className="flex items-start gap-3 bg-gray-800/40 backdrop-blur-sm p-3.5 rounded-xl border border-gray-700/50 hover:border-blue-500/30 transition-all duration-300 hover:bg-gray-800/60">
                           <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></div>
@@ -183,14 +183,14 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="space-y-8 lg:space-y-10">
-                  {/* What We Test */}
+                  {/* What We Validate */}
                   <div className="group">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 p-3 rounded-xl flex-shrink-0 border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                         <FaFlask className="text-xl text-purple-400" />
                       </div>
                       <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors duration-300">
-                        What We Test
+                        What We Validate
                       </h3>
                     </div>
                     <p className="text-sm lg:text-base text-gray-300 leading-relaxed pl-0 sm:pl-16">
@@ -378,7 +378,7 @@ export default function Dashboard() {
 
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-white mb-2">Testerally</h3>
-            <p className="text-gray-300 text-lg">Agentic AI Testing Platform</p>
+            <p className="text-gray-300 text-lg">Agentic AI Testing Service</p>
           </div>
 
           <hr className="border-gray-800 mb-8" />

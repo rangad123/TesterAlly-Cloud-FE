@@ -215,32 +215,32 @@ const AgentHeroSection = () => {
                   <FaRobot className="text-4xl text-blue-400" />
                 </div>
                 <div className="ml-4">
-                  <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">Agentic AI Testing</h2>
-                  <p className="text-blue-300 text-sm font-medium">AI Tests Your Applications</p>
+                  <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">Agentic AI in Quality Engineering</h2>
+                  <p className="text-blue-300 text-sm font-medium">Autonomous Quality Assurance by AI Agents</p>
                 </div>
               </div>
 
               <p className="text-gray-300 mb-6 leading-relaxed text-base">
-                Deploy AI agents to autonomously test your web applications, mobile apps, and APIs. 
-                Our intelligent platform creates, executes, and maintains tests while adapting to your application's evolution.
+                Transform quality engineering with autonomous AI agents that think, learn, and adapt. 
+                Our intelligent agents independently explore applications, identify issues, and ensure quality across web, mobile, and API platforms with human-like reasoning.
               </p>
 
               <div className="space-y-3 mb-8">
                 <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
                   <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Cross-platform web and mobile testing</span>
+                  <span className="text-sm text-gray-200">Intelligent web and mobile experience validation</span>
                 </div>
                 <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
                   <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">RESTful and GraphQL API validation</span>
+                  <span className="text-sm text-gray-200">Autonomous API behavior assurance</span>
                 </div>
                 <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
                   <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Self-healing test automation</span>
+                  <span className="text-sm text-gray-200">Self-healing quality logic that evolves with your product</span>
                 </div>
                 <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
                   <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Automated root cause analysis</span>
+                  <span className="text-sm text-gray-200">Intelligent failure understanding and actionable insights</span>
                 </div>
               </div>
 
