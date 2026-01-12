@@ -1,12 +1,11 @@
-
-import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { FaRobot, FaBrain, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
+import { 
+  FaCheckCircle
+} from 'react-icons/fa';
 
 const AgentHeroSection = () => {
   const containerRef = useRef(null);
-  let navigate = useNavigate();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -178,133 +177,199 @@ const AgentHeroSection = () => {
     };
   }, []);
 
-  return (
-    <section className="relative bg-gray-900 py-16 mt-[3rem]">
-      <div ref={containerRef} className="absolute inset-0 z-0" />
+  const evolutionStages = [
+    {
+      title: "Manual Testing",
+      description: "Time-intensive, human-dependent quality processes",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80",
+      gradient: "from-gray-700 to-gray-800"
+    },
+    {
+      title: "Tool-Based Testing",
+      description: "Script-driven frameworks with high maintenance",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&q=80",
+      gradient: "from-blue-700 to-blue-800"
+    },
+    {
+      title: "AI-Assisted Testing",
+      description: "Machine learning augmentation and pattern recognition",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80",
+      gradient: "from-cyan-700 to-cyan-800"
+    },
+    {
+      title: "Agentic AI Testing",
+      description: "Autonomous intelligent agents with cognitive reasoning",
+      image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&q=80",
+      gradient: "from-purple-600 to-purple-700",
+      isActive: true
+    }
+  ];
 
+  return (
+    <section className="relative bg-gray-900 py-12 sm:py-16 lg:py-20 overflow-hidden">
+      <div ref={containerRef} className="absolute inset-0 z-0" />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-transparent to-gray-900/90 z-[1]" />
+      
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Headline */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Welcome to <span className="text-purple-500">Testerally</span>
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            The Complete Agentic AI Testing Platform
-          </p>
-          <div className="inline-block bg-purple-600/20 border border-purple-500/30 rounded-full px-6 py-2">
-            <p className="text-purple-300 text-sm font-medium">
-              Two Powerful Testing Solutions | One Unified Platform
-            </p>
+        {/* Hero Header */}
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-block mb-5">
+            <div className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 rounded-full px-5 py-2.5">
+              <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+              <span className="text-purple-300 text-sm font-medium">The Testing Revolution</span>
+            </div>
           </div>
-        </div>
-
-        {/* Split Hero Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
           
-          {/* Agentic AI Testing */}
-          <div className="group relative overflow-hidden border border-blue-500/30 rounded-3xl p-8 hover:border-blue-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
-            
-            {/* Decorative gradient orbs */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
-            
-            <div className="relative z-10">
-              <div className="flex items-center mb-6">
-                <div className="bg-gradient-to-br from-blue-500/30 to-blue-600/20 p-4 rounded-2xl border border-blue-400/30 shadow-lg shadow-blue-500/20">
-                  <FaRobot className="text-4xl text-blue-400" />
-                </div>
-                <div className="ml-4">
-                  <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">Agentic AI in Quality Engineering</h2>
-                  <p className="text-blue-300 text-sm font-medium">Autonomous Quality Assurance by AI Agents</p>
-                </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
+            The Evolution of <span className="text-purple-500">Quality Engineering</span>
+          </h1>
+          
+          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
+            Witness three decades of quality engineering evolution—from human-driven testing to intelligent AI agents that think, learn, and adapt
+          </p>
+        </div>
+
+        {/* Evolution Timeline with Images */}
+        <div className="relative">
+          
+          {/* Desktop: Horizontal Timeline */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              {/* Connecting Line with gradient */}
+              <div className="absolute top-[88px] left-[10%] right-[10%] h-1 bg-gradient-to-r from-gray-600 via-cyan-500/60 to-purple-500 rounded-full z-0" />
+              
+              <div className="grid grid-cols-4 gap-6 relative">
+                {evolutionStages.map((stage, index) => (
+                  <div key={index} className="relative group">
+                    
+                    {/* Timeline Dot - positioned at top of card */}
+                    <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                        stage.isActive 
+                          ? 'bg-purple-500 ring-4 ring-purple-500/30 shadow-lg shadow-purple-500/50' 
+                          : 'bg-gray-600 ring-4 ring-gray-800/80'
+                      }`}>
+                        <span className="text-white text-xs font-bold">{index + 1}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Vertical connector from dot to card */}
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-0.5 h-12 bg-gradient-to-b from-gray-600 to-transparent z-10" />
+                    
+                    {/* Content Card */}
+                    <div className={`relative mt-16 bg-gradient-to-br ${stage.gradient} rounded-2xl overflow-hidden border ${
+                      stage.isActive ? 'border-purple-500/50 shadow-xl shadow-purple-500/20' : 'border-gray-700/50'
+                    } transition-all duration-300 hover:scale-105 hover:shadow-2xl group-hover:border-purple-500/40`}>
+                      
+                      {/* Image */}
+                      <div className="relative h-40 overflow-hidden">
+                        <img 
+                          src={stage.image} 
+                          alt={stage.title}
+                          className="w-full h-full object-cover opacity-100 group-hover:opacity-120 group-hover:scale-110 transition-all duration-500"
+                        />
+                        <div className={`absolute inset-0 bg-gradient-to-t ${stage.gradient} opacity-70`} />
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="p-5">
+                        <h3 className={`text-lg font-bold mb-2 ${
+                          stage.isActive ? 'text-white' : 'text-gray-200'
+                        }`}>
+                          {stage.title}
+                        </h3>
+                        
+                        <p className={`text-sm leading-relaxed ${
+                          stage.isActive ? 'text-gray-300' : 'text-gray-400'
+                        }`}>
+                          {stage.description}
+                        </p>
+                        
+                        {stage.isActive && (
+                          <div className="mt-4 pt-4 border-t border-purple-500/30">
+                            <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold">
+                              <FaCheckCircle />
+                              <span>Our Technology</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              <p className="text-gray-300 mb-6 leading-relaxed text-base">
-                Transform quality engineering with autonomous AI agents that think, learn, and adapt. 
-                Our intelligent agents independently explore applications, identify issues, and ensure quality across web, mobile, and API platforms with human-like reasoning.
-              </p>
-
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Intelligent web and mobile experience validation</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Autonomous API behavior assurance</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Self-healing quality logic that evolves with your product</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Intelligent failure understanding and actionable insights</span>
-                </div>
-              </div>
-
-              <button 
-              onClick={() => navigate("/studio")}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] mt-auto">
-                Learn More <FaArrowRight className="ml-2" />
-              </button>
             </div>
           </div>
 
-          {/* Testing AI Systems */}
-          <div className="group relative overflow-hidden border border-purple-500/30 rounded-3xl p-8 hover:border-purple-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
-            
-            {/* Decorative gradient orbs */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl group-hover:bg-purple-500/30 transition-all duration-500"></div>
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"></div>
-            
-            <div className="relative z-10">
-              <div className="flex items-center mb-6">
-                <div className="bg-gradient-to-br from-purple-500/30 to-purple-600/20 p-4 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
-                  <FaBrain className="text-4xl text-purple-400" />
+          {/* Mobile & Tablet: Vertical Timeline */}
+          <div className="lg:hidden space-y-6">
+            {evolutionStages.map((stage, index) => (
+              <div key={index} className="relative flex gap-4 items-start">
+                {/* Timeline Line */}
+                {index < evolutionStages.length - 1 && (
+                  <div className="absolute left-6 top-20 bottom-0 w-0.5 bg-gradient-to-b from-gray-600 to-purple-500/50" />
+                )}
+                
+                {/* Timeline Dot */}
+                <div className="relative flex-shrink-0 mt-4">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    stage.isActive 
+                      ? 'bg-purple-500 ring-4 ring-purple-500/30 shadow-lg shadow-purple-500/50' 
+                      : 'bg-gray-600 ring-4 ring-gray-700'
+                  }`}>
+                    <span className="text-white text-xs font-bold">{index + 1}</span>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h2 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">Testing AI Systems</h2>
-                  <p className="text-purple-300 text-sm font-medium">Test AI Models & Agents</p>
+                
+                {/* Content Card */}
+                <div className={`flex-1 bg-gradient-to-br ${stage.gradient} rounded-xl overflow-hidden border ${
+                  stage.isActive ? 'border-purple-500/50 shadow-xl shadow-purple-500/20' : 'border-gray-700/50'
+                }`}>
+                  
+                  {/* Image */}
+                  <div className="relative h-32 sm:h-40 overflow-hidden">
+                    <img 
+                      src={stage.image} 
+                      alt={stage.title}
+                      className="w-full h-full object-cover opacity-100"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${stage.gradient} opacity-60`} />
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-4">
+                    <h3 className={`text-base sm:text-lg font-bold mb-2 ${
+                      stage.isActive ? 'text-white' : 'text-gray-200'
+                    }`}>
+                      {stage.title}
+                    </h3>
+                    
+                    <p className={`text-sm leading-relaxed ${
+                      stage.isActive ? 'text-gray-300' : 'text-gray-400'
+                    }`}>
+                      {stage.description}
+                    </p>
+                    
+                    {stage.isActive && (
+                      <div className="mt-3 pt-3 border-t border-purple-500/30">
+                        <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold">
+                          <FaCheckCircle />
+                          <span>Our Technology</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              <p className="text-gray-300 mb-6 leading-relaxed text-base">
-                Comprehensive validation framework for AI models, LLMs, and intelligent agents. 
-                Ensure accuracy, safety, and reliability of your AI systems before production deployment.
-              </p>
-
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">LLM output validation and benchmarking</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Multi-agent system behavior testing</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Hallucination and bias detection</span>
-                </div>
-                <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
-                  <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-200">Security and safety compliance testing</span>
-                </div>
-              </div>
-
-              <button className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] mt-auto">
-                Learn More <FaArrowRight className="ml-2" />
-              </button>
-            </div>
+            ))}
           </div>
         </div>
+
       </div>
     </section>
   );
 };
 
 export default AgentHeroSection;
-
-

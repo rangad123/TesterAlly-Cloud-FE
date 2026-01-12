@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./Style2.css";
 import { FaCheckCircle, FaGithub, FaLinkedin, FaEnvelope, FaLightbulb, FaShieldAlt, FaChartLine, FaCode, FaCogs, FaFlask, FaSearch, FaBolt, FaLayerGroup } from 'react-icons/fa';
+import { FaRobot, FaBrain, FaArrowRight, FaNetworkWired } from 'react-icons/fa';
 import { Link, useNavigate } from "react-router-dom";
 import CookieConsent from "./CookieConsent";
 import AgentHeroSection from "./HeroSection";
@@ -8,7 +9,6 @@ import AgentHeroSection from "./HeroSection";
 export default function Dashboard() {
 
   const [activeTab, setActiveTab] = useState('vertical1');
-
   const navigate = useNavigate()
 
   return (
@@ -18,6 +18,122 @@ export default function Dashboard() {
       {/* Hero Section */}
       <section className="hero">
         <AgentHeroSection />
+      </section>
+
+      <section className="relative bg-gray-900 py-16">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          <div className="text-center mb-16">
+            <div className="inline-block bg-purple-600/20 border border-purple-500/30 rounded-full px-6 py-2">
+              <p className="text-purple-300 text-sm font-medium">
+                Two Powerful Testing Solutions | One Unified Platform
+              </p>
+            </div>
+          </div>
+
+          {/* Split Hero Cards */}
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+
+            {/* Agentic AI Testing */}
+            <div className="group relative overflow-hidden bg-gradient-to-br from-gray-800/90 via-blue-900/40 to-gray-800/90 backdrop-blur-xl border border-blue-500/30 rounded-3xl p-8 hover:border-blue-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
+              
+              {/* Decorative gradient orbs */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-br from-blue-500/30 to-blue-600/20 p-4 rounded-2xl border border-blue-400/30 shadow-lg shadow-blue-500/20">
+                    <FaRobot className="text-4xl text-blue-400" />
+                  </div>
+                  <div className="ml-4">
+                    <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">Agentic AI in Quality Engineering</h2>
+                    <p className="text-blue-300 text-sm font-medium">Autonomous Quality Assurance by AI Agents</p>
+                  </div>
+                </div>
+  
+                <p className="text-gray-300 mb-6 leading-relaxed text-base">
+                  Transform quality engineering with autonomous AI agents that think, learn, and adapt. 
+                  Our intelligent agents independently explore applications, identify issues, and ensure quality across web, mobile, and API platforms with human-like reasoning.
+                </p>
+  
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Intelligent web and mobile experience validation</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Autonomous API behavior assurance</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Self-healing quality logic that evolves with your product</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Intelligent failure understanding and actionable insights</span>
+                  </div>
+                </div>
+  
+                <button 
+                onClick={() => navigate("/studio")}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] mt-auto">
+                  Learn More <FaArrowRight className="ml-2" />
+                </button>
+              </div>
+            </div>
+  
+            {/* Testing AI Systems */}
+            <div className="group relative overflow-hidden bg-gradient-to-br from-gray-800/90 via-purple-900/40 to-gray-800/90 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 hover:border-purple-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer flex flex-col hover:scale-[1.02]">
+              
+              {/* Decorative gradient orbs */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl group-hover:bg-purple-500/30 transition-all duration-500"></div>
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-br from-purple-500/30 to-purple-600/20 p-4 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                    <FaBrain className="text-4xl text-purple-400" />
+                  </div>
+                  <div className="ml-4">
+                    <h2 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">Testing AI Systems</h2>
+                    <p className="text-purple-300 text-sm font-medium">Test AI Models & Agents</p>
+                  </div>
+                </div>
+  
+                <p className="text-gray-300 mb-6 leading-relaxed text-base">
+                  Comprehensive validation framework for AI models, LLMs, and intelligent agents. 
+                  Ensure accuracy, safety, and reliability of your AI systems before production deployment.
+                </p>
+  
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">LLM output validation and benchmarking</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Multi-agent system behavior testing</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Hallucination and bias detection</span>
+                  </div>
+                  <div className="flex items-start bg-gray-800/40 backdrop-blur-sm p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all duration-300">
+                    <FaCheckCircle className="text-purple-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className="text-sm text-gray-200">Security and safety compliance testing</span>
+                  </div>
+                </div>
+  
+                <button className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] mt-auto">
+                  Learn More <FaArrowRight className="ml-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Platform Benefits */}
@@ -255,8 +371,116 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* Use Cases */}
+      {/* AI Stack Section */}
       <section className="py-16 lg:py-24 bg-gray-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              <span className="text-purple-500">AI Stack</span>
+            </h2>
+            <p className="text-gray-300 text-base lg:text-lg max-w-3xl mx-auto">
+              Leveraging the latest advancements in large language models, AI frameworks, and intelligent protocols
+            </p>
+          </div>
+
+          {/* LLM Models */}
+          <div className="mb-12 lg:mb-16">
+            <h3 className="text-xl lg:text-2xl font-bold text-white mb-6 text-center">
+              Supported AI Models
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {[
+                { name: 'GPT-4 Turbo', provider: 'OpenAI', icon: '🤖', color: 'from-blue-600 to-blue-700' },
+                { name: 'Claude Sonnet 4', provider: 'Anthropic', icon: '🧠', color: 'from-purple-600 to-purple-700' },
+                { name: 'Gemini Pro', provider: 'Google', icon: '✨', color: 'from-cyan-600 to-cyan-700' },
+                { name: 'Llama 3.1', provider: 'Meta', icon: '🦙', color: 'from-blue-700 to-purple-700' }
+              ].map((model, index) => (
+                <div key={index} className={`bg-gradient-to-br ${model.color} rounded-xl p-6 border border-gray-700/50 hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-${model.color.split('-')[1]}-500/20`}>
+                  <div className="text-4xl mb-3">{model.icon}</div>
+                  <h4 className="text-lg font-bold text-white mb-1">{model.name}</h4>
+                  <p className="text-sm text-gray-200 opacity-80">{model.provider}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* AI Frameworks & Protocols */}
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
+            
+            {/* Frameworks */}
+            <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 lg:p-8">
+              <div className="flex items-center mb-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-blue-600/20 p-3 rounded-xl border border-blue-400/30 shadow-lg shadow-blue-500/20">
+                  <FaCogs className="text-2xl text-blue-400" />
+                </div>
+                <h3 className="text-xl lg:text-2xl font-bold text-white ml-4">
+                  AI Frameworks
+                </h3>
+              </div>
+              
+              <div className="space-y-3">
+                {[
+                  { name: 'LangChain', desc: 'Advanced agent orchestration', icon: '🔗' },
+                  { name: 'LlamaIndex', desc: 'RAG & knowledge retrieval', icon: '📚' },
+                  { name: 'AutoGen', desc: 'Multi-agent conversations', icon: '🤝' },
+                  { name: 'CrewAI', desc: 'Role-based AI agents', icon: '👥' },
+                ].map((framework, index) => (
+                  <div key={index} className="flex items-center gap-4 bg-gray-800/40 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-blue-500/40 transition-all duration-300">
+                    <span className="text-2xl">{framework.icon}</span>
+                    <div className="flex-1">
+                      <h4 className="text-base font-semibold text-white">{framework.name}</h4>
+                      <p className="text-sm text-gray-400">{framework.desc}</p>
+                    </div>
+                    <FaCheckCircle className="text-blue-400" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Protocols */}
+            <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 lg:p-8">
+              <div className="flex items-center mb-6">
+                <div className="bg-gradient-to-br from-purple-500/30 to-purple-600/20 p-3 rounded-xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                  <FaNetworkWired className="text-2xl text-purple-400" />
+                </div>
+                <h3 className="text-xl lg:text-2xl font-bold text-white ml-4">
+                  Intelligence Protocols
+                </h3>
+              </div>
+              
+              <div className="space-y-3">
+                {[
+                  { name: 'Model Context Protocol', short: 'MCP', desc: 'Anthropic\'s standardized context sharing', highlight: true },
+                  { name: 'Function Calling API', short: 'Functions', desc: 'Structured tool integration', highlight: false },
+                  { name: 'OpenAI Assistants', short: 'Assistants', desc: 'Stateful AI conversations', highlight: false },
+                  { name: 'Prompt Engineering', short: 'PE', desc: 'Advanced prompt optimization', highlight: false }
+                ].map((protocol, index) => (
+                  <div key={index} className={`flex items-center gap-4 bg-gray-800/40 backdrop-blur-sm p-4 rounded-xl border ${
+                    protocol.highlight ? 'border-purple-500/40 bg-purple-900/20' : 'border-gray-700/50'
+                  } hover:border-purple-500/40 transition-all duration-300`}>
+                    <div className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                      protocol.highlight ? 'bg-purple-500/30 text-purple-300 border border-purple-500/50' : 'bg-gray-700/50 text-gray-300'
+                    }`}>
+                      {protocol.short}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-base font-semibold text-white">{protocol.name}</h4>
+                      <p className="text-sm text-gray-400">{protocol.desc}</p>
+                    </div>
+                    {protocol.highlight && (
+                      <span className="text-xs font-semibold text-purple-400 bg-purple-500/20 px-2 py-1 rounded-full">NEW</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section className="py-16 lg:py-24 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
@@ -347,7 +571,7 @@ export default function Dashboard() {
             <div className="min-w-[200px]">
               <h3 className="text-xl font-bold text-purple-400 mb-6">Solutions</h3>
               <div className="flex flex-col space-y-3">
-                <a href="#vertical1" className="text-gray-300 hover:text-purple-300 transition-colors">AI-Assisted Testing</a>
+                <a href="#vertical1" className="text-gray-300 hover:text-purple-300 transition-colors">Agentic AI Testing</a>
                 <a href="#vertical2" className="text-gray-300 hover:text-purple-300 transition-colors">Testing AI Systems</a>
                 <a href="#features" className="text-gray-300 hover:text-purple-300 transition-colors">Platform Features</a>
                 <a href="#use-cases" className="text-gray-300 hover:text-purple-300 transition-colors">Use Cases</a>
@@ -378,7 +602,7 @@ export default function Dashboard() {
 
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-white mb-2">Testerally</h3>
-            <p className="text-gray-300 text-lg">Agentic AI Testing Service</p>
+            <p className="text-gray-300 text-lg">Agentic AI Testing Services</p>
           </div>
 
           <hr className="border-gray-800 mb-8" />
