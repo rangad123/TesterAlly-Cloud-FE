@@ -74,6 +74,7 @@ import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import AboutPage from "./pages/AboutPage"
 import TestExecutionLogs from "./pages/TestExecutionLogs";
 import StudioHome from "./pages/StudioHome";
+import AiChat from "./pages/AiChat";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -705,6 +706,17 @@ const RegisterWrapper = ({ isLoggedIn, setIsLoggedIn, setName, setEmail, onLogin
                 </PrivateRoute>
               }
             />
+
+            <Route
+              path="ai-chat"
+              exact
+              element={
+                <PrivateRoute isLoggedIn={isLoggedIn}>
+                  <AiChat />
+                </PrivateRoute>
+              }
+            />
+
             <Route
               path="testcase-Priorities"
               exact

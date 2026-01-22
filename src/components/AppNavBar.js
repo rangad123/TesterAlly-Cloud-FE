@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { FaTimes } from "react-icons/fa";
 import "./AppNavBar.css"
 
@@ -15,7 +17,7 @@ const AppNavBar = (props) => {
   let navigate = useNavigate();
   let location = useLocation();
 
-  const { isLoggedIn, setIsLoggedIn, name, setName, email, setEmail } = props;
+  const { isLoggedIn, setIsLoggedIn, setName, email, setEmail } = props;
 
   const handleLogout = () => {
     const userId = localStorage.getItem("userId");
@@ -93,6 +95,16 @@ const AppNavBar = (props) => {
 
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isStudioRoute = location.pathname.startsWith("/studio") || location.pathname.startsWith("/dashboard/login");
+  const isMemberRoute = location.pathname.includes("member-");
+
+  // Profile navigation handler
+  const handleProfileClick = () => {
+    if (isMemberRoute) {
+      navigate("/member-profile");
+    } else {
+      navigate("/profile");
+    }
+  };
 
   return (
     <div className="py-2">
@@ -164,7 +176,7 @@ const AppNavBar = (props) => {
             </div>
           ) : null
         ) : isLoggedIn ? (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mr-[10px]">
 
             <Dropdown
               arrowIcon={false}
@@ -173,19 +185,33 @@ const AppNavBar = (props) => {
                 <Avatar
                   alt="User settings"
                   img={UserIcon}
-                  className="h-10 w-10"
+                  className="custom-dropdown"
                   rounded
                 />
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">{name}</span>
+                <span className="block text-sm">
+                  {isMemberRoute ? "Member" : "User"}
+                </span>
                 <span className="block truncate text-sm font-medium">
                   {currentEmail}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
+              <Dropdown.Item onClick={handleProfileClick}>
+                <div className="flex items-center space-x-2">
+                  <AccountCircleIcon fontSize="small" />
+                  <span>View Profile</span>
+                </div>
+              </Dropdown.Item>
+              <Dropdown.Item onClick={handleLogout}>
+                <div className="flex items-center space-x-2">
+                  <LogoutIcon fontSize="small" />
+                  <span>Log out</span>
+                </div>
+              </Dropdown.Item>
             </Dropdown>
+
           </div>
         ) : (
           <div className="text-sm/6 font-semibold text-gray-900 auth-buttons">

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./CreateTestCases.css";
 
 const CreateTestCases = () => {
-  const [name, setName] = useState("");
+  const [testcase_name, setTestcaseName] = useState("");
   const [testCaseType, setTestCaseType] = useState("");
   const [testCasePriority, setTestCasePriority] = useState("");
   const [errors, setErrors] = useState({ name: "", url: "", type: "", priority: "" });
@@ -13,6 +13,8 @@ const CreateTestCases = () => {
   const [priorities, setPriorities] = useState([]);
   const [, setError] = useState(null);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -42,7 +44,7 @@ const CreateTestCases = () => {
     const newErrors = {};
     let isValid = true;
 
-    if (!name.trim()) {
+    if (!testcase_name.trim()) {
       newErrors.name = "Test Case Name is required!";
       isValid = false;
     }
@@ -61,94 +63,137 @@ const CreateTestCases = () => {
     return isValid;
   };
 
-  const handleWriteTestManually = () => {
-    if (!validateFields()) return;
-
-
-    navigate("/write-manually", {
-      state: {
-        testCaseInfo: {
-          name,
-          testcase_type: testCaseType,
-          testcase_priority: testCasePriority,
-          projectId: selectedProject.id
-        }
-      }
-    });
+  const getNextRoute = () => {
+    if (
+      selectedProject.project_type === "Web Application" &&
+      selectedProject.platform.toLowerCase() === "mobile"
+    ) {
+      return "/android-scenario";
+    } else if (
+      selectedProject.project_type === "Mobile Application" &&
+      selectedProject.platform.toLowerCase() === "android"
+    ) {
+      return "/android-scenario";
+    }
+    return "/ai-chat";
   };
 
-
-/*  const validateFields = () => {
-    const newErrors = {};
-    let isValid = true;
-
-    if (!name.trim()) {
-      newErrors.name = "Test Case Name is required!";
-      isValid = false;
-    }
-
-    if (!testCaseType.trim()) {
-      newErrors.type = "Test Case Type is required!";
-      isValid = false;
-    }
-
-    if (!testCasePriority.trim()) {
-      newErrors.priority = "Test Case Priority is required!";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleCreateTestCase = async () => {
+  const handleNextClick = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
     if (!validateFields()) return;
-
-    const payload = {
-      project_id: selectedProject.id,
-      name,
-      type: testCaseType,
-      priority: testCasePriority,
-    };
-
+    
     setIsLoading(true);
+
     try {
-      const response = await fetch("https://testerally-be-ylpr.onrender.com/api/testcases/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `https://api.testerally.ai/integrate/testcase/?user_id=${userId}&project_name=${selectedProject.project_name}&testcase_name=${encodeURIComponent(testcase_name)}`,
+        {
+          headers: { "Content-Type": "application/json" }
+        }
+      );
 
       if (response.ok) {
-        alert("Test Case Created Successfully");
-        navigate("/test-cases");
+        if (response.status === 200) {
+          const data = await response.json();
+          const existingTestCase = data.testcase;
+
+          if (
+            existingTestCase &&
+            existingTestCase.testcase_name.toLowerCase() === testcase_name.toLowerCase()
+          ) {
+            setErrors((prev) => ({
+              ...prev,
+              name: "A test case with this name already exists. Please use a different name.",
+            }));
+            setIsLoading(false);
+            return;
+          }
+        }
+        
       } else {
-        const errorData = await response.json();
-        alert(`Failed to create test case: ${errorData.message || "Unknown error"}`);
+          if (response.status === 404 ) {
+
+          // 2️⃣ Create new testcase (POST)
+          // const postBody = {
+          //   user_id: userId,
+          //   project_name: selectedProject.project_name,
+          //   testcase_name: testcase_name.trim(),
+          //   testcase_type: testCaseType,
+          //   testcase_priority: testCasePriority,
+          // };
+          // console.log("Creating Test Case with data:", postBody);
+
+          // const postResponse = await fetch(`https://api.testerally.ai/integrate/testcase/`, {
+          //   method: "POST",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify(postBody),
+          // });
+
+          // if (!postResponse.ok) {
+          //   const errData = await postResponse.json();
+          //   throw new Error(errData.error || "Failed to create test case");
+          // }
+
+          // const postData = await postResponse.json();
+          // console.log("Created Test Case:", postData);
+          
+          // Navigate directly to TestSenario page         
+          navigate(getNextRoute(), {
+            state: {
+              testCaseInfo: {
+                testcase_name: testcase_name.trim(),
+                testcase_type: testCaseType,
+                testcase_priority: testCasePriority,
+                projectId: selectedProject.project_name,
+                project_type: selectedProject.project_type,
+                platform: selectedProject.platform
+              }
+            }
+          });
+        } else {
+          throw new Error("Failed to check existing test cases");
+        }
       }
+
     } catch (error) {
-      alert(`Error: ${error.message}`);
-    } finally {
+      console.error("Error checking test case name:", error);
+      alert("Error checking test case name. Please try again.");
       setIsLoading(false);
     }
   };
-*/
+
+  const handleOptionClick = (option) => {
+    const route = option === "write" ? "/gitwritemanually-test" : "/write-manually";
+    navigate(route, {
+      state: {
+        testCaseInfo: {
+          testcase_name: testcase_name.trim(),
+          testcase_type: testCaseType,
+          testcase_priority: testCasePriority,
+          projectId: selectedProject.project_name,
+          project_type: selectedProject.project_type,
+          platform: selectedProject.platform
+        }
+      }
+    });
+    console.log("Platform:", selectedProject.platform)
+  };
 
   const handleCancel = () => {
     navigate("/dashboard-user");
   };
 
-
   useEffect(() => {
     const fetchTestCaseTypes = async () => {
-      if (!selectedProject?.id) {
+      if (!selectedProject?.project_name) {
         return;
       }
       setError(null);
   
       try {
         const response = await fetch(
-          `https://api.testerally.ai/api/testcase-types/?project_id=${selectedProject.id}`,
+          `https://api.testerally.ai/api/testcase-types/?project_name=${selectedProject?.project_name}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -174,14 +219,14 @@ const CreateTestCases = () => {
   
   useEffect(() => {
     const fetchPriorities = async () => {
-      if (!selectedProject?.id) {
+      if (!selectedProject?.project_name) {
         return;
       }
       setError(null);
   
       try {
         const response = await fetch(
-          `https://api.testerally.ai/api/testcase-priorities/?project_id=${selectedProject.id}`,
+          `https://api.testerally.ai/api/testcase-priorities/?project_name=${selectedProject.project_name}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -222,18 +267,6 @@ const CreateTestCases = () => {
                       </span>
                     )}
                   </div>
-                  <div className="create-test-cases-button-group-right">
-                    
-                    {/*
-                    <button
-                      onClick={handleCreateTestCase}
-                      className="create-btn"
-                      disabled={isLoading || !selectedProject}
-                    >
-                      {isLoading ? "Creating..." : "Create"}
-                    </button>
-                    */}
-                  </div>
                 </div>
 
                 <div className="create-test-cases-input-container">
@@ -242,78 +275,78 @@ const CreateTestCases = () => {
                   </label>
                   <input
                     type="text"
-                    value={name}
+                    value={testcase_name}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setTestcaseName(e.target.value);
                       setErrors((prev) => ({ ...prev, name: "" }));
                     }}
                     placeholder="Enter test case name"
                     className={`create-project-input ${
-                      errors.name ? "border-red-500" : "border-gray-300"
+                      errors.testcase_name ? "border-red-500" : "border-gray-300"
                     } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                     disabled={!selectedProject}
                   />
-                  {errors.name && (
+                  {errors.name && ( 
                     <span className="text-red-500 text-sm mt-1">{errors.name}</span>
                   )}
                 </div>
   
                 <div className="create-test-cases-input-container">
-  <label className="block text-sm font-medium mb-2">
-    Test Case Type<span className="text-red-500">*</span>
-  </label>
-  <select
-    value={testCaseType}
-    
-    onChange={(e) => {
-      console.log("User Selected Test Case Type:", e.target.value);
-      setTestCaseType(e.target.value);
-      setErrors((prev) => ({ ...prev, type: "" }));
-    }}
-    className={`create-project-input ${
-      errors.type ? "border-red-500" : "border-gray-300"
-    } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-    disabled={!selectedProject}
-  >
-    <option value="">Select Type</option>
-    {testCaseTypes.map((type) => (
-      <option key={type.id} value={type.name}>
-        {type.name}
-      </option>
-    ))}
-  </select>
-  {errors.type && (
-    <span className="text-red-500 text-sm mt-1">{errors.type}</span>
-  )}
-</div>
+                    <label className="block text-sm font-medium mb-2">
+                      Test Case Type<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={testCaseType}
+                      
+                      onChange={(e) => {
+                        console.log("User Selected Test Case Type:", e.target.value);
+                        setTestCaseType(e.target.value);
+                        setErrors((prev) => ({ ...prev, type: "" }));
+                      }}
+                      className={`create-project-input ${
+                        errors.type ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      disabled={!selectedProject}
+                    >
+                      <option value="">Select Type</option>
+                      {testCaseTypes.map((type) => (
+                        <option key={type.id} value={type.name}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.type && (
+                      <span className="text-red-500 text-sm mt-1">{errors.type}</span>
+                    )}
+                  </div>
 
-<div className="create-test-cases-input-container">
-  <label className="block text-sm font-medium mb-2">
-    Test Case Priority<span className="text-red-500">*</span>
-  </label>
-  <select
-    value={testCasePriority}
-    onChange={(e) => {
-      console.log("User Selected Test Case Priority:", e.target.value); 
-      setTestCasePriority(e.target.value);
-      setErrors((prev) => ({ ...prev, priority: "" }));
-    }}
-    className={`create-project-input ${
-      errors.priority ? "border-red-500" : "border-gray-300"
-    } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-    disabled={!selectedProject}
-  >
-    <option value="">Select Priority</option>
-    {priorities.map((priority) => (
-      <option key={priority.id} value={priority.priority_level}>
-        {priority.priority_level}
-      </option>
-    ))}
-  </select>
-  {errors.priority && (
-    <span className="text-red-500 text-sm mt-1">{errors.priority}</span>
-  )}
-</div>
+                  <div className="create-test-cases-input-container">
+                    <label className="block text-sm font-medium mb-2">
+                      Test Case Priority<span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={testCasePriority}
+                      onChange={(e) => {
+                        console.log("User Selected Test Case Priority:", e.target.value); 
+                        setTestCasePriority(e.target.value);
+                        setErrors((prev) => ({ ...prev, priority: "" }));
+                      }}
+                      className={`create-project-input ${
+                        errors.priority ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      disabled={!selectedProject}
+                    >
+                      <option value="">Select Priority</option>
+                      {priorities.map((priority) => (
+                        <option key={priority.id} value={priority.priority_level}>
+                          {priority.priority_level}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.priority && (
+                      <span className="text-red-500 text-sm mt-1">{errors.priority}</span>
+                    )}
+                  </div>
 
   
                   <div className="create-test-cases-button-group">
@@ -322,16 +355,50 @@ const CreateTestCases = () => {
                       Cancel
                     </button>
 
-                    <button onClick={handleWriteTestManually} className="create-test-cases-btn-manual bg-purple-600">
-                      Next
+                    <button
+                      onClick={handleNextClick}
+                      className="create-test-cases-btn-manual bg-purple-600"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Loading..." : "Next"}
                     </button>
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {showModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3 className="modal-title">Choose an option</h3>
+              <p className="modal-desc">How do you want to create the test steps?</p>
+              <div className="modal-buttons">
+                <button
+                  onClick={() => handleOptionClick("write")}
+                  className="modal-btn bg-purple-500 hover:bg-purple-600 text-white"
+                >
+                  Write Manually
+                </button>
+                <button
+                  onClick={() => handleOptionClick("record")}
+                  className="modal-btn bg-purple-100 hover:bg-purple-200 text-purple-700"
+                >
+                  Record
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setIsLoading(false); 
+                }}
+                className="modal-close text-gray-500"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
