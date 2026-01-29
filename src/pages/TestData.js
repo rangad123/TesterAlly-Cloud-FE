@@ -246,6 +246,11 @@ const TestData = () => {
         formData.append('test_data_file', selectedFile);  
         
         // ✅ Add other fields if they exist
+        if (finalUrl.trim()) formData.append('url', finalUrl.trim());
+        if (email.trim()) formData.append('email', email.trim());
+        if (password.trim()) formData.append('email_app_password', password.trim());
+        if (phone.trim()) formData.append('phone_number', phone.trim());
+        if (country.trim()) formData.append('region', country.trim());
         if (apiKey.trim()) formData.append('openai_api_key', apiKey.trim());
         if (gptVersion.trim()) {
           const finalGptVersion = gptVersion === "Custom" ? customGptVersion.trim() : gptVersion.trim();
@@ -253,6 +258,11 @@ const TestData = () => {
         }
         
         console.log("Payload of formData upload:", formData);
+
+        console.log("FormData contents:");
+        for (let [key, value] of formData.entries()) {
+          console.log(key, ":", value);
+        }
 
         response = await fetch(
           `https://api.testerally.ai/api/testdata/${projectId}/`,

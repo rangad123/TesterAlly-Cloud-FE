@@ -320,9 +320,306 @@ function AiChat() {
     }
   };
 
-  // Format planner output - UPDATED to handle new response format
+  // // Format planner output - UPDATED to handle new response format
+  // const formatPlannerOutput = (data) => {
+  //   if (data.error) {
+  //     return (
+  //       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+  //         <p className="text-red-800 font-medium">Error: {data.message}</p>
+  //       </div>
+  //     );
+  //   }
+
+  //   // ✅ NEW: Handle both old and new response formats
+  //   const metadata = data.metadata || {};
+  //   const testStrategy = data.test_strategy || data.planner_output || {};
+  //   const explorationSummary = data.exploration_summary || {};
+  //   const summary = data.summary || {};
+
+  //   return (
+  //     <div className="space-y-4">
+  //       {/* Metadata */}
+  //       {metadata && Object.keys(metadata).length > 0 && (
+  //         <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+  //           <h3 className="font-semibold text-purple-900 mb-3 flex items-center">
+  //             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+  //             </svg>
+  //             Test Strategy Overview
+  //           </h3>
+  //           <div className="grid grid-cols-2 gap-4 text-sm">
+  //             <div>
+  //               <span className="text-gray-600">Model:</span>
+  //               <span className="ml-2 font-medium text-gray-900">{metadata.model_used || 'Unknown'}</span>
+  //             </div>
+  //             <div>
+  //               <span className="text-gray-600">Total Scenarios:</span>
+  //               <span className="ml-2 font-medium text-gray-900">{testStrategy.total_scenarios || testStrategy.test_scenarios?.length || 0}</span>
+  //             </div>
+  //             {(data.test_objective || metadata.test_objective) && (
+  //               <div className="col-span-2">
+  //                 <span className="text-gray-600">Objective:</span>
+  //                 <span className="ml-2 font-medium text-gray-900">{data.test_objective || metadata.test_objective}</span>
+  //               </div>
+  //             )}
+  //             <div>
+  //               <span className="text-gray-600">Execution Time:</span>
+  //               <span className="ml-2 font-medium text-gray-900">{(metadata.pipeline_time_ms || metadata.execution_time_ms || 0)}ms</span>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       )}
+
+  //       {/* Exploration Summary */}
+  //       {explorationSummary && Object.keys(explorationSummary).length > 0 && (
+  //         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+  //           <h3 className="font-semibold text-blue-900 mb-3 flex items-center">
+  //             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+  //             </svg>
+  //             Exploration Summary
+  //           </h3>
+  //           <div className="space-y-2 text-sm">
+  //             {explorationSummary.pages_explored && explorationSummary.pages_explored.length > 0 && (
+  //               <div>
+  //                 <span className="text-gray-600">Pages Explored:</span>
+  //                 <div className="mt-1">
+  //                   {explorationSummary.pages_explored.map((page, idx) => (
+  //                     <div key={idx} className="ml-2 text-blue-700 font-mono text-xs">
+  //                       • {page}
+  //                     </div>
+  //                   ))}
+  //                 </div>
+  //               </div>
+  //             )}
+  //             {explorationSummary.key_findings && explorationSummary.key_findings.length > 0 && (
+  //               <div>
+  //                 <span className="text-gray-600">Key Findings:</span>
+  //                 <ul className="mt-1 ml-2 space-y-1">
+  //                   {explorationSummary.key_findings.map((finding, idx) => (
+  //                     <li key={idx} className="text-gray-800 text-xs">
+  //                       • {finding}
+  //                     </li>
+  //                   ))}
+  //                 </ul>
+  //               </div>
+  //             )}
+  //             {explorationSummary.exploration_iterations && (
+  //               <div>
+  //                 <span className="text-gray-600">Iterations:</span>
+  //                 <span className="ml-2 font-medium text-gray-900">{explorationSummary.exploration_iterations}</span>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //       )}
+
+  //       {/* Test Scenarios */}
+  //       {testStrategy.test_scenarios && testStrategy.test_scenarios.length > 0 && (
+  //         <div className="bg-white border border-gray-200 rounded-lg p-4">
+  //           <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+  //             <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+  //             </svg>
+  //             Test Scenarios ({testStrategy.test_scenarios.length})
+  //           </h3>
+  //           <div className="space-y-3">
+  //             {testStrategy.test_scenarios.map((scenario, idx) => (
+  //               <div key={idx} className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-purple-300 transition-colors">
+  //                 <div className="flex items-start justify-between mb-3">
+  //                   <div className="flex items-start gap-3">
+  //                     <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+  //                       {idx + 1}
+  //                     </div>
+  //                     <div>
+  //                       <h4 className="font-medium text-gray-900 text-lg">{scenario.name || `Scenario ${idx + 1}`}</h4>
+  //                       {scenario.scenario_id && (
+  //                         <span className="text-xs text-gray-500 font-mono">{scenario.scenario_id}</span>
+  //                       )}
+  //                     </div>
+  //                   </div>
+  //                   <div className="flex gap-2">
+  //                     {scenario.priority && (
+  //                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+  //                         scenario.priority.toLowerCase() === 'critical' ? 'bg-red-100 text-red-800' :
+  //                         scenario.priority.toLowerCase() === 'high' ? 'bg-orange-100 text-orange-800' :
+  //                         scenario.priority.toLowerCase() === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+  //                         'bg-green-100 text-green-800'
+  //                       }`}>
+  //                         {scenario.priority}
+  //                       </span>
+  //                     )}
+  //                     {scenario.type && (
+  //                       <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
+  //                         {scenario.type.replace(/_/g, ' ')}
+  //                       </span>
+  //                     )}
+  //                   </div>
+  //                 </div>
+                  
+  //                 {scenario.description && (
+  //                   <p className="text-sm text-gray-700 mb-3 pl-11">{scenario.description}</p>
+  //                 )}
+
+  //                 {/* Test Steps */}
+  //                 {scenario.test_steps && scenario.test_steps.length > 0 && (
+  //                   <div className="mb-3 pl-11">
+  //                     <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Test Steps:</h5>
+  //                     <ol className="space-y-1">
+  //                       {scenario.test_steps.map((step, stepIdx) => {
+  //                         // Handle both string and object formats
+  //                         const stepText = typeof step === 'string' ? step : step.action;
+  //                         const element = typeof step === 'object' ? step.element : null;
+  //                         const expectedResult = typeof step === 'object' ? step.expected_result : null;
+  //                         const testData = typeof step === 'object' ? step.test_data : null;
+                          
+  //                         return (
+  //                           <li key={stepIdx} className="text-sm text-gray-600">
+  //                             <div className="flex">
+  //                               <span className="font-medium text-purple-600 mr-2">{stepIdx + 1}.</span>
+  //                               <div className="flex-1">
+  //                                 <span>{stepText}</span>
+  //                                 {element && (
+  //                                   <span className="ml-2 text-xs font-mono text-blue-600">
+  //                                     [{element}]
+  //                                   </span>
+  //                                 )}
+  //                                 {testData && (
+  //                                   <div className="text-xs text-gray-500 mt-1">
+  //                                     Data: <span className="font-mono">{testData}</span>
+  //                                   </div>
+  //                                 )}
+  //                                 {expectedResult && (
+  //                                   <div className="text-xs text-green-600 mt-1">
+  //                                     Expected: {expectedResult}
+  //                                   </div>
+  //                                 )}
+  //                               </div>
+  //                             </div>
+  //                           </li>
+  //                         );
+  //                       })}
+  //                     </ol>
+  //                   </div>
+  //                 )}
+
+  //                 {/* Test Data */}
+  //                 {scenario.test_data && Object.keys(scenario.test_data).length > 0 && (
+  //                   <div className="mb-3 pl-11">
+  //                     <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Test Data:</h5>
+  //                     <div className="bg-gray-100 rounded p-2 font-mono text-xs">
+  //                       {Object.entries(scenario.test_data).map(([key, value]) => (
+  //                         <div key={key} className="flex">
+  //                           <span className="text-blue-600 font-semibold mr-2">{key}:</span>
+  //                           <span className="text-gray-700">{value}</span>
+  //                         </div>
+  //                       ))}
+  //                     </div>
+  //                   </div>
+  //                 )}
+
+  //                 {/* Expected Outcome */}
+  //                 {scenario.expected_outcome && (
+  //                   <div className="mb-3 pl-11">
+  //                     <h5 className="text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wide">Expected Outcome:</h5>
+  //                     <p className="text-sm text-green-700 bg-green-50 rounded px-3 py-2 border border-green-200">
+  //                       {scenario.expected_outcome}
+  //                     </p>
+  //                   </div>
+  //                 )}
+
+  //                 {/* Verification Points */}
+  //                 {scenario.verification_points && scenario.verification_points.length > 0 && (
+  //                   <div className="pl-11">
+  //                     <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Verification Points:</h5>
+  //                     <ul className="space-y-1">
+  //                       {scenario.verification_points.map((point, pointIdx) => (
+  //                         <li key={pointIdx} className="text-sm text-gray-600 flex items-start">
+  //                           <svg className="w-4 h-4 text-green-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  //                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+  //                           </svg>
+  //                           <span>{point}</span>
+  //                         </li>
+  //                       ))}
+  //                     </ul>
+  //                   </div>
+  //                 )}
+  //               </div>
+  //             ))}
+  //           </div>
+  //         </div>
+  //       )}
+
+  //       {/* Summary */}
+  //       {summary && Object.keys(summary).length > 0 && (
+  //         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+  //           <h3 className="font-semibold text-green-900 mb-3 flex items-center">
+  //             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  //             </svg>
+  //             Summary
+  //           </h3>
+  //           <div className="space-y-2 text-sm">
+  //             {summary.overall_status && (
+  //               <div>
+  //                 <span className="text-gray-600">Status:</span>
+  //                 <span className={`ml-2 font-semibold ${
+  //                   summary.overall_status === 'COMPLETED' ? 'text-green-700' : 'text-orange-700'
+  //                 }`}>
+  //                   {summary.overall_status}
+  //                 </span>
+  //               </div>
+  //             )}
+  //             {summary.success_rate && (
+  //               <div>
+  //                 <span className="text-gray-600">Success Rate:</span>
+  //                 <span className="ml-2 font-semibold text-green-700">{summary.success_rate}</span>
+  //               </div>
+  //             )}
+  //             {summary.recommendations && summary.recommendations.length > 0 && (
+  //               <div>
+  //                 <span className="text-gray-600">Recommendations:</span>
+  //                 <ul className="mt-1 ml-2 space-y-1">
+  //                   {summary.recommendations.map((rec, idx) => (
+  //                     <li key={idx} className="text-gray-800 text-xs">
+  //                       • {rec}
+  //                     </li>
+  //                   ))}
+  //                 </ul>
+  //               </div>
+  //             )}
+  //             {summary.critical_issues && summary.critical_issues.length > 0 && (
+  //               <div>
+  //                 <span className="text-red-600 font-semibold">Critical Issues:</span>
+  //                 <ul className="mt-1 ml-2 space-y-1">
+  //                   {summary.critical_issues.map((issue, idx) => (
+  //                     <li key={idx} className="text-red-700 text-xs">
+  //                       • {issue}
+  //                     </li>
+  //                   ))}
+  //                 </ul>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //       )}
+
+  //       {/* Raw Output */}
+  //       <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+  //         <summary className="font-medium text-gray-900 cursor-pointer hover:text-purple-600 transition-colors">
+  //           View Raw Output
+  //         </summary>
+  //         <pre className="mt-3 text-xs bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto">
+  //           {JSON.stringify(data, null, 2)}
+  //         </pre>
+  //       </details>
+  //     </div>
+  //   );
+  // };
+
+  // Format planner output - Clean and user-friendly version
   const formatPlannerOutput = (data) => {
-    if (data.error) {
+    if (data.error || data.status === 'error') {
       return (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800 font-medium">Error: {data.message}</p>
@@ -330,208 +627,250 @@ function AiChat() {
       );
     }
 
-    // ✅ NEW: Handle both old and new response formats
     const metadata = data.metadata || {};
-    const testStrategy = data.test_strategy || data.planner_output || {};
+    const testStrategy = data.test_strategy || {};
     const explorationSummary = data.exploration_summary || {};
     const summary = data.summary || {};
 
     return (
-      <div className="space-y-4">
-        {/* Metadata */}
-        {metadata && Object.keys(metadata).length > 0 && (
-          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-            <h3 className="font-semibold text-purple-900 mb-3 flex items-center">
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-              </svg>
-              Test Strategy Overview
-            </h3>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600">Model:</span>
-                <span className="ml-2 font-medium text-gray-900">{metadata.model_used || 'Unknown'}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Total Scenarios:</span>
-                <span className="ml-2 font-medium text-gray-900">{testStrategy.total_scenarios || testStrategy.test_scenarios?.length || 0}</span>
-              </div>
-              {(data.test_objective || metadata.test_objective) && (
-                <div className="col-span-2">
-                  <span className="text-gray-600">Objective:</span>
-                  <span className="ml-2 font-medium text-gray-900">{data.test_objective || metadata.test_objective}</span>
-                </div>
-              )}
-              <div>
-                <span className="text-gray-600">Execution Time:</span>
-                <span className="ml-2 font-medium text-gray-900">{(metadata.pipeline_time_ms || metadata.execution_time_ms || 0)}ms</span>
-              </div>
+      <div className="space-y-6 max-w-7xl mx-auto p-4">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-purple-900 mb-4">
+            {data.test_objective || 'Test Strategy'}
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Total Test Cases</p>
+              <p className="text-2xl font-bold text-purple-600">
+                {summary.total_test_cases || testStrategy.total_scenarios || testStrategy.test_scenarios?.length || 0}
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Target URL</p>
+              <p className="text-sm font-medium text-gray-900 truncate">
+                {data.target_url || metadata.system_url || 'N/A'}
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Status</p>
+              <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                summary.overall_status === 'READY_FOR_EXECUTION' || summary.overall_status === 'COMPLETED'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-orange-100 text-orange-800'
+              }`}>
+                {summary.overall_status || 'READY'}
+              </span>
             </div>
           </div>
-        )}
 
-        {/* Exploration Summary */}
-        {explorationSummary && Object.keys(explorationSummary).length > 0 && (
+          {/* Scenario Breakdown */}
+          {testStrategy.scenario_breakdown && (
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+              {testStrategy.scenario_breakdown.positive_flows > 0 && (
+                <div className="bg-green-50 rounded px-3 py-2 text-center">
+                  <p className="text-lg font-bold text-green-700">{testStrategy.scenario_breakdown.positive_flows}</p>
+                  <p className="text-xs text-green-600">Positive Flows</p>
+                </div>
+              )}
+              {testStrategy.scenario_breakdown.negative_cases > 0 && (
+                <div className="bg-red-50 rounded px-3 py-2 text-center">
+                  <p className="text-lg font-bold text-red-700">{testStrategy.scenario_breakdown.negative_cases}</p>
+                  <p className="text-xs text-red-600">Negative Cases</p>
+                </div>
+              )}
+              {testStrategy.scenario_breakdown.edge_cases > 0 && (
+                <div className="bg-yellow-50 rounded px-3 py-2 text-center">
+                  <p className="text-lg font-bold text-yellow-700">{testStrategy.scenario_breakdown.edge_cases}</p>
+                  <p className="text-xs text-yellow-600">Edge Cases</p>
+                </div>
+              )}
+              {testStrategy.scenario_breakdown.ui_validations > 0 && (
+                <div className="bg-blue-50 rounded px-3 py-2 text-center">
+                  <p className="text-lg font-bold text-blue-700">{testStrategy.scenario_breakdown.ui_validations}</p>
+                  <p className="text-xs text-blue-600">UI Validations</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Exploration Summary - Compact */}
+        {explorationSummary && explorationSummary.key_findings?.length > 0 && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-3 flex items-center">
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              Exploration Summary
+            <h3 className="font-semibold text-blue-900 mb-2 text-sm uppercase tracking-wide">
+              Key Findings
             </h3>
-            <div className="space-y-2 text-sm">
-              {explorationSummary.pages_explored && explorationSummary.pages_explored.length > 0 && (
-                <div>
-                  <span className="text-gray-600">Pages Explored:</span>
-                  <div className="mt-1">
-                    {explorationSummary.pages_explored.map((page, idx) => (
-                      <div key={idx} className="ml-2 text-blue-700 font-mono text-xs">
-                        • {page}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {explorationSummary.key_findings && explorationSummary.key_findings.length > 0 && (
-                <div>
-                  <span className="text-gray-600">Key Findings:</span>
-                  <ul className="mt-1 ml-2 space-y-1">
-                    {explorationSummary.key_findings.map((finding, idx) => (
-                      <li key={idx} className="text-gray-800 text-xs">
-                        • {finding}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {explorationSummary.exploration_iterations && (
-                <div>
-                  <span className="text-gray-600">Iterations:</span>
-                  <span className="ml-2 font-medium text-gray-900">{explorationSummary.exploration_iterations}</span>
-                </div>
-              )}
-            </div>
+            <ul className="space-y-1">
+              {explorationSummary.key_findings.map((finding, idx) => (
+                <li key={idx} className="text-sm text-gray-700 flex items-start">
+                  <span className="text-blue-600 mr-2">•</span>
+                  <span>{finding}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
-        {/* Test Scenarios */}
+        {/* Test Scenarios - Main Content */}
         {testStrategy.test_scenarios && testStrategy.test_scenarios.length > 0 && (
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
-              <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
               </svg>
-              Test Scenarios ({testStrategy.test_scenarios.length})
+              Test Scenarios
             </h3>
-            <div className="space-y-3">
-              {testStrategy.test_scenarios.map((scenario, idx) => (
-                <div key={idx} className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-purple-300 transition-colors">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+            
+            {testStrategy.test_scenarios.map((scenario, idx) => (
+              <div key={idx} className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-purple-300 transition-all shadow-sm hover:shadow-md">
+                {/* Scenario Header */}
+                <div className="bg-gradient-to-r from-purple-50 to-white p-4 border-b border-gray-200">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div className="flex items-start gap-3 flex-1">
+                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 text-white rounded-lg flex items-center justify-center text-lg font-bold shadow">
                         {idx + 1}
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 text-lg">{scenario.name || `Scenario ${idx + 1}`}</h4>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-900 text-base md:text-lg">
+                          {scenario.scenario_name || scenario.name || `Test Case ${idx + 1}`}
+                        </h4>
                         {scenario.scenario_id && (
-                          <span className="text-xs text-gray-500 font-mono">{scenario.scenario_id}</span>
+                          <p className="text-xs text-gray-500 font-mono mt-1">{scenario.scenario_id}</p>
                         )}
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    
+                    <div className="flex flex-wrap gap-2">
                       {scenario.priority && (
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          scenario.priority.toLowerCase() === 'critical' ? 'bg-red-100 text-red-800' :
-                          scenario.priority.toLowerCase() === 'high' ? 'bg-orange-100 text-orange-800' :
-                          scenario.priority.toLowerCase() === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
+                          scenario.priority.toLowerCase() === 'critical' || scenario.priority.toLowerCase() === 'high'
+                            ? 'bg-red-100 text-red-800'
+                            : scenario.priority.toLowerCase() === 'medium'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-green-100 text-green-800'
                         }`}>
-                          {scenario.priority}
+                          {scenario.priority.toUpperCase()}
                         </span>
                       )}
-                      {scenario.type && (
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
-                          {scenario.type.replace(/_/g, ' ')}
+                      {(scenario.scenario_type || scenario.type) && (
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          scenario.scenario_type === 'positive' ? 'bg-green-100 text-green-800' :
+                          scenario.scenario_type === 'negative' ? 'bg-red-100 text-red-800' :
+                          scenario.scenario_type === 'edge' ? 'bg-yellow-100 text-yellow-800' :
+                          scenario.scenario_type === 'ui_validation' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {(scenario.scenario_type || scenario.type).replace(/_/g, ' ').toUpperCase()}
                         </span>
                       )}
                     </div>
                   </div>
                   
                   {scenario.description && (
-                    <p className="text-sm text-gray-700 mb-3 pl-11">{scenario.description}</p>
+                    <p className="text-sm text-gray-600 mt-3 leading-relaxed">{scenario.description}</p>
+                  )}
+                </div>
+
+                {/* Scenario Content */}
+                <div className="p-4 space-y-4">
+                  {/* Prerequisites */}
+                  {scenario.prerequisites && (
+                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
+                      <p className="text-xs font-semibold text-blue-900 uppercase tracking-wide mb-1">
+                        Prerequisites
+                      </p>
+                      <p className="text-sm text-blue-800">{scenario.prerequisites}</p>
+                    </div>
                   )}
 
                   {/* Test Steps */}
                   {scenario.test_steps && scenario.test_steps.length > 0 && (
-                    <div className="mb-3 pl-11">
-                      <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Test Steps:</h5>
-                      <ol className="space-y-1">
+                    <div>
+                      <h5 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
+                        Test Steps
+                      </h5>
+                      <div className="space-y-3">
                         {scenario.test_steps.map((step, stepIdx) => {
                           // Handle both string and object formats
-                          const stepText = typeof step === 'string' ? step : step.action;
-                          const element = typeof step === 'object' ? step.element : null;
+                          const stepAction = typeof step === 'string' ? step : step.action;
+                          const stepNumber = typeof step === 'object' ? step.step_number : stepIdx + 1;
+                          const target = typeof step === 'object' ? step.target : null;
+                          const inputData = typeof step === 'object' ? step.input_data : null;
                           const expectedResult = typeof step === 'object' ? step.expected_result : null;
-                          const testData = typeof step === 'object' ? step.test_data : null;
+                          const element = typeof step === 'object' ? step.element : null;
                           
                           return (
-                            <li key={stepIdx} className="text-sm text-gray-600">
-                              <div className="flex">
-                                <span className="font-medium text-purple-600 mr-2">{stepIdx + 1}.</span>
-                                <div className="flex-1">
-                                  <span>{stepText}</span>
-                                  {element && (
-                                    <span className="ml-2 text-xs font-mono text-blue-600">
-                                      [{element}]
-                                    </span>
-                                  )}
-                                  {testData && (
-                                    <div className="text-xs text-gray-500 mt-1">
-                                      Data: <span className="font-mono">{testData}</span>
-                                    </div>
-                                  )}
-                                  {expectedResult && (
-                                    <div className="text-xs text-green-600 mt-1">
-                                      Expected: {expectedResult}
-                                    </div>
-                                  )}
+                            <div key={stepIdx} className="flex gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                              <div className="flex-shrink-0">
+                                <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                  {stepNumber}
                                 </div>
                               </div>
-                            </li>
+                              
+                              <div className="flex-1 space-y-2">
+                                {/* Action */}
+                                <div>
+                                  <span className="font-medium text-gray-900">
+                                    {stepAction}
+                                    {(target || element) && (
+                                      <span className="ml-2 text-xs font-mono text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                                        {target || element}
+                                      </span>
+                                    )}
+                                  </span>
+                                </div>
+                                
+                                {/* Input Data (for fill actions) */}
+                                {inputData && inputData !== 'null' && (
+                                  <div className="bg-white border border-purple-200 rounded px-3 py-2">
+                                    <span className="text-xs font-semibold text-purple-700 uppercase tracking-wide">
+                                      Fill with:
+                                    </span>
+                                    <p className="text-sm font-mono text-purple-900 mt-1">
+                                      "{inputData}"
+                                    </p>
+                                  </div>
+                                )}
+                                
+                                {/* Expected Result */}
+                                {expectedResult && (
+                                  <div className="flex items-start gap-2 text-xs text-green-700 bg-green-50 px-3 py-2 rounded">
+                                    <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span><strong>Expected:</strong> {expectedResult}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           );
                         })}
-                      </ol>
-                    </div>
-                  )}
-
-                  {/* Test Data */}
-                  {scenario.test_data && Object.keys(scenario.test_data).length > 0 && (
-                    <div className="mb-3 pl-11">
-                      <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Test Data:</h5>
-                      <div className="bg-gray-100 rounded p-2 font-mono text-xs">
-                        {Object.entries(scenario.test_data).map(([key, value]) => (
-                          <div key={key} className="flex">
-                            <span className="text-blue-600 font-semibold mr-2">{key}:</span>
-                            <span className="text-gray-700">{value}</span>
-                          </div>
-                        ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Expected Outcome */}
-                  {scenario.expected_outcome && (
-                    <div className="mb-3 pl-11">
-                      <h5 className="text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wide">Expected Outcome:</h5>
-                      <p className="text-sm text-green-700 bg-green-50 rounded px-3 py-2 border border-green-200">
-                        {scenario.expected_outcome}
+                  {/* Verification Criteria */}
+                  {(scenario.verification_criteria || scenario.expected_outcome) && (
+                    <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+                      <p className="text-xs font-semibold text-green-900 uppercase tracking-wide mb-1">
+                        Verification Criteria
+                      </p>
+                      <p className="text-sm text-green-800">
+                        {scenario.verification_criteria || scenario.expected_outcome}
                       </p>
                     </div>
                   )}
 
                   {/* Verification Points */}
                   {scenario.verification_points && scenario.verification_points.length > 0 && (
-                    <div className="pl-11">
-                      <h5 className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">Verification Points:</h5>
+                    <div>
+                      <h5 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                        Verification Points
+                      </h5>
                       <ul className="space-y-1">
                         {scenario.verification_points.map((point, pointIdx) => (
                           <li key={pointIdx} className="text-sm text-gray-600 flex items-start">
@@ -545,74 +884,50 @@ function AiChat() {
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* Summary */}
-        {summary && Object.keys(summary).length > 0 && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h3 className="font-semibold text-green-900 mb-3 flex items-center">
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        {/* Recommendations */}
+        {summary.recommendations && summary.recommendations.length > 0 && (
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <h3 className="font-semibold text-purple-900 mb-2 text-sm uppercase tracking-wide flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
               </svg>
-              Summary
+              Recommendations
             </h3>
-            <div className="space-y-2 text-sm">
-              {summary.overall_status && (
-                <div>
-                  <span className="text-gray-600">Status:</span>
-                  <span className={`ml-2 font-semibold ${
-                    summary.overall_status === 'COMPLETED' ? 'text-green-700' : 'text-orange-700'
-                  }`}>
-                    {summary.overall_status}
-                  </span>
-                </div>
-              )}
-              {summary.success_rate && (
-                <div>
-                  <span className="text-gray-600">Success Rate:</span>
-                  <span className="ml-2 font-semibold text-green-700">{summary.success_rate}</span>
-                </div>
-              )}
-              {summary.recommendations && summary.recommendations.length > 0 && (
-                <div>
-                  <span className="text-gray-600">Recommendations:</span>
-                  <ul className="mt-1 ml-2 space-y-1">
-                    {summary.recommendations.map((rec, idx) => (
-                      <li key={idx} className="text-gray-800 text-xs">
-                        • {rec}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {summary.critical_issues && summary.critical_issues.length > 0 && (
-                <div>
-                  <span className="text-red-600 font-semibold">Critical Issues:</span>
-                  <ul className="mt-1 ml-2 space-y-1">
-                    {summary.critical_issues.map((issue, idx) => (
-                      <li key={idx} className="text-red-700 text-xs">
-                        • {issue}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+            <ul className="space-y-1">
+              {summary.recommendations.map((rec, idx) => (
+                <li key={idx} className="text-sm text-gray-700 flex items-start">
+                  <span className="text-purple-600 mr-2">•</span>
+                  <span>{rec}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
-        {/* Raw Output */}
-        <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-          <summary className="font-medium text-gray-900 cursor-pointer hover:text-purple-600 transition-colors">
-            View Raw Output
-          </summary>
-          <pre className="mt-3 text-xs bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto">
-            {JSON.stringify(data, null, 2)}
-          </pre>
-        </details>
+        {/* Critical Issues */}
+        {summary.critical_issues && summary.critical_issues.length > 0 && (
+          <div className="bg-red-50 border border-red-300 rounded-lg p-4">
+            <h3 className="font-semibold text-red-900 mb-2 text-sm uppercase tracking-wide flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+              Critical Issues
+            </h3>
+            <ul className="space-y-1">
+              {summary.critical_issues.map((issue, idx) => (
+                <li key={idx} className="text-sm text-red-700 flex items-start">
+                  <span className="text-red-600 mr-2">•</span>
+                  <span>{issue}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     );
   };
@@ -764,9 +1079,9 @@ function AiChat() {
                       </p>
                       <div className="grid grid-cols-1 gap-3">
                         {[
-                          "Test login functionality with valid credentials",
-                          "Verify checkout process for e-commerce",
-                          "Test form validation on registration page"
+                          "Test login functionality to access the studio",
+                          "First, log the studio and generate testcases for studio agents ",
+                          "Test project creation functionality"
                         ].map((example, idx) => (
                           <button
                             key={idx}
