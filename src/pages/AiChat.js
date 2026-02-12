@@ -225,7 +225,7 @@ function AiChat() {
 
       console.log('Sending request:', requestBody); 
 
-      const response = await fetch('https://api.testerally.ai/agentic/test/', {
+      const response = await fetch('http://127.0.0.1:8000/agentic/test/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

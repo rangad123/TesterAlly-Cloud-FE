@@ -57,7 +57,9 @@ const CreateProject = ({ onProjectCreated }) => {
           throw new Error("Failed to fetch user projects");
         }
         const data = await response.json();
-        setUserProjects(data.projects);
+        console.log("project data:", data);
+        const projects = data.projects ?? data;
+        setUserProjects(Array.isArray(projects) ? projects : []);
       } catch (error) {
         console.error("Error fetching user projects:", error);
       } finally {
@@ -75,7 +77,7 @@ const CreateProject = ({ onProjectCreated }) => {
     if (!projectName.trim()) {
       newErrors.projectName = "Project Name is required!";
       isValid = false;
-    } else if (userProjects.some((project) => project.project_name === projectName.trim())) {
+    } else if (userProjects && userProjects.some((project) => project.name === projectName.trim())) {
       newErrors.projectName = "Project name already exists. Please choose a different name.";
       isValid = false;
     }
@@ -104,8 +106,9 @@ const CreateProject = ({ onProjectCreated }) => {
         throw new Error("Failed to fetch user projects");
       }
       const data = await response.json();
-      console.log(data)
-      setUserProjects(data.projects);
+      console.log(data);
+      const projects = data.projects ?? data;
+      setUserProjects(Array.isArray(projects) ? projects : []);
     } catch (error) {
       console.error("Error fetching user projects:", error);
     } finally {
@@ -138,7 +141,7 @@ const CreateProject = ({ onProjectCreated }) => {
 
     const projectData = {
       user_id: parseInt(userId),
-      project_name: projectName,
+      name: projectName,
       description: description || "No description provided",
       project_type: projectType,
       platform: subType, 
@@ -165,7 +168,9 @@ const CreateProject = ({ onProjectCreated }) => {
       }
   
       const createdProject = await response.json();
-      setUserProjects((prevProjects) => [...prevProjects, createdProject]);
+      setUserProjects((prevProjects) =>
+        Array.isArray(prevProjects) ? [...prevProjects, createdProject] : [createdProject]
+      );
   
       alert("Project Created Successfully");
       window.dispatchEvent(new CustomEvent("projectCreated", { detail: createdProject }));
