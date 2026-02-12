@@ -753,6 +753,7 @@ useEffect(() => {
 
       // Request body for DB API - adjust structure as needed for your DB API
       const dbRequestBody = {
+        user_id: parseInt(userId),
         name: selectedProject.project_name, 
         description: selectedProject.description,
         project_type: selectedProject.project_type,
